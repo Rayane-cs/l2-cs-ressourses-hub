@@ -8,6 +8,7 @@ import ModulePage from "./pages/ModulePage";
 import Search from "./pages/Search";
 import About from "./pages/About";
 import NotFound from "./pages/NotFound";
+import Admin from "./pages/Admin";
 
 const queryClient = new QueryClient();
 
@@ -20,6 +21,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/module/:moduleSlug" element={<ModulePage />} />
+          <Route path="/admin/upload" element={<Admin />} />
           <Route path="/search" element={<Search />} />
           <Route path="/about" element={<About />} />
           <Route path="*" element={<NotFound />} />

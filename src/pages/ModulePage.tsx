@@ -15,7 +15,7 @@ function readLocalResources() {
   try {
     const raw = localStorage.getItem("drive_resources");
     if (!raw) return {};
-    return JSON.parse(raw) as Record<string, Array<{ id: string; title: string; type: string; driveUrl: string }>>;
+    return JSON.parse(raw) as Record<string, Array<{ id: string; title: string; type: string; driveUrl: string; semester?: string }>>;
   } catch (e) {
     console.error("Failed to read local drive_resources", e);
     return {};
@@ -24,7 +24,7 @@ function readLocalResources() {
 
 function getCombinedResources() {
   const local = readLocalResources();
-  const combined: Record<string, Array<{ id: string; title: string; type: string; driveUrl: string }>> = { ...resources } as any;
+  const combined: Record<string, Array<{ id: string; title: string; type: string; driveUrl: string; semester?: string }>> = { ...resources } as any;
   Object.keys(local).forEach((k) => {
     combined[k] = (combined[k] || []).concat(local[k]);
   });
@@ -36,7 +36,7 @@ const ModulePage = () => {
   const [activeTab, setActiveTab] = useState("all");
 
   const moduleNames: Record<string, string> = {
-    algo: "Algorithms",
+    algo: "Algorithms and Data Structures 3",
     "archi-ord": "Computer Architecture",
     thg: "Graph Theory",
     english: "English",
@@ -47,7 +47,6 @@ const ModulePage = () => {
 
   const moduleName = moduleNames[moduleSlug || ""] || "Module";
 
-  // Files are hosted on Google Drive. Admins add public share links (see src/lib/resources.ts).
   const combined = getCombinedResources();
   const moduleResources = combined[moduleSlug || ""] || [];
 
@@ -56,8 +55,7 @@ const ModulePage = () => {
       <FileText className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
       <h3 className="text-2xl font-semibold mb-2">No Resources Yet</h3>
       <p className="text-muted-foreground">
-        Resources are hosted on Google Drive. If you're an admin, add a public Drive share link
-        so students can access course materials.
+        Resources are hosted on Google Drive.
       </p>
     </div>
   );
@@ -71,7 +69,7 @@ const ModulePage = () => {
           <div className="mb-8 animate-fade-in">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">{moduleName}</h1>
             <p className="text-xl text-muted-foreground">
-              Access all course materials, TDs, TPs, and code files
+              Access all course materials, TDs and TPs files
             </p>
           </div>
 
@@ -107,15 +105,6 @@ const ModulePage = () => {
                               className="px-3 py-1.5 text-sm bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
                             >
                               View
-                            </a>
-                            <a
-                              href={res.driveUrl.replace("/view", "/download")}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="px-3 py-1.5 text-sm border border-input hover:bg-accent hover:text-accent-foreground rounded-md transition-colors inline-flex items-center gap-1"
-                            >
-                              <Download className="h-4 w-4" />
-                              Download
                             </a>
                           </div>
                         </div>

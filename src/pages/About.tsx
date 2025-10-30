@@ -11,19 +11,9 @@ const About = () => {
       description: "Access all course materials, TDs, TPs, and code files in one centralized platform.",
     },
     {
-      icon: Users,
-      title: "Student Community",
-      description: "Connect with fellow L2 CS students and collaborate on academic projects.",
-    },
-    {
       icon: BookOpen,
       title: "Organized by Module",
       description: "Easily navigate through 7 different modules with intuitive categorization.",
-    },
-    {
-      icon: MessageSquare,
-      title: "Community Discussions",
-      description: "Discussions are handled via external tools. Links and discussion threads can be shared by students and admins.",
     },
   ];
 
@@ -36,8 +26,7 @@ const About = () => {
           <div className="mb-12 text-center animate-fade-in">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">About UHBC L2 CS Platform</h1>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              A modern, student-friendly platform designed to help UHBC L2 Computer Science students
-              access, share, and manage all their academic resources efficiently.
+              A modern, student-friendly platform designed to help UHBC L2 Computer Science students access all their academic resources efficiently.
             </p>
           </div>
 
@@ -67,12 +56,11 @@ const About = () => {
             <CardContent className="p-8">
               <h2 className="text-2xl font-bold mb-4">Our Mission</h2>
               <p className="text-muted-foreground leading-relaxed">
-                We believe in empowering students through accessible education. This platform was created
-                to centralize all academic resources for UHBC L2 Computer Science students, making it easier
-                to find materials, collaborate with peers, and succeed in your studies. With features like
-                organized module pages, advanced search, community discussions, and secure file management via
-                Google Drive, we're
-                committed to enhancing your learning experience.
+                We believe in empowering students through accessible education.
+                This platform was created to centralize all academic resources for UHBC L2 Computer Science students, 
+                making it easier to find materials, collaborate with peers, and succeed in your studies. 
+                With features like organized module pages, advanced search and secure file management via Google Drive, 
+                we're committed to enhancing your learning experience.
               </p>
             </CardContent>
           </Card>
