@@ -46,6 +46,13 @@ function getCombinedResources() {
 const ModulePage = () => {
   const { moduleSlug } = useParams();
   const [activeTab, setActiveTab] = useState("all");
+  
+  // Define which modules don't have TPs or TDs
+  const noTPModules = ["thg", "english", "logique"];
+  const noTDModules = ["method-num"];
+  
+  const showTP = !noTPModules.includes(moduleSlug || "");
+  const showTD = !noTDModules.includes(moduleSlug || "");
 
   const { t } = useLanguage();
   const moduleName = t.moduleNames[moduleSlug || ""] || t.module || "Module";
@@ -53,40 +60,7 @@ const ModulePage = () => {
   const combined = getCombinedResources();
   const moduleResources = combined[moduleSlug || ""] || [];
 
-  // Group resources by series number (tries several fields then falls back to parsing the title)
-  const groupBySeries = (items: Array<Resource>) => {
-    const map = new Map<string, Array<Resource>>();
-
-    const pickSeries = (r: Resource) => {
-      if (r.serie !== undefined) return String(r.serie);
-      if (r.series !== undefined) return String(r.series);
-      // try to extract a number from title like "TD 1", "Série 2", "TP3"
-      const m = String(r.title).match(/(?:s[eé]rie|serie|td|tp)[^\d]*(\d+)/i);
-      if (m && m[1]) return String(Number(m[1]));
-      // fallback: any number in title
-      const m2 = String(r.title).match(/(\d+)/);
-      if (m2 && m2[1]) return String(Number(m2[1]));
-      return "unsorted";
-    };
-
-    items.forEach((it) => {
-      const key = pickSeries(it);
-      if (!map.has(key)) map.set(key, []);
-      map.get(key)!.push(it);
-    });
-
-    // return sorted array of [seriesKey, items]
-    const entries = Array.from(map.entries());
-    entries.sort((a, b) => {
-      const na = Number(a[0]);
-      const nb = Number(b[0]);
-      if (!Number.isNaN(na) && !Number.isNaN(nb)) return na - nb;
-      if (a[0] === "unsorted") return 1;
-      if (b[0] === "unsorted") return -1;
-      return a[0].localeCompare(b[0]);
-    });
-    return entries as Array<[string, Array<Resource>]>;
-  };
+  // NOTE: grouping by series removed — render flat lists per request
   const placeholderMessage = (
     <div className="text-center py-20">
       <FileText className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
@@ -110,10 +84,10 @@ const ModulePage = () => {
             <TabsList className="grid w-full max-w-2xl grid-cols-6 mb-8">
                 <TabsTrigger value="all">{t.tabs.all}</TabsTrigger>
                 <TabsTrigger value="course">{t.tabs.course}</TabsTrigger>
-                <TabsTrigger value="td">{t.tabs.td}</TabsTrigger>
-                <TabsTrigger value="tp">{t.tabs.tp}</TabsTrigger>
-                <TabsTrigger value="td-solutions">{t.tabs.tdSolutions}</TabsTrigger>
-                <TabsTrigger value="tp-solutions">{t.tabs.tpSolutions}</TabsTrigger>
+                {showTD && <TabsTrigger value="td">{t.tabs.td}</TabsTrigger>}
+                {showTP && <TabsTrigger value="tp">{t.tabs.tp}</TabsTrigger>}
+                {showTD && <TabsTrigger value="td-solutions">{t.tabs.tdSolutions}</TabsTrigger>}
+                {showTP && <TabsTrigger value="tp-solutions">{t.tabs.tpSolutions}</TabsTrigger>}
               </TabsList>
 
             <TabsContent value="all" className="animate-fade-in">
@@ -176,123 +150,111 @@ const ModulePage = () => {
               )}
             </TabsContent>
 
-            <TabsContent value="td" className="animate-fade-in">
-              {groupBySeries(moduleResources.filter((r) => r.type === "td")).length > 0 ? (
-                groupBySeries(moduleResources.filter((r) => r.type === "td")).map(([serie, items]) => (
-                  <div key={serie} className="mb-6">
-                    <h3 className="text-lg font-semibold mb-3">{t.seriesLabel} {serie}</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {items.map((res: Resource) => (
-                        <Card key={res.id}>
-                          <CardHeader>
-                            <CardTitle className="flex items-center justify-between">
-                              <span className="flex items-center gap-2">
-                                <FileText className="h-5 w-5" />
-                                {res.title}
-                              </span>
-                              <a href={res.driveUrl} target="_blank" rel="noreferrer" className="text-sm text-primary underline">
-                                Open
-                              </a>
-                            </CardTitle>
-                          </CardHeader>
-                        </Card>
-                      ))}
-                    </div>
-                  </div>
-                ))
-              ) : (
-                placeholderMessage
-              )}
-            </TabsContent>
+            {showTD && (
+              <TabsContent value="td" className="animate-fade-in">
+                {moduleResources.filter((r) => r.type === "td").length > 0 ? (
+                  moduleResources
+                    .filter((r) => r.type === "td")
+                    .map((res: Resource) => (
+                      <Card key={res.id}>
+                        <CardHeader>
+                          <CardTitle className="flex items-center justify-between">
+                            <span className="flex items-center gap-2">
+                              <FileText className="h-5 w-5" />
+                              {res.title}
+                            </span>
+                            <a href={res.driveUrl} target="_blank" rel="noreferrer" className="text-sm text-primary underline">
+                              Open
+                            </a>
+                          </CardTitle>
+                        </CardHeader>
+                      </Card>
+                    ))
+                ) : (
+                  placeholderMessage
+                )}
+              </TabsContent>
+            )}
 
-            <TabsContent value="tp" className="animate-fade-in">
-              {groupBySeries(moduleResources.filter((r) => r.type === "tp")).length > 0 ? (
-                groupBySeries(moduleResources.filter((r) => r.type === "tp")).map(([serie, items]) => (
-                  <div key={serie} className="mb-6">
-                    <h3 className="text-lg font-semibold mb-3">{t.seriesLabel} {serie}</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {items.map((res: Resource) => (
-                        <Card key={res.id}>
-                          <CardHeader>
-                            <CardTitle className="flex items-center justify-between">
-                              <span className="flex items-center gap-2">
-                                <FileText className="h-5 w-5" />
-                                {res.title}
-                              </span>
-                              <a href={res.driveUrl} target="_blank" rel="noreferrer" className="text-sm text-primary underline">
-                                Open
-                              </a>
-                            </CardTitle>
-                          </CardHeader>
-                        </Card>
-                      ))}
-                    </div>
-                  </div>
-                ))
-              ) : (
-                placeholderMessage
-              )}
-            </TabsContent>
+            {showTP && (
+              <TabsContent value="tp" className="animate-fade-in">
+                {moduleResources.filter((r) => r.type === "tp").length > 0 ? (
+                  moduleResources
+                    .filter((r) => r.type === "tp")
+                    .map((res: Resource) => (
+                      <Card key={res.id}>
+                        <CardHeader>
+                          <CardTitle className="flex items-center justify-between">
+                            <span className="flex items-center gap-2">
+                              <FileText className="h-5 w-5" />
+                              {res.title}
+                            </span>
+                            <a href={res.driveUrl} target="_blank" rel="noreferrer" className="text-sm text-primary underline">
+                              Open
+                            </a>
+                          </CardTitle>
+                        </CardHeader>
+                      </Card>
+                    ))
+                ) : (
+                  placeholderMessage
+                )}
+              </TabsContent>
+            )}
 
             {/* TD Solutions */}
-            <TabsContent value="td-solutions" className="animate-fade-in">
-              {groupBySeries(moduleResources.filter((r) => r.type === "td-solution" || r.type === "td-sols")).length > 0 ? (
-                groupBySeries(moduleResources.filter((r) => r.type === "td-solution" || r.type === "td-sols")).map(([serie, items]) => (
-                  <div key={serie} className="mb-6">
-                    <h3 className="text-lg font-semibold mb-3">{t.seriesLabel} {serie} — {t.tabs.tdSolutions}</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {items.map((res: Resource) => (
-                        <Card key={res.id}>
-                          <CardHeader>
-                            <CardTitle className="flex items-center justify-between">
-                              <span className="flex items-center gap-2">
-                                <FileText className="h-5 w-5" />
-                                {res.title}
-                              </span>
-                              <a href={res.driveUrl} target="_blank" rel="noreferrer" className="text-sm text-primary underline">
-                                Open
-                              </a>
-                            </CardTitle>
-                          </CardHeader>
-                        </Card>
-                      ))}
-                    </div>
-                  </div>
-                ))
-              ) : (
-                placeholderMessage
-              )}
-            </TabsContent>
+            {showTD && (
+              <TabsContent value="td-solutions" className="animate-fade-in">
+                {moduleResources.filter((r) => r.type === "td-solution" || r.type === "td-sols").length > 0 ? (
+                  moduleResources
+                    .filter((r) => r.type === "td-solution" || r.type === "td-sols")
+                    .map((res: Resource) => (
+                      <Card key={res.id}>
+                        <CardHeader>
+                          <CardTitle className="flex items-center justify-between">
+                            <span className="flex items-center gap-2">
+                              <FileText className="h-5 w-5" />
+                              {res.title}
+                            </span>
+                            <a href={res.driveUrl} target="_blank" rel="noreferrer" className="text-sm text-primary underline">
+                              Open
+                            </a>
+                          </CardTitle>
+                        </CardHeader>
+                      </Card>
+                    ))
+                ) : (
+                  placeholderMessage
+                )}
+              </TabsContent>
+            )}
 
             {/* TP Solutions */}
-            <TabsContent value="tp-solutions" className="animate-fade-in">
-              {groupBySeries(moduleResources.filter((r) => r.type === "tp-solution" || r.type === "tp-sols")).length > 0 ? (
-                groupBySeries(moduleResources.filter((r) => r.type === "tp-solution" || r.type === "tp-sols")).map(([serie, items]) => (
-                  <div key={serie} className="mb-6">
-                    <h3 className="text-lg font-semibold mb-3">{t.seriesLabel} {serie} — {t.tabs.tpSolutions}</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {items.map((res: Resource) => (
-                        <Card key={res.id}>
-                          <CardHeader>
-                            <CardTitle className="flex items-center justify-between">
-                              <span className="flex items-center gap-2">
-                                <FileText className="h-5 w-5" />
-                                {res.title}
-                              </span>
-                              <a href={res.driveUrl} target="_blank" rel="noreferrer" className="text-sm text-primary underline">
-                                Open
-                              </a>
-                            </CardTitle>
-                          </CardHeader>
-                        </Card>
-                      ))}
-                    </div>
-                  </div>
-                ))
-              ) : (
-                placeholderMessage
-              )}
-            </TabsContent>
+            {showTP && (
+              <TabsContent value="tp-solutions" className="animate-fade-in">
+                {moduleResources.filter((r) => r.type === "tp-solution" || r.type === "tp-sols").length > 0 ? (
+                  moduleResources
+                    .filter((r) => r.type === "tp-solution" || r.type === "tp-sols")
+                    .map((res: Resource) => (
+                      <Card key={res.id}>
+                        <CardHeader>
+                          <CardTitle className="flex items-center justify-between">
+                            <span className="flex items-center gap-2">
+                              <FileText className="h-5 w-5" />
+                              {res.title}
+                            </span>
+                            <a href={res.driveUrl} target="_blank" rel="noreferrer" className="text-sm text-primary underline">
+                              Open
+                            </a>
+                          </CardTitle>
+                        </CardHeader>
+                      </Card>
+                    ))
+                ) : (
+                  placeholderMessage
+                )}
+              </TabsContent>
+            )}
           </Tabs>
         </div>
       </main>
