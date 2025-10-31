@@ -17,7 +17,7 @@ const Search = () => {
       <Header />
       
       <main className="flex-1 pt-24 pb-10">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 relative">
           <div className="mb-8 animate-fade-in">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">Search Resources</h1>
             <p className="text-xl text-muted-foreground">
@@ -25,7 +25,7 @@ const Search = () => {
             </p>
           </div>
 
-          <div className="max-w-4xl mx-auto space-y-6">
+          <div className="max-w-4xl mx-auto space-y-6 blur-sm pointer-events-none select-none">
             <div className="relative animate-fade-in" style={{ animationDelay: "0.1s" }}>
               <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
               <Input
@@ -93,6 +93,16 @@ const Search = () => {
               <h3 className="text-2xl font-semibold mb-2">No Results</h3>
               <p className="text-muted-foreground">
                 Try adjusting your filters or search term
+              </p>
+            </div>
+          </div>
+
+          {/* Coming Soon Overlay */}
+          <div className="absolute top-0 left-0 right-0 bottom-0 flex items-center justify-center z-50 pointer-events-none">
+            <div className="bg-background/95 backdrop-blur-md border-2 border-primary/50 rounded-2xl shadow-2xl px-8 md:px-12 py-6 md:py-8 text-center max-w-md mx-4 pointer-events-auto">
+              <h2 className="text-4xl md:text-5xl font-bold text-primary mb-4">Coming Soon</h2>
+              <p className="text-lg md:text-xl text-muted-foreground">
+                This feature is under development and will be available soon!
               </p>
             </div>
           </div>
