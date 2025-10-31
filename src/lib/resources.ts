@@ -158,6 +158,13 @@ const resources: Record<string, Array<{ id: string; title: string; type: string;
       type: "tp",
       driveUrl: "https://drive.google.com/file/d/1B82_NC5cAhw5W4j9SueuCwbPxtx1dp3U/view?usp=drive_link"
     },
+    {
+      id: "tp2",
+      title: "Tp 02",
+      semester: "S3",
+      type: "tp",
+      driveUrl: "https://drive.google.com/file/d/1DqUROSbfYKEDctAas9jZAQJ68C4Qp3jF/view?usp=drive_link"
+    },
   ],
   logique:[
     {

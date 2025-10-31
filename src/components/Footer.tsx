@@ -72,7 +72,7 @@ const Footer = () => {
         </div>
 
         <div className="mt-8 pt-8 border-t border-border text-center text-sm">
-          <p>Copyright © {new Date().getFullYear()} UHBC L2 CS. All rights reserved.</p>
+          <p>Copyright © {new Date().getFullYear()} UHBC L2 CS. All rights reserved.Nehal</p>
         </div>
       </div>
     </footer>
