@@ -1,11 +1,11 @@
 import { useParams } from "react-router-dom";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { FileText, Download, Calendar, User } from "lucide-react";
+import { FileText, Download, Calendar, User, ChevronLeft, ChevronRight } from "lucide-react";
 import resources from "@/lib/resources";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -46,6 +46,9 @@ function getCombinedResources() {
 const ModulePage = () => {
   const { moduleSlug } = useParams();
   const [activeTab, setActiveTab] = useState("all");
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
   
   // Define which modules don't have TPs or TDs
   const noTPModules = ["thg", "english", "logique"];
@@ -53,12 +56,63 @@ const ModulePage = () => {
   
   const showTP = !noTPModules.includes(moduleSlug || "");
   const showTD = !noTDModules.includes(moduleSlug || "");
+  
+  // Calculate number of visible tabs for grid
+  const visibleTabCount = 2 + (showTD ? 2 : 0) + (showTP ? 2 : 0); // All + Course + (TD + TD Solutions) + (TP + TP Solutions)
 
   const { t } = useLanguage();
   const moduleName = t.moduleNames[moduleSlug || ""] || t.module || "Module";
 
   const combined = getCombinedResources();
   const moduleResources = combined[moduleSlug || ""] || [];
+
+  // Check scroll position for arrow visibility
+  const checkScrollButtons = () => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+    
+    setCanScrollLeft(container.scrollLeft > 0);
+    setCanScrollRight(
+      container.scrollLeft < container.scrollWidth - container.clientWidth - 1
+    );
+  };
+
+  // Scroll functions
+  const scrollLeft = () => {
+    const container = scrollContainerRef.current;
+    if (container) {
+      container.scrollBy({ left: -200, behavior: "smooth" });
+    }
+  };
+
+  const scrollRight = () => {
+    const container = scrollContainerRef.current;
+    if (container) {
+      container.scrollBy({ left: 200, behavior: "smooth" });
+    }
+  };
+
+  // Check scroll on mount and resize
+  useEffect(() => {
+    // Small delay to ensure DOM is rendered
+    const timer = setTimeout(() => {
+      checkScrollButtons();
+    }, 100);
+    
+    const container = scrollContainerRef.current;
+    if (container) {
+      container.addEventListener("scroll", checkScrollButtons);
+      window.addEventListener("resize", checkScrollButtons);
+    }
+    
+    return () => {
+      clearTimeout(timer);
+      if (container) {
+        container.removeEventListener("scroll", checkScrollButtons);
+      }
+      window.removeEventListener("resize", checkScrollButtons);
+    };
+  }, [showTD, showTP]); // Re-check when tabs change
 
   // NOTE: grouping by series removed — render flat lists per request
   const placeholderMessage = (
@@ -81,14 +135,150 @@ const ModulePage = () => {
           </div>
 
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid w-full max-w-2xl grid-cols-6 mb-8">
-                <TabsTrigger value="all">{t.tabs.all}</TabsTrigger>
-                <TabsTrigger value="course">{t.tabs.course}</TabsTrigger>
-                {showTD && <TabsTrigger value="td">{t.tabs.td}</TabsTrigger>}
-                {showTP && <TabsTrigger value="tp">{t.tabs.tp}</TabsTrigger>}
-                {showTD && <TabsTrigger value="td-solutions">{t.tabs.tdSolutions}</TabsTrigger>}
-                {showTP && <TabsTrigger value="tp-solutions">{t.tabs.tpSolutions}</TabsTrigger>}
+            {/* Mobile: Scrollable tabs with arrows */}
+            <div className="relative w-full max-w-3xl mx-auto mb-8 md:hidden">
+              {canScrollLeft && (
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="absolute left-0 top-1/2 -translate-y-1/2 h-8 w-8 z-10 rounded-full bg-background/80 backdrop-blur-sm shadow-md"
+                  onClick={scrollLeft}
+                >
+                  <ChevronLeft className="h-4 w-4" />
+                  <span className="sr-only">Scroll left</span>
+                </Button>
+              )}
+              <div
+                ref={scrollContainerRef}
+                className="overflow-x-auto scrollbar-hide px-10"
+                onScroll={checkScrollButtons}
+              >
+                <TabsList className="inline-flex gap-2 p-2 bg-muted/50 rounded-lg min-w-max">
+                  <TabsTrigger 
+                    className="text-sm px-3 py-2 whitespace-nowrap" 
+                    value="all"
+                  >
+                    {t.tabs.all}
+                  </TabsTrigger>
+                  <TabsTrigger 
+                    className="text-sm px-3 py-2 whitespace-nowrap" 
+                    value="course"
+                  >
+                    {t.tabs.course}
+                  </TabsTrigger>
+                  {showTD && (
+                    <>
+                      <div className="h-8 w-px bg-border mx-1" role="separator" />
+                      <TabsTrigger 
+                        className="text-sm px-3 py-2 whitespace-nowrap" 
+                        value="td"
+                      >
+                        {t.tabs.td}
+                      </TabsTrigger>
+                      <TabsTrigger 
+                        className="text-sm px-3 py-2 whitespace-nowrap" 
+                        value="td-solutions"
+                      >
+                        {t.tabs.tdSolutions}
+                      </TabsTrigger>
+                    </>
+                  )}
+                  {showTP && (
+                    <>
+                      <div className="h-8 w-px bg-border mx-1" role="separator" />
+                      <TabsTrigger 
+                        className="text-sm px-3 py-2 whitespace-nowrap" 
+                        value="tp"
+                      >
+                        {t.tabs.tp}
+                      </TabsTrigger>
+                      <TabsTrigger 
+                        className="text-sm px-3 py-2 whitespace-nowrap" 
+                        value="tp-solutions"
+                      >
+                        {t.tabs.tpSolutions}
+                      </TabsTrigger>
+                    </>
+                  )}
+                </TabsList>
+              </div>
+              {canScrollRight && (
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="absolute right-0 top-1/2 -translate-y-1/2 h-8 w-8 z-10 rounded-full bg-background/80 backdrop-blur-sm shadow-md"
+                  onClick={scrollRight}
+                >
+                  <ChevronRight className="h-4 w-4" />
+                  <span className="sr-only">Scroll right</span>
+                </Button>
+              )}
+            </div>
+
+            {/* Desktop: Regular layout */}
+            <div className="relative w-full max-w-3xl mx-auto mb-8 hidden md:block overflow-hidden">
+              <TabsList 
+                className="w-full flex flex-row gap-2 p-2 items-center bg-muted/50 rounded-lg"
+              >
+                {/* Main Section */}
+                <div className="flex gap-1">
+                  <TabsTrigger 
+                    className="text-base px-3 py-2 flex-none" 
+                    value="all"
+                  >
+                    {t.tabs.all}
+                  </TabsTrigger>
+                  <TabsTrigger 
+                    className="text-base px-3 py-2 flex-none" 
+                    value="course"
+                  >
+                    {t.tabs.course}
+                  </TabsTrigger>
+                </div>
+
+                {/* TD Section */}
+                {showTD && (
+                  <>
+                    <div className="h-8 w-px bg-border mx-1" role="separator" />
+                    <div className="flex gap-1">
+                      <TabsTrigger 
+                        className="text-base px-3 py-2 flex-none" 
+                        value="td"
+                      >
+                        {t.tabs.td}
+                      </TabsTrigger>
+                      <TabsTrigger 
+                        className="text-base px-3 py-2 flex-none" 
+                        value="td-solutions"
+                      >
+                        {t.tabs.tdSolutions}
+                      </TabsTrigger>
+                    </div>
+                  </>
+                )}
+
+                {/* TP Section */}
+                {showTP && (
+                  <>
+                    <div className="h-8 w-px bg-border mx-1" role="separator" />
+                    <div className="flex gap-1">
+                      <TabsTrigger 
+                        className="text-base px-3 py-2 flex-none" 
+                        value="tp"
+                      >
+                        {t.tabs.tp}
+                      </TabsTrigger>
+                      <TabsTrigger 
+                        className="text-base px-3 py-2 flex-none" 
+                        value="tp-solutions"
+                      >
+                        {t.tabs.tpSolutions}
+                      </TabsTrigger>
+                    </div>
+                  </>
+                )}
               </TabsList>
+            </div>
 
             <TabsContent value="all" className="animate-fade-in">
               {moduleResources.length > 0 ? (
