@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
+import ThemeToggle from "./ThemeToggle";
+import LanguageToggle from "./LanguageToggle";
 import { Menu, X, GraduationCap } from "lucide-react";
 
 const Header = () => {
@@ -99,6 +101,11 @@ const Header = () => {
             );
           })}
         </nav>
+
+        <div className="hidden md:flex items-center gap-2">
+          <LanguageToggle />
+          <ThemeToggle />
+        </div>
 
         <Button
           variant="ghost"
