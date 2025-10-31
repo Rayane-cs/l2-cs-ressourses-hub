@@ -4,80 +4,83 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
+/* 🎨 Design system for "Resources Hub for Students"
+   Blue-focused color palette (HSL)
 */
 
 @layer base {
   :root {
-    --background: 0 0% 96%;
-    --foreground: 0 0% 17%;
+    --background: 220 20% 98%;
+    --foreground: 220 15% 15%;
 
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 17%;
+    --card-foreground: 220 15% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 17%;
+    --popover-foreground: 220 15% 15%;
 
-    --primary: 210 100% 56%;
+    /* 🌊 Blue primary color system */
+    --primary: 217 91% 60%; /* #1E88E5 */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 0 0% 17%;
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 217 100% 97%;
+    --secondary-foreground: 220 20% 25%;
 
-    --muted: 0 0% 92%;
-    --muted-foreground: 0 0% 45%;
+    --muted: 217 100% 95%;
+    --muted-foreground: 217 15% 45%;
 
-    --accent: 45 100% 51%;
-    --accent-foreground: 0 0% 17%;
+    --accent: 210 100% 56%; /* Bright accent blue */
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84% 60%;
+    --destructive: 0 84% 63%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 88%;
-    --input: 0 0% 88%;
-    --ring: 210 100% 56%;
+    --border: 217 40% 90%;
+    --input: 217 40% 90%;
+    --ring: 217 91% 60%;
 
     --radius: 0.75rem;
 
-    --gradient-hero: linear-gradient(135deg, hsl(210 100% 56%) 0%, hsl(210 100% 70%) 50%, hsl(45 100% 51%) 100%);
-    --gradient-card: linear-gradient(145deg, hsl(210 100% 56% / 0.05) 0%, hsl(45 100% 51% / 0.05) 100%);
-    
-    --shadow-glow: 0 0 40px hsl(210 100% 56% / 0.2);
-    --shadow-card: 0 4px 20px hsl(0 0% 0% / 0.08);
-    --shadow-hover: 0 8px 30px hsl(210 100% 56% / 0.25);
-    
+    /* 🌈 Gradients & shadows */
+    --gradient-hero: linear-gradient(135deg, rgb(60, 131, 246) 0%, hsl(210 100% 70%) 50%, rgb(153, 221, 255) 100%);
+    --gradient-card: linear-gradient(145deg, #3c83f60d 0%, hsl(210 100% 70% / 0.05) 100%);
+
+    --shadow-glow: 0 0 40px hsl(217 91% 60% / 0.2);
+    --shadow-card: 0 4px 20px hsl(217 91% 20% / 0.08);
+    --shadow-hover: 0 8px 30px hsl(217 91% 60% / 0.25);
+
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
+  /* 🌙 Dark mode */
   .dark {
-    --background: 0 0% 10%;
-    --foreground: 0 0% 96%;
+    --background: 220 15% 10%;
+    --foreground: 220 20% 95%;
 
-    --card: 0 0% 14%;
-    --card-foreground: 0 0% 96%;
+    --card: 220 15% 14%;
+    --card-foreground: 220 20% 95%;
 
-    --popover: 0 0% 14%;
-    --popover-foreground: 0 0% 96%;
+    --popover: 220 15% 14%;
+    --popover-foreground: 220 20% 95%;
 
-    --primary: 210 100% 56%;
+    --primary: 210 100% 56%; /* Lighter blue for contrast */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 0 0% 20%;
-    --secondary-foreground: 0 0% 96%;
+    --secondary: 220 15% 20%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 0 0% 20%;
-    --muted-foreground: 0 0% 60%;
+    --muted: 220 15% 20%;
+    --muted-foreground: 220 10% 70%;
 
-    --accent: 45 100% 51%;
+    --accent: 217 91% 60%;
     --accent-foreground: 0 0% 10%;
 
-    --destructive: 0 84% 60%;
+    --destructive: 0 70% 55%;
     --destructive-foreground: 0 0% 96%;
 
-    --border: 0 0% 20%;
-    --input: 0 0% 20%;
-    --ring: 210 100% 56%;
+    --border: 220 15% 25%;
+    --input: 220 15% 25%;
+    --ring: 217 91% 60%;
   }
 }
 
@@ -120,5 +123,3 @@ All colors MUST be HSL.
     transition: var(--transition-smooth);
   }
 }
-
-
