@@ -38,8 +38,8 @@ const TRANSLATIONS: Record<Lang, Translations> = {
     tabs: {
       all: "All",
       course: "Courses",
-      td: "TDs",
-      tp: "TPs",
+      td: "TD",
+      tp: "TP",
       tdSolutions: "TD Solutions",
       tpSolutions: "TP Solutions",
     },
@@ -61,8 +61,8 @@ const TRANSLATIONS: Record<Lang, Translations> = {
     tabs: {
       all: "Tous",
       course: "Cours",
-      td: "TDs",
-      tp: "TPs",
+      td: "TD",
+      tp: "TP",
       tdSolutions: "Solutions TD",
       tpSolutions: "Solutions TP",
     },
