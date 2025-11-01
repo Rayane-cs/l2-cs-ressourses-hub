@@ -8,6 +8,7 @@ import { Menu, X, GraduationCap } from "lucide-react";
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [hasFeedbackSubmitted, setHasFeedbackSubmitted] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -23,11 +24,18 @@ const Header = () => {
     window.scrollTo(0, 0);
   }, [location.pathname]);
 
+  useEffect(() => {
+    // Check if feedback has been submitted
+    const submitted = localStorage.getItem("feedbackSubmitted");
+    setHasFeedbackSubmitted(submitted === "true");
+  }, [location.pathname]);
+
   const navLinks = [
     { name: "Home", path: "/" },
     { name: "Modules", path: "/#modules" },
     { name: "Search", path: "/search" },
     { name: "About", path: "/about" },
+    { name: "Feedback", path: "/feedback", isSpecial: true },
   ];
 
   const navigate = useNavigate();
@@ -69,6 +77,54 @@ const Header = () => {
   };
 
   return (
+    <>
+      <style>{`
+        @keyframes shine {
+          0%, 100% {
+            text-shadow: 0 0 8px hsl(217 91% 60% / 0.5),
+                         0 0 16px hsl(217 91% 60% / 0.3),
+                         0 0 24px hsl(217 91% 60% / 0.2);
+          }
+          50% {
+            text-shadow: 0 0 12px hsl(217 91% 60% / 0.8),
+                         0 0 24px hsl(217 91% 60% / 0.6),
+                         0 0 36px hsl(217 91% 60% / 0.4);
+          }
+        }
+        
+        @keyframes pulse-glow {
+          0%, 100% {
+            box-shadow: 0 0 0 0 hsl(217 91% 60% / 0.4);
+          }
+          50% {
+            box-shadow: 0 0 0 4px hsl(217 91% 60% / 0),
+                        0 0 0 8px hsl(217 91% 60% / 0);
+          }
+        }
+        
+        .feedback-shine {
+          animation: shine 2s ease-in-out infinite;
+          position: relative;
+        }
+        
+        .feedback-shine::before {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 120%;
+          height: 150%;
+          background: radial-gradient(circle, hsl(217 91% 60% / 0.1) 0%, transparent 70%);
+          animation: pulse-glow 2s ease-in-out infinite;
+          pointer-events: none;
+          border-radius: 50%;
+        }
+        
+        .feedback-shine:hover {
+          animation: shine 0.8s ease-in-out infinite;
+        }
+      `}</style>
       <header
         className={
           "fixed top-0 left-0 right-0 z-50 transition-smooth bg-background/9 backdrop-blur-md shadow-md"
@@ -85,16 +141,23 @@ const Header = () => {
         <nav className="hidden md:flex items-center gap-6">
           {navLinks.map((link) => {
             const routeOnly = link.path.includes("#") ? (link.path.split("#")[0] || "/") : link.path;
+            const isSpecial = link.isSpecial && !hasFeedbackSubmitted;
             return (
               <Link
                 key={link.name}
                 to={routeOnly}
                 onClick={(e) => handleNavClick(e, link.path)}
-                className={`text-sm font-medium transition-smooth hover:text-primary ${
+                className={`text-sm font-medium transition-smooth hover:text-primary relative ${
                   location.pathname === routeOnly ? "text-primary" : "text-foreground"
-                }`}
+                } ${isSpecial ? "feedback-shine px-3 py-1 rounded-md" : ""}`}
               >
                 {link.name}
+                {isSpecial && (
+                  <span className="absolute -top-1 -right-1 flex h-3 w-3">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-3 w-3 bg-primary"></span>
+                  </span>
+                )}
               </Link>
             );
           })}
@@ -124,16 +187,23 @@ const Header = () => {
           <nav className="container mx-auto px-4 py-4 flex flex-col gap-4">
             {navLinks.map((link) => {
               const routeOnly = link.path.includes("#") ? (link.path.split("#")[0] || "/") : link.path;
+              const isSpecial = link.isSpecial && !hasFeedbackSubmitted;
               return (
                 <Link
                   key={link.name}
                   to={routeOnly}
                   onClick={(e) => handleNavClick(e, link.path)}
-                  className={`text-sm font-medium transition-smooth hover:text-primary ${
+                  className={`text-sm font-medium transition-smooth hover:text-primary relative ${
                     location.pathname === routeOnly ? "text-primary" : "text-foreground"
-                  }`}
+                  } ${isSpecial ? "feedback-shine px-3 py-1 rounded-md" : ""}`}
                 >
                   {link.name}
+                  {isSpecial && (
+                    <span className="absolute -top-1 -right-1 flex h-3 w-3">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-3 w-3 bg-primary"></span>
+                    </span>
+                  )}
                 </Link>
               );
             })}
@@ -141,6 +211,7 @@ const Header = () => {
         </div>
       )}
     </header>
+    </>
   );
 };
 

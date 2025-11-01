@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import ModulePage from "./pages/ModulePage";
 import Search from "./pages/Search";
 import About from "./pages/About";
+import Feedback from "./pages/Feedback";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -23,6 +24,7 @@ const App = () => (
           <Route path="/module/:moduleSlug" element={<ModulePage />} />
           <Route path="/search" element={<Search />} />
           <Route path="/about" element={<About />} />
+          <Route path="/feedback" element={<Feedback />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
