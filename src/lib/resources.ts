@@ -267,6 +267,27 @@ const resources: Record<string, Array<{ id: string; title: string; type: string;
       type: "tp",
       driveUrl: "https://drive.google.com/file/d/1nUDEMP-dDcB7WxTs7zvUjzshPh_wVq3R/view?usp=drive_link",
     },
+    {
+      id: "tp1s",
+      title: "Practical Sheet 01 Solution",
+      semester: "S3",
+      type: "tp-solution",
+      driveUrl: "https://drive.google.com/file/d/1jEcN7fBPEXpBCsRZhMb3jCrsUNczVUJX/view?usp=drive_link",
+    },
+    {
+      id: "tp2s",
+      title: "Practical Sheet 02 Solution",
+      semester: "S3",
+      type: "tp-solution",
+      driveUrl: "https://drive.google.com/file/d/1tYEAYvYdQqRto9ze5DPGDDnSdR5Ug2eU/view?usp=drive_link",
+    },
+    {
+      id: "tp3s",
+      title: "Practical Sheet 03 Solution",
+      semester: "S3",
+      type: "tp-solution",
+      driveUrl: "https://drive.google.com/drive/folders/154OfdAn_bgqIQZskqvhLUdhlQV0kydR2?usp=drive_link",
+    },
   ],
   si: [
     {
