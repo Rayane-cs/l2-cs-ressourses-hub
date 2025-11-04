@@ -16,7 +16,7 @@ const Modules = () => {
     <section id="modules" className="py-20 bg-background">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12 animate-fade-in">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">Course Modules</h2>
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">Modules</h2>
           <p className="text-xl text-muted-foreground">
             Select a module to access all resources
           </p>

@@ -2,6 +2,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
 import Modules from "@/components/Modules";
+import LanguageModules from "@/components/LanguageModules";
 
 const Index = () => {
   return (
@@ -9,6 +10,7 @@ const Index = () => {
       <Header />
       <Hero />
       <Modules />
+      <LanguageModules />
       <Footer />
     </div>
   );

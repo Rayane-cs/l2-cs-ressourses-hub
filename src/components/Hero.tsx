@@ -1,11 +1,17 @@
 import { Button } from "./ui/button";
 import { ArrowDown } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const Hero = () => {
   const scrollToModules = () => {
     const modulesSection = document.getElementById("modules");
     modulesSection?.scrollIntoView({ behavior: "smooth" });
   };
+  const scrollToLanguageModules = () => {
+    const LanguagesSection = document.getElementById("languages");
+    LanguagesSection?.scrollIntoView({ behavior: "smooth" });
+  };
+  const navigate = useNavigate();
 
   return (
     <section className="relative min-h-screen flex items-center justify-center pt-20 pb-10 overflow-hidden">
@@ -39,18 +45,29 @@ const Hero = () => {
           </h1>
 
           <p className="text-xl md:text-2xl text-muted-foreground mb-8 animate-fade-in" style={{ animationDelay: "0.2s" }}>
-            Courses, TDs and TPs
+            Courses, TDs, TPs and Programming Languages
           </p>
 
-          <Button
-            size="lg"
-            onClick={scrollToModules}
-            className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-glow hover:shadow-hover transition-smooth text-lg px-8 py-6 animate-fade-in"
-            style={{ animationDelay: "0.4s" }}
-          >
-            Explore Resources
-            <ArrowDown className="ml-2 h-5 w-5 animate-bounce" />
-          </Button>
+          <div className="flex flex-wrap justify-center gap-4">
+            <Button
+              size="lg"
+              onClick={scrollToModules}
+              className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-glow hover:shadow-hover transition-smooth text-lg px-8 py-6 animate-fade-in"
+              style={{ animationDelay: "0.4s" }}
+            >
+              Explore Resources
+              <ArrowDown className="ml-2 h-5 w-5 animate-bounce" />
+            </Button>
+            <Button
+              size="lg"
+              onClick={scrollToLanguageModules}
+              className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-glow hover:shadow-hover transition-smooth text-lg px-8 py-6 animate-fade-in"
+              style={{ animationDelay: "0.4s" }}
+            >
+              Programming Languages
+              <ArrowDown className="ml-2 h-5 w-5 animate-bounce" />
+            </Button>
+           </div>
         </div>
       </div>
 

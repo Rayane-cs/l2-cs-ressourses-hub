@@ -9,7 +9,7 @@ import { FileText, Youtube, BookOpen, Copy, Check, ChevronLeft, ChevronRight } f
 import resources from "@/lib/index";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useToast } from "@/components/ui/use-toast";
-import type { Resource } from "@/lib/types"; // ✅ import the Resource type
+import type { Resource } from "@/lib/types";
 
 const LanguagePage = () => {
   const { languageSlug } = useParams();
@@ -17,7 +17,7 @@ const LanguagePage = () => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
-  const [activeExercise, setActiveExercise] = useState<Resource | null>(null); // ✅ fixed type
+  const [activeExercise, setActiveExercise] = useState<Resource | null>(null);
   const [showExplanation, setShowExplanation] = useState(false);
   const [explanationLang, setExplanationLang] = useState<"en" | "fr">("en");
   const [isCopied, setIsCopied] = useState(false);

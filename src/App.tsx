@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Analytics } from "@vercel/analytics/react";
 import Index from "./pages/Index";
 import ModulePage from "./pages/ModulePage";
+import LanguagePage from "./pages/LanguagePage";
 import Search from "./pages/Search";
 import About from "./pages/About";
 import Feedback from "./pages/Feedback";
@@ -22,6 +23,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/module/:moduleSlug" element={<ModulePage />} />
+          <Route path="/programming/:languageSlug" element={<LanguagePage />} />
           <Route path="/search" element={<Search />} />
           <Route path="/about" element={<About />} />
           <Route path="/feedback" element={<Feedback />} />
