@@ -288,6 +288,13 @@ const resources: Record<string, Array<{ id: string; title: string; type: string;
       type: "tp-solution",
       driveUrl: "https://drive.google.com/drive/folders/154OfdAn_bgqIQZskqvhLUdhlQV0kydR2?usp=drive_link",
     },
+    {
+      id: "tp4s",
+      title: "Practical Sheet 04 Solution",
+      semester: "S3",
+      type: "tp-solution",
+      driveUrl: "https://drive.google.com/drive/folders/16Uc93YmY4JxWmK6UbR5VF6imCBrTGm7N?usp=drive_link",
+    },
   ],
   si: [
     {
