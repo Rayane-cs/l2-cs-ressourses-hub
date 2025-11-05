@@ -6,22 +6,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { FileText, Download, Calendar, User, ChevronLeft, ChevronRight } from "lucide-react";
-import resources from "@/lib/resources";
+import resources from "@/lib/index";
 import { useLanguage } from "@/contexts/LanguageContext";
-
-// Merge static resources with any admin-provided entries saved in localStorage under
-// `drive_resources`. Local entries take precedence (are appended) so admins can add
-// links without a backend. Admin UI writes to that key via AdminDriveManager.
-interface Resource {
-  id: string;
-  title: string;
-  type: string;
-  driveUrl: string;
-  semester?: string;
-  serie?: number | string;
-  series?: number | string;
-  [key: string]: unknown;
-}
+import type { Resource } from "@/lib/types";
 
 function readLocalResources() {
   try {

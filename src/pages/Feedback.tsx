@@ -108,7 +108,6 @@ Submitted at: ${new Date().toLocaleString()}
       `;
 
       // EmailJS configuration
-      // TODO: Replace these with your actual EmailJS credentials from the dashboard
       const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID || "YOUR_SERVICE_ID";
       const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || "YOUR_TEMPLATE_ID";
       const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || "YOUR_PUBLIC_KEY";
@@ -139,17 +138,9 @@ Submitted at: ${new Date().toLocaleString()}
                                    publicKey !== "YOUR_PUBLIC_KEY";
       
       if (!isEmailJSConfigured) {
-        console.warn("EmailJS credentials not configured. Running in test mode.");
-        console.log("Feedback data:", templateParams);
-        
-        // In test mode, just save to localStorage and show success
-        // In production, you should configure EmailJS
         toast.warning("Test mode: Feedback saved locally. Configure EmailJS for email delivery.");
-        
-        // Save to localStorage
         localStorage.setItem("feedbackSubmitted", "true");
         localStorage.setItem("feedbackData", JSON.stringify(data));
-        
         await new Promise(resolve => setTimeout(resolve, 1500));
         setHasSubmitted(true);
         setIsSubmitting(false);
@@ -164,8 +155,7 @@ Submitted at: ${new Date().toLocaleString()}
         publicKey
       );
 
-      console.log("EmailJS send result:", result);
-
+      
       // Save to localStorage to prevent showing again
       localStorage.setItem("feedbackSubmitted", "true");
       localStorage.setItem("feedbackData", JSON.stringify(data));
