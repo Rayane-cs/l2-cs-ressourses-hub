@@ -10,6 +10,8 @@ import resources from "@/lib/index";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useToast } from "@/components/ui/use-toast";
 import type { Resource } from "@/lib/types";
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 const LanguagePage = () => {
   const { languageSlug } = useParams();
@@ -103,9 +105,9 @@ const LanguagePage = () => {
   );
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className={`min-h-screen flex flex-col ${activeExercise ? 'overflow-hidden' : ''}`}>
       <Header />
-      
+
       <main className="flex-1 pt-24 pb-10">
         <div className="container mx-auto px-4">
           <div className="mb-8 animate-fade-in">
@@ -213,9 +215,6 @@ const LanguagePage = () => {
                     <Card key={res.id}>
                       <CardHeader>
                         <CardTitle className="flex items-center gap-2">
-                          {res.type === "pdf" && <BookOpen className="h-5 w-5" />}
-                          {res.type === "youtube" && <Youtube className="h-5 w-5" />}
-                          {res.type === "exercise" && <FileText className="h-5 w-5" />}
                           {res.title}
                         </CardTitle>
                         <div className="flex items-center justify-between mt-2">
@@ -258,7 +257,6 @@ const LanguagePage = () => {
                       <CardHeader>
                         <CardTitle className="flex items-center justify-between">
                           <span className="flex items-center gap-2">
-                            <BookOpen className="h-5 w-5" />
                             {res.title}
                           </span>
                           <a href={res.url} target="_blank" rel="noreferrer" className="text-sm text-primary underline">
@@ -282,7 +280,6 @@ const LanguagePage = () => {
                       <CardHeader>
                         <CardTitle className="flex items-center justify-between">
                           <span className="flex items-center gap-2">
-                            <Youtube className="h-5 w-5" />
                             {res.title}
                           </span>
                           <a href={res.url} target="_blank" rel="noreferrer" className="text-sm text-primary underline">
@@ -306,7 +303,6 @@ const LanguagePage = () => {
                       <CardHeader>
                         <CardTitle className="flex items-center justify-between">
                           <span className="flex items-center gap-2">
-                            <FileText className="h-5 w-5" />
                             {res.title}
                           </span>
                           <Button size="sm" onClick={() => { setActiveExercise(res); setShowExplanation(false); }}>
@@ -325,7 +321,7 @@ const LanguagePage = () => {
           {/* Exercise viewer */}
           {activeExercise && (
             <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-              <div className="absolute inset-0 bg-black/40" onClick={() => setActiveExercise(null)} />
+              <div className="absolute inset-0 bg-black/80" onClick={() => setActiveExercise(null)} />
               <div className="relative w-full max-w-7xl bg-card rounded-md shadow-lg overflow-hidden">
                 <div className="flex items-center justify-between p-3 border-b border-border">
                   <div className="font-semibold">{activeExercise.title}</div>
@@ -338,7 +334,10 @@ const LanguagePage = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-0">
                   <div className="p-4 border-r border-border">
                     <h4 className="font-medium mb-2">Problem</h4>
-                    <div className="prose max-w-none">{activeExercise.problem}</div>
+                    <div className="whitespace-pre-line text-sm leading-relaxed text-gray-200">
+                      {activeExercise.problem}
+                    </div>
+
                   </div>
                   <div className="p-4 relative">
                     <div className="flex items-center justify-end gap-2 mb-2">
@@ -365,7 +364,19 @@ const LanguagePage = () => {
                         Show more
                       </button>
                     </div>
-                    <pre className="bg-background p-3 rounded h-99 overflow-auto"><code>{activeExercise.solution}</code></pre>
+                    <SyntaxHighlighter
+                      language={languageSlug === 'c' ? 'c' : languageSlug === 'python' ? 'python' : 'text'}
+                      style={vscDarkPlus}
+                      className="rounded h-96 overflow-auto"
+                      customStyle={{
+                        margin: 0,
+                        padding: '12px',
+                        fontSize: '14px',
+                        lineHeight: '1.5',
+                      }}
+                    >
+                      {activeExercise.solution || ''}
+                    </SyntaxHighlighter>
                   </div>
                 </div>
 
@@ -397,3 +408,4 @@ const LanguagePage = () => {
 };
 
 export default LanguagePage;
+

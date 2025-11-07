@@ -1,6 +1,6 @@
 import { Resource } from "../types";
 
-const thg:Array<Resource> = [
+const thg: Array<Resource> = [
     {
       id: "course-1",
       title: "1.Fundamental Concepts (PDF)",
@@ -30,4 +30,5 @@ const thg:Array<Resource> = [
       driveUrl: "https://drive.google.com/file/d/1PkNkrsD9u7Iukl6EGbxE1svfy289XgVV/view?usp=drive_link",
     },
 ];
+
 export default thg;

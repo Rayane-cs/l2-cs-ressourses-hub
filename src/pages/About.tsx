@@ -15,6 +15,11 @@ const About = () => {
       title: "Organized by Module",
       description: "Easily navigate through 7 different modules with intuitive categorization.",
     },
+    {
+      icon: BookOpen,
+      title: "Programming Language",
+      description: "Easily navigate through 7 ",
+    },
   ];
 
   return (

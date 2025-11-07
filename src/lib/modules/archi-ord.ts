@@ -1,6 +1,6 @@
 import { Resource } from "../types";
 
-const archiOrd:Array<Resource> = [
+const archiOrd: Array<Resource> = [
     {
       id: "ch1",
       title: "Chaptre 01",
@@ -100,4 +100,5 @@ const archiOrd:Array<Resource> = [
       driveUrl: "https://drive.google.com/file/d/1DqUROSbfYKEDctAas9jZAQJ68C4Qp3jF/view?usp=drive_link"
     },
 ];
+
 export default archiOrd;

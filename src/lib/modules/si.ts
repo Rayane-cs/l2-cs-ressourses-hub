@@ -1,6 +1,6 @@
-import {Resource} from "../types";
+import { Resource } from "../types";
 
-const si:Array<Resource> = [
+const si: Array<Resource> = [
     {
       id: "course",
       title: "SI - Cours (PDF)",
@@ -30,4 +30,5 @@ const si:Array<Resource> = [
       driveUrl: "https://drive.google.com/file/d/1ZZMpStfXGyHsvJKNJmyKylkOTDXKaif5/view?usp=drive_link",
     },
 ];
+
 export default si;

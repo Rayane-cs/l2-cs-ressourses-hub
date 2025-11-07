@@ -1,6 +1,6 @@
-import type { Resource } from "../types";
+import { Resource } from "../types";
 
-const algo: Array<Resource> = [
+const algo:Array<Resource> = [
     {
       id: "algo-course",
       title: "Cours Mohammed Amin Tahraoui 25-26 (PDF)",
@@ -36,6 +36,6 @@ const algo: Array<Resource> = [
       type: "tp-solution",
       driveUrl: "https://drive.google.com/file/d/1KDw6XFG1Hi9HNYw2O5p11onqbU_WZ3mj/view?usp=drive_link",
     },
-];
+  ];
 
-export default algo;
+  export default algo;

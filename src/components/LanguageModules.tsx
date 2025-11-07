@@ -4,7 +4,7 @@ import { SiC, SiPython } from "react-icons/si";
 
 const languageModules = [
   { title: "C", slug: "c", icon: SiC, color: "bg-blue-500" },
-  { title: "Python", slug: "python", icon: SiPython, color: "bg-green-500" },
+  { title: "Python", slug: "python", icon: SiPython, color: "bg-yellow-500" },
   { title: "Assembly", slug: "assembly", icon: Cpu, color: "bg-purple-500" },
 ];
 

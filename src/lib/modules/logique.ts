@@ -1,6 +1,6 @@
-import {Resource} from "../types";
+import { Resource } from "../types";
 
-const logique:Array<Resource> = [
+const logique: Array<Resource> = [
     {
       id: "course",
       title: "Logique - Cours (PDF)",
@@ -23,4 +23,5 @@ const logique:Array<Resource> = [
       driveUrl: "https://drive.google.com/file/d/1kNVEV5lkCBmf15BA8_9RhiVjQknW5qX-/view?usp=drive_link",
     }
 ];
+
 export default logique;
