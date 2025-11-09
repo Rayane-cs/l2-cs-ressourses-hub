@@ -1,8 +1,24 @@
 import { Button } from "./ui/button";
-import { ArrowDown } from "lucide-react";
+import { Alert, AlertTitle, AlertDescription } from "./ui/alert";
+import { ArrowDown, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 const Hero = () => {
+  const [showAnnouncement, setShowAnnouncement] = useState(false);
+
+  useEffect(() => {
+    const hasSeenAnnouncement = localStorage.getItem("search-announcement-seen");
+    if (!hasSeenAnnouncement) {
+      setShowAnnouncement(true);
+    }
+  }, []);
+
+  const dismissAnnouncement = () => {
+    setShowAnnouncement(false);
+    localStorage.setItem("search-announcement-seen", "true");
+  };
+
   const scrollToModules = () => {
     const modulesSection = document.getElementById("modules");
     modulesSection?.scrollIntoView({ behavior: "smooth" });
@@ -35,6 +51,24 @@ const Hero = () => {
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
+        {showAnnouncement && (
+          <Alert className="mb-6 max-w-2xl mx-auto animate-fade-in">
+            <AlertTitle className="flex items-center justify-between">
+              🎉 New Feature Available!
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={dismissAnnouncement}
+                className="h-auto p-1 hover:bg-transparent"
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </AlertTitle>
+            <AlertDescription>
+              Our powerful search feature is now live! Find courses, TDs, TPs, and code files across all modules instantly.
+            </AlertDescription>
+          </Alert>
+        )}
         <div className="max-w-4xl mx-auto text-center animate-fade-in">
           <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
             <span className="text-foreground">UHBC L2 CS Student Hub</span>

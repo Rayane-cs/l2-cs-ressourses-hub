@@ -1,16 +1,92 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Search as SearchIcon, Filter } from "lucide-react";
+import { Search as SearchIcon, Filter, ExternalLink, FileText, Code, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import resources from "@/lib";
+import type { Resource } from "@/lib/types";
 
 const Search = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [typeFilter, setTypeFilter] = useState("all");
   const [moduleFilter, setModuleFilter] = useState("all");
   const [semesterFilter, setSemesterFilter] = useState("all");
+  const [showSuggestions, setShowSuggestions] = useState(false);
+
+  // Flatten all resources with module information
+  const allResources = useMemo(() => {
+    const flattened: Array<Resource & { module: string }> = [];
+    Object.entries(resources).forEach(([moduleKey, moduleResources]) => {
+      moduleResources.forEach(resource => {
+        flattened.push({ ...resource, module: moduleKey });
+      });
+    });
+    return flattened;
+  }, []);
+
+  // Filter resources based on search and filters
+  const filteredResources = useMemo(() => {
+    return allResources.filter(resource => {
+      // Search term filter
+      const matchesSearch = searchTerm === "" ||
+        resource.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (resource.description && resource.description.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (resource.problem && resource.problem.toLowerCase().includes(searchTerm.toLowerCase()));
+
+      // Type filter
+      const matchesType = typeFilter === "all" || resource.type === typeFilter;
+
+      // Module filter
+      const matchesModule = moduleFilter === "all" || resource.module === moduleFilter;
+
+      // Semester filter
+      const matchesSemester = semesterFilter === "all" || resource.semester === semesterFilter;
+
+      return matchesSearch && matchesType && matchesModule && matchesSemester;
+    });
+  }, [allResources, searchTerm, typeFilter, moduleFilter, semesterFilter]);
+
+  // Get suggestions for autocomplete
+  const suggestions = useMemo(() => {
+    if (searchTerm.length < 2) return [];
+
+    const uniqueTitles = new Set<string>();
+    allResources.forEach(resource => {
+      if (resource.title.toLowerCase().includes(searchTerm.toLowerCase())) {
+        uniqueTitles.add(resource.title);
+      }
+    });
+
+    return Array.from(uniqueTitles).slice(0, 5);
+  }, [allResources, searchTerm]);
+
+  const getTypeIcon = (type: string) => {
+    switch (type) {
+      case "course": return <BookOpen className="h-4 w-4" />;
+      case "exercise": return <Code className="h-4 w-4" />;
+      default: return <FileText className="h-4 w-4" />;
+    }
+  };
+
+  const getModuleDisplayName = (module: string) => {
+    const moduleNames: Record<string, string> = {
+      "algo": "Algorithms",
+      "archi-ord": "Architecture",
+      "thg": "Graph Theory",
+      "english": "English",
+      "si": "Information Systems",
+      "method-num": "Numerical Methods",
+      "logique": "Logic",
+      "programming-c": "C Programming",
+      "programming-python": "Python Programming",
+      "programming-assembly": "Assembly"
+    };
+    return moduleNames[module] || module;
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -25,16 +101,40 @@ const Search = () => {
             </p>
           </div>
 
-          <div className="max-w-4xl mx-auto space-y-6 blur-sm pointer-events-none select-none">
+          <div className="max-w-4xl mx-auto space-y-6">
             <div className="relative animate-fade-in" style={{ animationDelay: "0.1s" }}>
               <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
               <Input
                 type="text"
                 placeholder="Search by title, keyword..."
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={(e) => {
+                  setSearchTerm(e.target.value);
+                  setShowSuggestions(e.target.value.length >= 2);
+                }}
+                onFocus={() => searchTerm.length >= 2 && setShowSuggestions(true)}
+                onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
                 className="pl-10 h-12 text-lg"
               />
+
+              {/* Autocomplete Suggestions */}
+              {showSuggestions && suggestions.length > 0 && (
+                <div className="absolute top-full left-0 right-0 bg-background border border-border rounded-md shadow-lg z-50 mt-1 max-h-60 overflow-y-auto">
+                  {suggestions.map((suggestion, index) => (
+                    <button
+                      key={index}
+                      className="w-full px-4 py-3 text-left hover:bg-muted transition-colors flex items-center gap-3"
+                      onClick={() => {
+                        setSearchTerm(suggestion);
+                        setShowSuggestions(false);
+                      }}
+                    >
+                      <SearchIcon className="h-4 w-4 text-muted-foreground" />
+                      <span className="truncate">{suggestion}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 animate-fade-in" style={{ animationDelay: "0.2s" }}>
@@ -49,7 +149,9 @@ const Search = () => {
                     <SelectItem value="course">Course</SelectItem>
                     <SelectItem value="td">TD</SelectItem>
                     <SelectItem value="tp">TP</SelectItem>
-                    <SelectItem value="code">Code</SelectItem>
+                    <SelectItem value="tp-solution">TP Solution</SelectItem>
+                    <SelectItem value="td-solution">TD Solution</SelectItem>
+                    <SelectItem value="exercise">Exercise</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -62,13 +164,16 @@ const Search = () => {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">All Modules</SelectItem>
-                    <SelectItem value="algo">Algo</SelectItem>
-                    <SelectItem value="archi-ord">Archi-Ord</SelectItem>
-                    <SelectItem value="thg">THG</SelectItem>
+                    <SelectItem value="algo">Algorithms</SelectItem>
+                    <SelectItem value="archi-ord">Computer Architecture</SelectItem>
+                    <SelectItem value="thg">Graph Theory</SelectItem>
                     <SelectItem value="english">English</SelectItem>
-                    <SelectItem value="si">SI</SelectItem>
-                    <SelectItem value="method-num">Method-Num</SelectItem>
-                    <SelectItem value="logique">Logique</SelectItem>
+                    <SelectItem value="si">Information Systems</SelectItem>
+                    <SelectItem value="method-num">Numerical Methods</SelectItem>
+                    <SelectItem value="logique">Logic</SelectItem>
+                    <SelectItem value="programming-c">C Programming</SelectItem>
+                    <SelectItem value="programming-python">Python Programming</SelectItem>
+                    <SelectItem value="programming-assembly">Assembly</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -81,31 +186,96 @@ const Search = () => {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">All Semesters</SelectItem>
-                    <SelectItem value="s3">S3</SelectItem>
-                    <SelectItem value="s4">S4</SelectItem>
+                    <SelectItem value="S3">S3</SelectItem>
+                    <SelectItem value="S4">S4</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
             </div>
 
-            <div className="text-center py-20 animate-fade-in" style={{ animationDelay: "0.3s" }}>
-              <Filter className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
-              <h3 className="text-2xl font-semibold mb-2">No Results</h3>
-              <p className="text-muted-foreground">
-                Try adjusting your filters or search term
-              </p>
-            </div>
+            {/* Search Results */}
+            {filteredResources.length > 0 ? (
+              <div className="space-y-4 animate-fade-in" style={{ animationDelay: "0.3s" }}>
+                <div className="flex items-center justify-between">
+                  <p className="text-muted-foreground">
+                    Found {filteredResources.length} result{filteredResources.length !== 1 ? 's' : ''}
+                  </p>
+                </div>
+
+                <div className="grid gap-4">
+                  {filteredResources.map((resource, index) => (
+                    <Card key={`${resource.module}-${resource.id}`} className="hover:shadow-md transition-shadow">
+                      <CardContent className="p-6">
+                        <div className="flex items-start justify-between">
+                          <div className="flex-1">
+                            <div className="flex items-center gap-3 mb-2">
+                              {getTypeIcon(resource.type)}
+                              <h3 className="text-lg font-semibold">{resource.title}</h3>
+                              <Badge variant="secondary" className="text-xs">
+                                {resource.type}
+                              </Badge>
+                            </div>
+
+                            <div className="flex items-center gap-4 text-sm text-muted-foreground mb-3">
+                              <span>{getModuleDisplayName(resource.module)}</span>
+                              {resource.semester && <span>• {resource.semester}</span>}
+                            </div>
+
+                            {resource.description && (
+                              <p className="text-sm text-muted-foreground mb-3 line-clamp-2">
+                                {resource.description}
+                              </p>
+                            )}
+
+                            {resource.problem && (
+                              <div className="text-sm text-muted-foreground mb-3">
+                                <strong>Problem:</strong>
+                                <div className="line-clamp-2 mt-1" dangerouslySetInnerHTML={{ __html: resource.problem.substring(0, 150) + "..." }} />
+                              </div>
+                            )}
+                          </div>
+
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            asChild
+                            className="ml-4"
+                          >
+                            <a
+                              href={resource.driveUrl || resource.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex items-center gap-2"
+                            >
+                              <ExternalLink className="h-4 w-4" />
+                              Open
+                            </a>
+                          </Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+            ) : searchTerm || typeFilter !== "all" || moduleFilter !== "all" || semesterFilter !== "all" ? (
+              <div className="text-center py-20 animate-fade-in" style={{ animationDelay: "0.3s" }}>
+                <Filter className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
+                <h3 className="text-2xl font-semibold mb-2">No Results Found</h3>
+                <p className="text-muted-foreground">
+                  Try adjusting your filters or search term
+                </p>
+              </div>
+            ) : (
+              <div className="text-center py-20 animate-fade-in" style={{ animationDelay: "0.3s" }}>
+                <SearchIcon className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
+                <h3 className="text-2xl font-semibold mb-2">Start Searching</h3>
+                <p className="text-muted-foreground">
+                  Enter a search term or use filters to find resources
+                </p>
+              </div>
+            )}
           </div>
 
-          {/* Coming Soon Overlay */}
-          <div className="absolute top-0 left-0 right-0 bottom-0 flex items-center justify-center z-50 pointer-events-none">
-            <div className="bg-background/95 backdrop-blur-md border-2 border-primary/50 rounded-2xl shadow-2xl px-8 md:px-12 py-6 md:py-8 text-center max-w-md mx-4 pointer-events-auto">
-              <h2 className="text-4xl md:text-5xl font-bold text-primary mb-4">Coming Soon</h2>
-              <p className="text-lg md:text-xl text-muted-foreground">
-                This feature is under development and will be available soon!
-              </p>
-            </div>
-          </div>
         </div>
       </main>
 

@@ -1,0 +1,165 @@
+# UHBC Resource Hub - L2 CS Project Description
+
+## Project Overview
+This is a modern web application called "UHBC Resource Hub - L2 CS" built to provide easy access to educational resources for L2 Computer Science students at the University of Hassiba Benbouali of Chlef (UHBC). It serves as a centralized hub for course materials, making it easier for students to find and access their study resources.
+
+## Purpose
+- Provide organized access to educational resources for L2 CS students
+- Centralize course materials, tutorials, practical exercises, and solutions
+- Support multiple programming languages and academic modules
+- Offer a responsive, user-friendly interface with search functionality
+- Include bilingual support (English/French) for international accessibility
+
+## Tech Stack
+
+### Frontend Framework
+- **React 18** with TypeScript for type-safe development
+- **Vite** as the build tool for fast development and compilation
+- **SWC** for fast TypeScript/JavaScript compilation
+
+### Styling & UI
+- **TailwindCSS** for utility-first styling
+- **shadcn/ui** components built on Radix UI primitives
+- **Lucide React** and **React Icons** for icons
+- **next-themes** for light/dark theme support
+
+### Routing & State Management
+- **React Router DOM** for client-side routing
+- **React Query** (@tanstack/react-query) for server state management
+- **React Hook Form** with Zod validation for form handling
+
+### Additional Libraries
+- **Recharts** for data visualization
+- **EmailJS** for contact functionality
+- **Vercel Analytics** for usage tracking
+- **Date-fns** for date manipulation
+
+### Development Tools
+- **ESLint** for code linting
+- **TypeScript** for type safety
+- **Vitest** for testing
+- **PostCSS** and **Autoprefixer** for CSS processing
+
+## Project Structure
+
+```
+src/
+├── components/          # Reusable UI components
+│   ├── ui/             # shadcn/ui component library
+│   ├── Header.tsx      # Site header with navigation
+│   ├── Footer.tsx      # Site footer
+│   ├── Hero.tsx        # Landing page hero section
+│   ├── Modules.tsx     # Academic modules grid
+│   ├── LanguageModules.tsx  # Programming languages grid
+│   ├── ModuleCard.tsx  # Reusable card component
+│   ├── LanguageToggle.tsx  # Language switcher
+│   └── ThemeToggle.tsx # Theme switcher
+├── contexts/
+│   └── LanguageContext.tsx  # Bilingual support context
+├── hooks/
+│   ├── use-mobile.tsx  # Mobile detection hook
+│   └── use-toast.ts    # Toast notification hook
+├── lib/
+│   ├── modules/        # Resource data for each module
+│   │   ├── algo.ts     # Algorithms & Data Structures
+│   │   ├── archi-ord.ts # Computer Architecture
+│   │   ├── english.ts  # English language
+│   │   ├── logique.ts  # Logic
+│   │   ├── method-num.ts # Numerical Methods
+│   │   ├── programming-c.ts # C programming exercises
+│   │   ├── programming-python.ts # Python exercises
+│   │   ├── si.ts       # Information Systems
+│   │   └── thg.ts      # Graph Theory
+│   ├── resources.ts    # Resource type definitions
+│   ├── types.ts        # TypeScript type definitions
+│   ├── utils.ts        # Utility functions (cn for class merging)
+│   └── index.ts        # Resource exports aggregator
+├── pages/              # Route components
+│   ├── Index.tsx       # Home page
+│   ├── ModulePage.tsx  # Individual module pages
+│   ├── LanguagePage.tsx # Programming language pages
+│   ├── Search.tsx      # Search functionality
+│   ├── About.tsx       # About page
+│   ├── Feedback.tsx    # Feedback form
+│   └── NotFound.tsx    # 404 page
+└── integrations/       # External service integrations
+```
+
+## Key Files and Their Roles
+
+### Core Application Files
+- **App.tsx**: Main application component with routing setup
+- **main.tsx**: Application entry point with providers (Theme, Language)
+- **index.html**: HTML template
+- **vite.config.ts**: Vite configuration
+
+### Resource Management
+- **lib/index.ts**: Aggregates all module resources into a single export
+- **lib/types.ts**: Defines the Resource interface with optional fields for different content types
+- **lib/modules/*.ts**: Individual module data files containing arrays of Resource objects
+
+### UI Components
+- **components/Modules.tsx**: Displays academic modules grid
+- **components/LanguageModules.tsx**: Displays programming languages grid
+- **components/ModuleCard.tsx**: Reusable card component for modules/languages
+
+### Context and Hooks
+- **contexts/LanguageContext.tsx**: Provides bilingual support (English/French) with localStorage persistence
+- **hooks/use-mobile.tsx**: Detects mobile devices for responsive behavior
+
+## Resource Types
+
+The application supports multiple types of educational resources:
+
+1. **Academic Modules** (7 modules):
+   - Algorithms and Data Structures (Algo)
+   - Computer Architecture (Archi-Ord)
+   - Graph Theory (THG)
+   - English
+   - Information Systems (SI)
+   - Numerical Methods (Method-Num)
+   - Logic (Logique)
+
+2. **Programming Languages** (3 languages):
+   - C (with extensive coding exercises and solutions)
+   - Python (with basic exercises)
+   - Assembly (placeholder, not yet populated)
+
+3. **Resource Categories**:
+   - course: Lecture materials (PDFs)
+   - td: Tutorial sheets
+   - tp: Practical exercises
+   - tp-solution: Practical exercise solutions
+   - exercise: Programming exercises with problems, solutions, and explanations
+
+## Features
+
+- **Module-based Organization**: Resources organized by academic modules
+- **Search Functionality**: Quick resource finding
+- **Responsive Design**: Works on all device sizes
+- **Light/Dark Theme**: User preference support
+- **Bilingual Interface**: English and French support
+- **Fast Performance**: Optimized with Vite and modern React patterns
+- **Modern UI**: Clean interface with shadcn/ui components
+
+## Usage
+
+### Development
+```bash
+npm install          # Install dependencies
+npm run dev         # Start development server
+npm run build       # Build for production
+npm run preview     # Preview production build
+npm run lint        # Run ESLint
+npm run test        # Run tests
+```
+
+### Deployment
+The application can be deployed to static hosting platforms like Vercel, Netlify, or GitHub Pages. It requires SPA routing configuration for client-side navigation.
+
+## Author
+- **Rayane**: UHBC L2 Computer Science student
+- GitHub: [@Rayane-cs](https://github.com/Rayane-cs)
+
+## License
+Open source under MIT License
