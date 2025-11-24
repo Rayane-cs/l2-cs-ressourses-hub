@@ -6,6 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { FileText, Download, Calendar, User, ChevronLeft, ChevronRight } from "lucide-react";
+import PdfViewer from "@/components/PdfViewer";
 import resources from "@/lib/index";
 import { useLanguage } from "@/contexts/LanguageContext";
 import type { Resource } from "@/lib/types";
@@ -284,14 +285,7 @@ const ModulePage = () => {
                             <span className="px-2 py-1 bg-secondary/10 rounded-md">{moduleName}</span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <a
-                              href={res.driveUrl}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="px-3 py-1.5 text-sm bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
-                            >
-                              View
-                            </a>
+                            <PdfViewer moduleSlug={moduleSlug} resourceId={res.id} filename={res.title} />
                           </div>
                         </div>
                       </CardHeader>
@@ -315,9 +309,7 @@ const ModulePage = () => {
                             <FileText className="h-5 w-5" />
                             {res.title}
                           </span>
-                          <a href={res.driveUrl} target="_blank" rel="noreferrer" className="text-sm text-primary underline">
-                            Open
-                          </a>
+                          <PdfViewer moduleSlug={moduleSlug} resourceId={res.id} filename={res.title} />
                         </CardTitle>
                       </CardHeader>
                     </Card>
@@ -340,9 +332,7 @@ const ModulePage = () => {
                               <FileText className="h-5 w-5" />
                               {res.title}
                             </span>
-                            <a href={res.driveUrl} target="_blank" rel="noreferrer" className="text-sm text-primary underline">
-                              Open
-                            </a>
+                            <PdfViewer moduleSlug={moduleSlug} resourceId={res.id} filename={res.title} />
                           </CardTitle>
                         </CardHeader>
                       </Card>
@@ -366,9 +356,7 @@ const ModulePage = () => {
                               <FileText className="h-5 w-5" />
                               {res.title}
                             </span>
-                            <a href={res.driveUrl} target="_blank" rel="noreferrer" className="text-sm text-primary underline">
-                              Open
-                            </a>
+                            <PdfViewer moduleSlug={moduleSlug} resourceId={res.id} filename={res.title} />
                           </CardTitle>
                         </CardHeader>
                       </Card>
@@ -393,9 +381,7 @@ const ModulePage = () => {
                               <FileText className="h-5 w-5" />
                               {res.title}
                             </span>
-                            <a href={res.driveUrl} target="_blank" rel="noreferrer" className="text-sm text-primary underline">
-                              Open
-                            </a>
+                            <PdfViewer moduleSlug={moduleSlug} resourceId={res.id} filename={res.title} />
                           </CardTitle>
                         </CardHeader>
                       </Card>
@@ -420,9 +406,7 @@ const ModulePage = () => {
                               <FileText className="h-5 w-5" />
                               {res.title}
                             </span>
-                            <a href={res.driveUrl} target="_blank" rel="noreferrer" className="text-sm text-primary underline">
-                              Open
-                            </a>
+                            <PdfViewer moduleSlug={moduleSlug} resourceId={res.id} filename={res.title} />
                           </CardTitle>
                         </CardHeader>
                       </Card>
