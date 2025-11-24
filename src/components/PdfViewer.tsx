@@ -154,18 +154,19 @@ export default function PdfViewer({ pdfUrl, moduleSlug, resourceId, filename, in
 
   return (
     <div className="pdf-viewer w-full">
-      <div className="pdf-buttons flex gap-2 items-center mb-3">
+      <div className="pdf-buttons flex flex-col sm:flex-row gap-2 items-stretch sm:items-center mb-3">
         <Button
           aria-controls="pdf-modal"
           aria-expanded={open}
           onClick={() => setOpen(true)}
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 w-full sm:w-auto justify-center"
         >
           <Eye className="h-4 w-4" />
           <span>Show PDF</span>
         </Button>
 
-        <Button className="flex items-center gap-2" onClick={handleDownload}>
+        {/* Desktop download button kept visible on sm and up; on mobile a prominent header download is shown instead */}
+        <Button className="hidden sm:inline-flex flex items-center gap-2" onClick={handleDownload}>
           <Download className="h-4 w-4" />
           <span>Download</span>
         </Button>
@@ -177,30 +178,53 @@ export default function PdfViewer({ pdfUrl, moduleSlug, resourceId, filename, in
           id="pdf-modal"
           role="dialog"
           aria-modal="true"
-          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4"
         >
           <div className="absolute inset-0 bg-black/50 z-40" onClick={() => setOpen(false)} />
 
-          <div className="relative w-full max-w-5xl bg-background rounded-md shadow-lg overflow-hidden z-50">
-            <div className="flex items-center justify-between p-3 border-b">
-              <div className="text-sm font-medium">{filename || "PDF Preview"}</div>
-              <button
-                aria-label="Close PDF"
-                onClick={() => setOpen(false)}
-                className="p-2 rounded hover:bg-muted"
-              >
-                <X className="h-4 w-4" />
-              </button>
+          {/*
+            Responsive modal:
+            - On small screens the modal becomes fullscreen (`w-full h-full`) so the PDF fills the viewport.
+            - On larger screens (sm and up) it uses a centered max width (`max-w-5xl`) and auto height.
+            - Header is sticky on top so close button remains accessible while scrolling.
+          */}
+          <div className="relative w-full h-full sm:w-auto sm:h-auto sm:max-w-5xl bg-background rounded-none sm:rounded-md shadow-lg overflow-hidden z-50">
+            <div className="flex items-center justify-between p-4 sm:p-3 border-b sticky top-0 bg-background z-10">
+              <div className="flex items-center gap-3">
+                <div className="text-base sm:text-sm font-semibold">{filename || "PDF Preview"}</div>
+              </div>
+
+              <div className="flex items-center gap-2">
+                {/* download button in header (visible on all sizes) */}
+                <button
+                  onClick={handleDownload}
+                  className="flex items-center gap-2 px-3 py-2 rounded-md bg-primary text-primary-foreground hover:bg-primary/90"
+                  aria-label="Download PDF"
+                >
+                  <Download className="h-4 w-4" />
+                  <span className="hidden sm:inline">Download</span>
+                </button>
+
+                <button
+                  aria-label="Close PDF"
+                  onClick={() => setOpen(false)}
+                  className="p-2 rounded-full hover:bg-muted"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
             </div>
 
-            <div className="p-3 max-h-[90vh] overflow-auto">
-              <iframe
-                ref={iframeRef}
-                title={filename || "PDF viewer"}
-                className="w-full rounded-md border min-h-[60vh] md:min-h-[80vh]"
-                src={resolvedPreviewUrl || resolvedRawUrl || ""}
-                frameBorder={0}
-              />
+            <div className="p-0 sm:p-3 h-full sm:max-h-[90vh] flex flex-col">
+              <div className="flex-1 overflow-auto">
+                <iframe
+                  ref={iframeRef}
+                  title={filename || "PDF viewer"}
+                  className="w-full h-full min-h-[60vh] sm:min-h-[80vh] border-0"
+                  src={resolvedPreviewUrl || resolvedRawUrl || ""}
+                  frameBorder={0}
+                />
+              </div>
             </div>
           </div>
         </div>

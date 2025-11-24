@@ -282,7 +282,6 @@ const ModulePage = () => {
                           <div className="flex items-center gap-2 text-sm text-muted-foreground">
                             <span className="px-2 py-1 bg-secondary/10 rounded-md">{res.semester}</span>
                             <span className="px-2 py-1 bg-secondary/10 rounded-md capitalize">{res.type}</span>
-                            <span className="px-2 py-1 bg-secondary/10 rounded-md">{moduleName}</span>
                           </div>
                           <div className="flex items-center gap-2">
                             <PdfViewer moduleSlug={moduleSlug} resourceId={res.id} filename={res.title} />
