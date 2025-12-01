@@ -12,6 +12,18 @@ export default defineConfig({
     port: 8080,
   },
   plugins: [react()],
+  build: {
+    target: 'es2017',
+    minify: 'esbuild',
+    sourcemap: false,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom']
+        }
+      }
+    }
+  },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

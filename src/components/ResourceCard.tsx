@@ -115,6 +115,10 @@ export default function ResourceCard({ res, moduleSlug, onShow }: Props) {
         .title { font-size: 0.95rem; font-weight: 700; text-align: center; margin: 0; }
         .flip-card-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.45s; transform-style: preserve-3d; }
         .flip-card:hover .flip-card-inner { transform: rotateY(180deg); }
+        @media (prefers-reduced-motion: reduce) {
+          .flip-card-inner { transition: none !important; }
+          .flip-card:hover .flip-card-inner { transform: none !important; }
+        }
         .flip-card-front, .flip-card-back { box-shadow: 0 6px 18px 0 rgba(2,6,23,0.06); position: absolute; display:flex; flex-direction: column; justify-content: center; width: 100%; height: 100%; min-height: 0; -webkit-backface-visibility: hidden; backface-visibility: hidden; border-radius: 0.5rem; }
         .flip-card-back { color: #fff; transform: rotateY(180deg); }
       `}</style>

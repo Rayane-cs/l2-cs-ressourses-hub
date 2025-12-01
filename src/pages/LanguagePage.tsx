@@ -259,7 +259,7 @@ const LanguagePage = () => {
                           <span className="flex items-center gap-2">
                             {res.title}
                           </span>
-                          <a href={res.url} target="_blank" rel="noreferrer" className="text-sm text-primary underline">
+                          <a href={res.url} target="_blank" rel="noreferrer" aria-label={`Open ${res.title} in new tab`} className="text-sm text-primary underline">
                             Open
                           </a>
                         </CardTitle>
@@ -282,7 +282,7 @@ const LanguagePage = () => {
                           <span className="flex items-center gap-2">
                             {res.title}
                           </span>
-                          <a href={res.url} target="_blank" rel="noreferrer" className="text-sm text-primary underline">
+                          <a href={res.url} target="_blank" rel="noreferrer" aria-label={`Open ${res.title} in new tab`} className="text-sm text-primary underline">
                             Open
                           </a>
                         </CardTitle>

@@ -140,7 +140,7 @@ const Header = () => {
           <span className="text-xl font-bold text-foreground">UHBC CS</span>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-6">
+        <nav className="hidden md:flex items-center gap-6" role="navigation" aria-label="Main navigation">
           {navLinks.map((link) => {
             const routeOnly = link.path.includes("#") ? (link.path.split("#")[0] || "/") : link.path;
             const isSpecial = link.isSpecial && !hasFeedbackSubmitted;
@@ -288,7 +288,7 @@ const Header = () => {
           })}
         </nav>
 
-        <div className="hidden md:flex items-center gap-2">
+        <div className="hidden md:flex items-center gap-2" role="search" aria-label="Site tools">
           <LanguageToggle />
           <ThemeToggle />
         </div>
@@ -307,9 +307,9 @@ const Header = () => {
         </Button>
       </div>
 
-      {isMobileMenuOpen && (
+        {isMobileMenuOpen && (
         <div className="md:hidden bg-background/98 backdrop-blur-md border-t border-border animate-fade-in">
-          <nav className="container mx-auto px-4 py-4 flex flex-col gap-4">
+          <nav className="container mx-auto px-4 py-4 flex flex-col gap-4" role="navigation" aria-label="Mobile navigation">
             {navLinks.map((link) => {
               const routeOnly = link.path.includes("#") ? (link.path.split("#")[0] || "/") : link.path;
               const isSpecial = link.isSpecial && !hasFeedbackSubmitted;

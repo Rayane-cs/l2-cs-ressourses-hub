@@ -223,6 +223,7 @@ export default function PdfViewer({ pdfUrl, moduleSlug, resourceId, filename, in
                   title={filename || "PDF viewer"}
                   className="w-full h-full border-0"
                   src={resolvedPreviewUrl || resolvedRawUrl || ""}
+                  loading="lazy"
                   frameBorder={0}
                 />
               </div>
