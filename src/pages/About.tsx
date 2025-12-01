@@ -29,7 +29,7 @@ const About = () => {
       <main className="flex-1 pt-24 pb-10">
         <div className="container mx-auto px-4">
           <div className="mb-12 text-center animate-fade-in">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">About UHBC L2 CS Platform</h1>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">About UHBC CS Platform</h1>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
               A modern, student-friendly platform designed to help UHBC L2 Computer Science students access all their academic resources efficiently.
             </p>

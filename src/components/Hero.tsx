@@ -1,7 +1,6 @@
-import { Button } from "./ui/button";
 import { Alert, AlertTitle, AlertDescription } from "./ui/alert";
 import { ArrowDown, X } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Button } from "./ui/button";
 import { useState, useEffect } from "react";
 
 const Hero = () => {
@@ -19,18 +18,13 @@ const Hero = () => {
     localStorage.setItem("search-announcement-seen", "true");
   };
 
-  const scrollToModules = () => {
-    const modulesSection = document.getElementById("modules");
-    modulesSection?.scrollIntoView({ behavior: "smooth" });
+  const scrollToYears = () => {
+    const yearsSection = document.getElementById("years");
+    yearsSection?.scrollIntoView({ behavior: "smooth" });
   };
-  const scrollToLanguageModules = () => {
-    const LanguagesSection = document.getElementById("languages");
-    LanguagesSection?.scrollIntoView({ behavior: "smooth" });
-  };
-  const navigate = useNavigate();
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center pt-20 pb-10 overflow-hidden">
+    <section className="relative min-h-screen flex flex-col items-center justify-between pt-20 pb-10 overflow-hidden">
       <div className="absolute inset-0">
         <div className="background" aria-hidden>
           <span></span>
@@ -50,7 +44,7 @@ const Hero = () => {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 relative z-10">
+      <div className="container mx-auto px-4 relative z-10 flex-1 flex flex-col items-center justify-center">
         {showAnnouncement && (
           <Alert className="mb-6 max-w-2xl mx-auto animate-fade-in">
             <AlertTitle className="flex items-center justify-between">
@@ -71,38 +65,24 @@ const Hero = () => {
         )}
         <div className="max-w-4xl mx-auto text-center animate-fade-in">
           <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-            <span className="text-foreground">UHBC L2 CS Student Hub</span>
+            <span className="text-foreground">UHBC CS Student Hub</span>
             <br />
             <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
               All Your Resources in One Place
             </span>
           </h1>
 
-          <p className="text-xl md:text-2xl text-muted-foreground mb-8 animate-fade-in" style={{ animationDelay: "0.2s" }}>
-            Courses, TDs, TPs and Programming Languages
+          <p className="text-xl md:text-2xl text-muted-foreground mb-12 animate-fade-in" style={{ animationDelay: "0.2s" }}>
+            Organized CS resources by academic year (L1→M2): courses, TDs, TPs, and code
           </p>
-
-          <div className="flex flex-wrap justify-center gap-4">
-            <Button
-              size="lg"
-              onClick={scrollToModules}
-              className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-glow hover:shadow-hover transition-smooth text-lg px-8 py-6 animate-fade-in"
-              style={{ animationDelay: "0.4s" }}
-            >
-              Explore Resources
-              <ArrowDown className="ml-2 h-5 w-5 animate-bounce" />
-            </Button>
-            <Button
-              size="lg"
-              onClick={scrollToLanguageModules}
-              className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-glow hover:shadow-hover transition-smooth text-lg px-8 py-6 animate-fade-in"
-              style={{ animationDelay: "0.4s" }}
-            >
-              Programming Languages
-              <ArrowDown className="ml-2 h-5 w-5 animate-bounce" />
-            </Button>
-           </div>
         </div>
+      </div>
+
+      <div className="container mx-auto px-4 relative z-10 flex justify-center pb-10 animate-fade-in" style={{ animationDelay: "0.4s" }}>
+        <button onClick={scrollToYears} className="flex flex-col items-center gap-2 group hover:opacity-70 transition-opacity">
+          <span className="text-sm text-muted-foreground">Explore Now</span>
+          <ArrowDown className="h-6 w-6 animate-bounce text-primary" />
+        </button>
       </div>
 
       <style>{`

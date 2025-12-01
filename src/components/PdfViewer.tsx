@@ -10,12 +10,13 @@ interface PdfViewerProps {
   resourceId?: string;
   filename?: string;
   initialOpen?: boolean;
+  onClose?: () => void;
 }
 
 // Lightweight PDF viewer component using an <iframe>.
 // - Click "Show PDF" to set the iframe src (lazy load)
 // - Download button uses `download` when same-origin otherwise opens in new tab
-export default function PdfViewer({ pdfUrl, moduleSlug, resourceId, filename, initialOpen = false }: PdfViewerProps) {
+export default function PdfViewer({ pdfUrl, moduleSlug, resourceId, filename, initialOpen = false, onClose }: PdfViewerProps) {
   const [open, setOpen] = useState(initialOpen);
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const prevOverflowRef = useRef<string>("");
@@ -180,7 +181,7 @@ export default function PdfViewer({ pdfUrl, moduleSlug, resourceId, filename, in
           aria-modal="true"
           className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4"
         >
-          <div className="absolute inset-0 bg-black/50 z-40" onClick={() => setOpen(false)} />
+          <div className="absolute inset-0 bg-black/50 z-40" onClick={() => { setOpen(false); onClose?.(); }} />
 
           {/*
             Responsive modal:
@@ -188,7 +189,7 @@ export default function PdfViewer({ pdfUrl, moduleSlug, resourceId, filename, in
             - On larger screens (sm and up) it uses a centered max width (`max-w-5xl`) and auto height.
             - Header is sticky on top so close button remains accessible while scrolling.
           */}
-          <div className="relative w-full h-full sm:w-auto sm:h-auto sm:max-w-5xl bg-background rounded-none sm:rounded-md shadow-lg overflow-hidden z-50">
+          <div className="relative w-screen h-screen sm:w-screen sm:h-screen sm:max-w-none bg-background rounded-none shadow-lg overflow-hidden z-50">
             <div className="flex items-center justify-between p-4 sm:p-3 border-b sticky top-0 bg-background z-10">
               <div className="flex items-center gap-3">
                 <div className="text-base sm:text-sm font-semibold">{filename || "PDF Preview"}</div>
@@ -207,7 +208,7 @@ export default function PdfViewer({ pdfUrl, moduleSlug, resourceId, filename, in
 
                 <button
                   aria-label="Close PDF"
-                  onClick={() => setOpen(false)}
+                  onClick={() => { setOpen(false); onClose?.(); }}
                   className="p-2 rounded-full hover:bg-muted"
                 >
                   <X className="h-5 w-5" />
@@ -215,12 +216,12 @@ export default function PdfViewer({ pdfUrl, moduleSlug, resourceId, filename, in
               </div>
             </div>
 
-            <div className="p-0 sm:p-3 h-full sm:max-h-[90vh] flex flex-col">
+            <div className="p-0 sm:p-0 h-[calc(100vh-60px)] sm:h-[calc(100vh-60px)] flex flex-col">
               <div className="flex-1 overflow-auto">
                 <iframe
                   ref={iframeRef}
                   title={filename || "PDF viewer"}
-                  className="w-full h-full min-h-[60vh] sm:min-h-[80vh] border-0"
+                  className="w-full h-full border-0"
                   src={resolvedPreviewUrl || resolvedRawUrl || ""}
                   frameBorder={0}
                 />

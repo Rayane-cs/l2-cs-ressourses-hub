@@ -1,4 +1,4 @@
-import { Resource } from "../types";
+import { Resource } from "../../types";
 
 const programmingC: Array<Resource> = [
   // ===== Sorting & Searching =====
@@ -45,7 +45,7 @@ int main() {
 }`,
     explanation: {
       en: `This program sorts strings alphabetically using Bubble Sort and strcmp(). It swaps adjacent strings until the array is sorted.`,
-      fr: `Ce programme trie des chaînes par ordre alphabétique en utilisant le tri à bulles et strcmp(). Il échange les chaînes voisines jusqu’à ce que le tableau soit trié.`
+      fr: `Ce programme trie des chaînes par ordre alphabétique en utilisant le tri à bulles et strcmp(). Il échange les chaînes voisines jusqu'à ce que le tableau soit trié.`
     }
   },
   {
@@ -137,7 +137,7 @@ int main() {
 }`,
     explanation: {
       en: `This insertion sort orders words by increasing length using strlen().`,
-      fr: `Ce tri par insertion classe les mots par longueur croissante à l’aide de strlen().`
+      fr: `Ce tri par insertion classe les mots par longueur croissante à l'aide de strlen().`
     }
   },
   {
@@ -146,7 +146,7 @@ int main() {
     type: "exercise",
     semester: "S3",
     problem: `Ask the user for a word and check if it exists in a predefined list of strings using Linear Search.
-Print the index if found or “Not found” otherwise.`,
+Print the index if found or "Not found" otherwise.`,
     solution: `#include <stdio.h>
 #include <string.h>
 
@@ -170,7 +170,7 @@ int main() {
 }`,
     explanation: {
       en: `This program searches each element in an array of strings until a match is found.`,
-      fr: `Ce programme recherche chaque élément d’un tableau de chaînes jusqu’à trouver une correspondance.`
+      fr: `Ce programme recherche chaque élément d'un tableau de chaînes jusqu'à trouver une correspondance.`
     }
   },
   {
@@ -179,7 +179,7 @@ int main() {
     type: "exercise",
     semester: "S3",
     problem: `Given a sorted list of strings, use Binary Search to locate a specific word.
-Print its index if found, otherwise print “Not found”.`,
+Print its index if found, otherwise print "Not found".`,
     solution: `#include <stdio.h>
 #include <string.h>
 
@@ -263,7 +263,7 @@ int main() {
 }`,
     explanation: {
       en: `This exercise combines Bubble Sort and Binary Search to demonstrate sorting followed by efficient searching.`,
-      fr: `Cet exercice combine le tri à bulles et la recherche binaire pour démontrer le tri suivi d’une recherche efficace.`
+      fr: `Cet exercice combine le tri à bulles et la recherche binaire pour démontrer le tri suivi d'une recherche efficace.`
     }
   },
 
@@ -332,7 +332,7 @@ int main() {
 }`,
     explanation: {
       en: `Calculates the mean value of integers using summation and division.`,
-      fr: `Calcule la moyenne d’un tableau d’entiers à l’aide de la somme et de la division.`
+      fr: `Calcule la moyenne d'un tableau d'entiers à l'aide de la somme et de la division.`
     }
   },
 
@@ -357,7 +357,7 @@ int main() {
 }`,
     explanation: {
       en: `Uses modulus and division to reverse integer digits.`,
-      fr: `Utilise le modulo et la division pour inverser les chiffres d’un entier.`
+      fr: `Utilise le modulo et la division pour inverser les chiffres d'un entier.`
     }
   },
   {
@@ -384,7 +384,7 @@ int main() {
 }`,
     explanation: {
       en: `Traverses a string and counts vowels using simple conditions.`,
-      fr: `Parcourt une chaîne et compte les voyelles à l’aide de conditions simples.`
+      fr: `Parcourt une chaîne et compte les voyelles à l'aide de conditions simples.`
     }
   },
   {

@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -10,6 +10,7 @@ import PdfViewer from "@/components/PdfViewer";
 import resources from "@/lib/index";
 import { useLanguage } from "@/contexts/LanguageContext";
 import type { Resource } from "@/lib/types";
+import ResourceCard from "@/components/ResourceCard";
 
 function readLocalResources() {
   try {
@@ -33,7 +34,7 @@ function getCombinedResources() {
 
 const ModulePage = () => {
   const { moduleSlug } = useParams();
-  const [activeTab, setActiveTab] = useState("all");
+  const [activeTab, setActiveTab] = useState("course");
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
@@ -53,6 +54,17 @@ const ModulePage = () => {
 
   const combined = getCombinedResources();
   const moduleResources = combined[moduleSlug || ""] || [];
+  const navigate = useNavigate();
+  const [viewerOpts, setViewerOpts] = useState<{
+    moduleSlug?: string | null;
+    resourceId?: string;
+    pdfUrl?: string;
+    filename?: string;
+  } | null>(null);
+
+  const openViewer = (opts: { moduleSlug?: string | null; resourceId?: string; pdfUrl?: string; filename?: string }) => {
+    setViewerOpts(opts);
+  };
 
   // Check scroll position for arrow visibility
   const checkScrollButtons = () => {
@@ -118,6 +130,12 @@ const ModulePage = () => {
       <main className="flex-1 pt-24 pb-10">
         <div className="container mx-auto px-4">
           <div className="mb-8 animate-fade-in">
+            <div className="mb-4">
+              <Button variant="ghost" onClick={() => navigate(-1)} className="flex items-center gap-2">
+                <ChevronLeft className="h-4 w-4" />
+                <span>Back</span>
+              </Button>
+            </div>
             <h1 className="text-4xl md:text-5xl font-bold mb-4">{moduleName}</h1>
             <p className="text-xl text-muted-foreground">{t.accessText}</p>
           </div>
@@ -270,25 +288,9 @@ const ModulePage = () => {
 
             <TabsContent value="all" className="animate-fade-in">
               {moduleResources.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                   {moduleResources.map((res) => (
-                    <Card key={res.id}>
-                      <CardHeader>
-                        <CardTitle className="flex items-center gap-2">
-                          <FileText className="h-5 w-5" />
-                          {res.title}
-                        </CardTitle>
-                        <div className="flex items-center justify-between mt-2">
-                          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                            <span className="px-2 py-1 bg-secondary/10 rounded-md">{res.semester}</span>
-                            <span className="px-2 py-1 bg-secondary/10 rounded-md capitalize">{res.type}</span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <PdfViewer moduleSlug={moduleSlug} resourceId={res.id} filename={res.title} />
-                          </div>
-                        </div>
-                      </CardHeader>
-                    </Card>
+                    <ResourceCard key={res.id} res={res} moduleSlug={moduleSlug} onShow={openViewer} />
                   ))}
                 </div>
               ) : (
@@ -298,21 +300,13 @@ const ModulePage = () => {
 
             <TabsContent value="course" className="animate-fade-in">
               {moduleResources.filter((r) => r.type === "course").length > 0 ? (
-                moduleResources
-                  .filter((r) => r.type === "course")
-                  .map((res) => (
-                    <Card key={res.id}>
-                      <CardHeader>
-                        <CardTitle className="flex items-center justify-between">
-                          <span className="flex items-center gap-2">
-                            <FileText className="h-5 w-5" />
-                            {res.title}
-                          </span>
-                          <PdfViewer moduleSlug={moduleSlug} resourceId={res.id} filename={res.title} />
-                        </CardTitle>
-                      </CardHeader>
-                    </Card>
-                  ))
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                  {moduleResources
+                    .filter((r) => r.type === "course")
+                    .map((res) => (
+                      <ResourceCard key={res.id} res={res} moduleSlug={moduleSlug} onShow={openViewer} />
+                    ))}
+                </div>
               ) : (
                 placeholderMessage
               )}
@@ -321,21 +315,13 @@ const ModulePage = () => {
             {showTD && (
               <TabsContent value="td" className="animate-fade-in">
                 {moduleResources.filter((r) => r.type === "td").length > 0 ? (
-                  moduleResources
-                    .filter((r) => r.type === "td")
-                    .map((res: Resource) => (
-                      <Card key={res.id}>
-                        <CardHeader>
-                          <CardTitle className="flex items-center justify-between">
-                            <span className="flex items-center gap-2">
-                              <FileText className="h-5 w-5" />
-                              {res.title}
-                            </span>
-                            <PdfViewer moduleSlug={moduleSlug} resourceId={res.id} filename={res.title} />
-                          </CardTitle>
-                        </CardHeader>
-                      </Card>
-                    ))
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    {moduleResources
+                      .filter((r) => r.type === "td")
+                      .map((res: Resource) => (
+                        <ResourceCard key={res.id} res={res} moduleSlug={moduleSlug} onShow={openViewer} />
+                      ))}
+                  </div>
                 ) : (
                   placeholderMessage
                 )}
@@ -345,21 +331,13 @@ const ModulePage = () => {
             {showTP && (
               <TabsContent value="tp" className="animate-fade-in">
                 {moduleResources.filter((r) => r.type === "tp").length > 0 ? (
-                  moduleResources
-                    .filter((r) => r.type === "tp")
-                    .map((res: Resource) => (
-                      <Card key={res.id}>
-                        <CardHeader>
-                          <CardTitle className="flex items-center justify-between">
-                            <span className="flex items-center gap-2">
-                              <FileText className="h-5 w-5" />
-                              {res.title}
-                            </span>
-                            <PdfViewer moduleSlug={moduleSlug} resourceId={res.id} filename={res.title} />
-                          </CardTitle>
-                        </CardHeader>
-                      </Card>
-                    ))
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    {moduleResources
+                      .filter((r) => r.type === "tp")
+                      .map((res: Resource) => (
+                        <ResourceCard key={res.id} res={res} moduleSlug={moduleSlug} onShow={openViewer} />
+                      ))}
+                  </div>
                 ) : (
                   placeholderMessage
                 )}
@@ -370,21 +348,13 @@ const ModulePage = () => {
             {showTD && (
               <TabsContent value="td-solutions" className="animate-fade-in">
                 {moduleResources.filter((r) => r.type === "td-solution" || r.type === "td-sols").length > 0 ? (
-                  moduleResources
-                    .filter((r) => r.type === "td-solution" || r.type === "td-sols")
-                    .map((res: Resource) => (
-                      <Card key={res.id}>
-                        <CardHeader>
-                          <CardTitle className="flex items-center justify-between">
-                            <span className="flex items-center gap-2">
-                              <FileText className="h-5 w-5" />
-                              {res.title}
-                            </span>
-                            <PdfViewer moduleSlug={moduleSlug} resourceId={res.id} filename={res.title} />
-                          </CardTitle>
-                        </CardHeader>
-                      </Card>
-                    ))
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    {moduleResources
+                      .filter((r) => r.type === "td-solution" || r.type === "td-sols")
+                      .map((res: Resource) => (
+                        <ResourceCard key={res.id} res={res} moduleSlug={moduleSlug} onShow={openViewer} />
+                      ))}
+                  </div>
                 ) : (
                   placeholderMessage
                 )}
@@ -395,21 +365,13 @@ const ModulePage = () => {
             {showTP && (
               <TabsContent value="tp-solutions" className="animate-fade-in">
                 {moduleResources.filter((r) => r.type === "tp-solution" || r.type === "tp-sols").length > 0 ? (
-                  moduleResources
-                    .filter((r) => r.type === "tp-solution" || r.type === "tp-sols")
-                    .map((res: Resource) => (
-                      <Card key={res.id}>
-                        <CardHeader>
-                          <CardTitle className="flex items-center justify-between">
-                            <span className="flex items-center gap-2">
-                              <FileText className="h-5 w-5" />
-                              {res.title}
-                            </span>
-                            <PdfViewer moduleSlug={moduleSlug} resourceId={res.id} filename={res.title} />
-                          </CardTitle>
-                        </CardHeader>
-                      </Card>
-                    ))
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    {moduleResources
+                      .filter((r) => r.type === "tp-solution" || r.type === "tp-sols")
+                      .map((res: Resource) => (
+                        <ResourceCard key={res.id} res={res} moduleSlug={moduleSlug} onShow={openViewer} />
+                      ))}
+                  </div>
                 ) : (
                   placeholderMessage
                 )}
@@ -418,6 +380,17 @@ const ModulePage = () => {
           </Tabs>
         </div>
       </main>
+
+      {viewerOpts && (
+        <PdfViewer
+          moduleSlug={viewerOpts.moduleSlug || undefined}
+          resourceId={viewerOpts.resourceId}
+          pdfUrl={viewerOpts.pdfUrl}
+          filename={viewerOpts.filename}
+          initialOpen={true}
+          onClose={() => setViewerOpts(null)}
+        />
+      )}
 
       <Footer />
     </div>

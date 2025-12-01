@@ -9,7 +9,7 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
             <div className="flex flex-col gap-2">
-              <Link to="/" className="hover:text-primary transition-smooth">
+              <Link to="/home" className="hover:text-primary transition-smooth">
                 Home
               </Link>
               <Link to="/search" className="hover:text-primary transition-smooth">
@@ -22,19 +22,19 @@ const Footer = () => {
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold mb-4">Modules</h3>
+            <h3 className="text-lg font-semibold mb-4">Academic Years</h3>
             <div className="flex flex-col gap-2">
-              <Link to="/module/algo" className="hover:text-primary transition-smooth">
-                Algo
+              <Link to="/year/l1" className="hover:text-primary transition-smooth">
+                L1 - First Year
               </Link>
-              <Link to="/module/archi-ord" className="hover:text-primary transition-smooth">
-                Archi-Ord
+              <Link to="/year/l2" className="hover:text-primary transition-smooth">
+                L2 - Second Year
               </Link>
-              <Link to="/module/thg" className="hover:text-primary transition-smooth">
-                THG
+              <Link to="/year/l3" className="hover:text-primary transition-smooth">
+                L3 - Third Year
               </Link>
-              <Link to="/module/english" className="hover:text-primary transition-smooth">
-                English
+              <Link to="/year/m1" className="hover:text-primary transition-smooth">
+                M1 - Master Year 1
               </Link>
             </div>
           </div>
@@ -42,13 +42,16 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold mb-4">Programming Langs</h3>
             <div className="flex flex-col gap-2">
-              <Link to="/programming?lang=c" className="hover:text-primary transition-smooth">
+              <Link to="/programming-language/c" className="hover:text-primary transition-smooth">
                 C Language
               </Link>
-              <Link to="/programming?lang=python" className="hover:text-primary transition-smooth">
+              <Link to="/programming-language/python" className="hover:text-primary transition-smooth">
                 Python
               </Link>
-              <Link to="/programming?lang=assembly" className="hover:text-primary transition-smooth">
+              <Link to="/programming-language/java" className="hover:text-primary transition-smooth">
+                Java
+              </Link>
+              <Link to="/programming-language/assembly" className="hover:text-primary transition-smooth">
                 Assembly
               </Link>
             </div>
@@ -82,7 +85,7 @@ const Footer = () => {
         </div>
 
         <div className="mt-8 pt-8 border-t border-border text-center text-sm">
-          <p>Copyright © {new Date().getFullYear()}UHBC L2 CS</p>
+          <p>Copyright © {new Date().getFullYear()} UHBC CS</p>
         </div>
       </div>
     </footer>

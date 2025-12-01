@@ -8,16 +8,20 @@ const languageModules = [
   { title: "Assembly", slug: "assembly", icon: Cpu, color: "bg-purple-500" },
 ];
 
-const LanguageModules = () => {
+type LanguageModulesProps = {
+  showHeader?: boolean;
+};
+
+const LanguageModules = ({ showHeader = true }: LanguageModulesProps) => {
   return (
     <section id="languages" className="py-20 bg-background">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-12 animate-fade-in">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">Programming Languages</h2>
-          <p className="text-xl text-muted-foreground">
-            Select a language to access all resources
-          </p>
-        </div>
+        {showHeader && (
+          <div className="text-center mb-12 animate-fade-in">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">Programming Languages</h2>
+            <p className="text-xl text-muted-foreground">Select a language to access all resources</p>
+          </div>
+        )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {languageModules.map((module, index) => (

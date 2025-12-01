@@ -1,4 +1,4 @@
-import { Resource } from "../types";
+import { Resource } from "../../../types";
 
 const archiOrd: Array<Resource> = [
     {
