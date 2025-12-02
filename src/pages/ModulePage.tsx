@@ -385,6 +385,7 @@ const ModulePage = () => {
 
       {viewerOpts && (
         <PdfViewer
+          key={viewerOpts.resourceId || viewerOpts.pdfUrl}
           moduleSlug={viewerOpts.moduleSlug || undefined}
           resourceId={viewerOpts.resourceId}
           pdfUrl={viewerOpts.pdfUrl}
