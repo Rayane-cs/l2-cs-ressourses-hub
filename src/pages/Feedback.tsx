@@ -167,10 +167,7 @@ Submitted at: ${new Date().toLocaleString()}
       
       setHasSubmitted(true);
     } catch (error: unknown) {
-      // Suppress console errors in production for Lighthouse Best Practices score
-      if (import.meta.env.DEV) {
-        console.error("Error submitting feedback:", error);
-      }
+      console.error("Error submitting feedback:", error);
       
       // Provide more detailed error messages
       let errorMessage = "Failed to submit feedback. Please try again later.";
@@ -180,16 +177,16 @@ Submitted at: ${new Date().toLocaleString()}
       if (error && typeof error === 'object') {
         if ('status' in error) {
           errorDetails = `Status: ${error.status}`;
-          if (import.meta.env.DEV) console.error("EmailJS status:", error.status);
+          console.error("EmailJS status:", error.status);
         }
         if ('text' in error) {
           errorDetails += ` - ${String(error.text)}`;
-          if (import.meta.env.DEV) console.error("EmailJS error text:", error.text);
+          console.error("EmailJS error text:", error.text);
         }
       }
       
       if (error instanceof Error) {
-        if (import.meta.env.DEV) console.error("Error details:", error.message);
+        console.error("Error details:", error.message);
         errorDetails = error.message;
         
         if (error.message.includes("Invalid") || error.message.includes("template") || error.message.includes("service")) {
@@ -201,11 +198,9 @@ Submitted at: ${new Date().toLocaleString()}
         }
       }
       
-      // Show detailed error in console for debugging only in development
-      if (import.meta.env.DEV) {
-        console.error("Full error object:", error);
-        console.error("Error details:", errorDetails);
-      }
+      // Show detailed error in console for debugging
+      console.error("Full error object:", error);
+      console.error("Error details:", errorDetails);
       
       toast.error(errorMessage);
       

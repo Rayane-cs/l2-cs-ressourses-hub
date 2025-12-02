@@ -34,10 +34,10 @@
     --primary-foreground: 0 0% 100%;
 
     --secondary: 217 100% 95%;
-    --secondary-foreground: 217 50% 25%; /* Much darker text on secondary */
+    --secondary-foreground: 220 20% 15%; /* Darker text on secondary */
 
     --muted: 217 100% 95%;
-    --muted-foreground: 217 50% 30%; /* Darker muted text */
+    --muted-foreground: 217 15% 40%; /* Darker muted text */
 
     --accent: 210 100% 50%; /* Darker accent */
     --accent-foreground: 0 0% 100%;

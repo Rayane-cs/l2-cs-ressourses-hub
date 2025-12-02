@@ -18,9 +18,7 @@ function readLocalResources() {
     if (!raw) return {};
     return JSON.parse(raw) as Record<string, Array<Resource>>;
   } catch (e) {
-    if (import.meta.env.DEV) {
-      console.error("Failed to read local drive_resources", e);
-    }
+    console.error("Failed to read local drive_resources", e);
     return {};
   }
 }
@@ -385,7 +383,6 @@ const ModulePage = () => {
 
       {viewerOpts && (
         <PdfViewer
-          key={viewerOpts.resourceId || viewerOpts.pdfUrl}
           moduleSlug={viewerOpts.moduleSlug || undefined}
           resourceId={viewerOpts.resourceId}
           pdfUrl={viewerOpts.pdfUrl}

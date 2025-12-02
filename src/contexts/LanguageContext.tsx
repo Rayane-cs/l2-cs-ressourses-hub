@@ -85,9 +85,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       if (raw === "en" || raw === "fr") return raw as Lang;
     } catch (e) {
       // fallback to navigator
-      if (import.meta.env.DEV) {
-        console.warn("LanguageContext: failed to read localStorage", e);
-      }
+      console.warn("LanguageContext: failed to read localStorage", e);
     }
     const nav = typeof navigator !== "undefined" ? navigator.language : "en";
     return nav && nav.startsWith("fr") ? "fr" : "en";
@@ -97,9 +95,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     try {
       localStorage.setItem("lang", lang);
     } catch (e) {
-      if (import.meta.env.DEV) {
-        console.warn("LanguageContext: failed to write localStorage", e);
-      }
+      console.warn("LanguageContext: failed to write localStorage", e);
     }
   }, [lang]);
 
