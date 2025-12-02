@@ -80,7 +80,16 @@ export default function YearSections() {
         }
 
         .animate-gradient-shift {
-          animation: gradient-shift 8s ease-in-out infinite;
+          /* Very slow, subtle animation to avoid distraction */
+          animation: gradient-shift 120s linear infinite;
+        }
+
+        /* Respect users who prefer reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+          .animate-gradient-shift {
+            animation: none !important;
+            background-position: center !important;
+          }
         }
       `}</style>
     </div>

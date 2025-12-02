@@ -6,6 +6,8 @@ import { useState, useEffect } from "react";
 const Hero = () => {
   const [showAnnouncement, setShowAnnouncement] = useState(false);
 
+  // CSS-driven scrolling categories (no JS interval)
+
   useEffect(() => {
     const hasSeenAnnouncement = localStorage.getItem("search-announcement-seen");
     if (!hasSeenAnnouncement) {
@@ -42,6 +44,7 @@ const Hero = () => {
           <span></span>
           <span></span>
         </div>
+
       </div>
 
       <div className="container mx-auto px-4 relative z-10 flex-1 flex flex-col items-center justify-center">
@@ -68,8 +71,29 @@ const Hero = () => {
             <span className="text-foreground">UHBC CS Student Hub</span>
             <br />
             <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-              All Your Resources in One Place
+              All Your Resources
             </span>
+
+            {/* Inline CSS-driven vertical scroller (CSS-only, infinite loop)
+                Wrapper uses same font size as title so the scroller height equals title baseline */}
+            <span className="inline-block scroller align-middle relative overflow-hidden text-5xl md:text-7xl leading-none" aria-hidden={false}>
+              <div className="words" aria-live="polite">
+                <div className="word text-white font-extrabold">- Courses -</div>
+                <div className="word text-amber-100 font-extrabold">- TD -</div>
+                <div className="word text-lime-100 font-extrabold">- TP -</div>
+                <div className="word text-sky-100 font-extrabold">- Exams -</div>
+                <div className="word text-pink-100 font-extrabold">- Codes -</div>
+                {/* duplicate sequence for seamless loop */}
+                <div className="word text-white font-extrabold">- Courses -</div>
+                <div className="word text-amber-100 font-extrabold">- TD -</div>
+                <div className="word text-lime-100 font-extrabold">- TP -</div>
+                <div className="word text-sky-100 font-extrabold">- Exams -</div>
+                <div className="word text-pink-100 font-extrabold">- Codes -</div>
+              </div>
+            </span>
+
+            <br />
+            <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">in One Place</span>
           </h1>
 
           <p className="text-xl md:text-2xl text-muted-foreground mb-12 animate-fade-in" style={{ animationDelay: "0.2s" }}>
@@ -384,6 +408,43 @@ const Hero = () => {
           animation-delay: -106s;
           transform-origin: -16vw 22vh;
           box-shadow: -100vmin 0 12.540921546396266vmin currentColor;
+        }
+
+        /* CSS vertical scroller styles (template-based) */
+        .scroller { height: 1em; overflow: hidden; display: inline-block; vertical-align: middle; }
+        .words {
+          display: flex;
+          flex-direction: column;
+          will-change: transform;
+          /* duration: 5 items * 3.5s per item = 17.5s; use keyframes with pauses for smooth vertical step + scroll */
+          animation: scroll-words 17.5s ease-in-out infinite;
+        }
+
+        .word {
+          height: 1em; /* match the current font-size / line-height of the wrapper */
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          line-height: 1;
+        }
+
+        /* Keyframes create a pause on each item then a short smooth transition to the next */
+        @keyframes scroll-words {
+          0% { transform: translateY(0%); }
+          16% { transform: translateY(0%); }
+          20% { transform: translateY(-10%); }
+          36% { transform: translateY(-10%); }
+          40% { transform: translateY(-20%); }
+          56% { transform: translateY(-20%); }
+          60% { transform: translateY(-30%); }
+          76% { transform: translateY(-30%); }
+          80% { transform: translateY(-40%); }
+          96% { transform: translateY(-40%); }
+          100% { transform: translateY(-50%); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .words { animation: none !important; }
         }
       `}</style>
     </section>

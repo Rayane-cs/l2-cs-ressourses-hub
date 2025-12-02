@@ -3,6 +3,7 @@ import resources from "@/lib/index";
 import type { Resource } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { Download, Eye, X } from "lucide-react";
+import DownloadButton from "@/components/DownloadButton";
 
 interface PdfViewerProps {
   pdfUrl?: string;
@@ -197,14 +198,11 @@ export default function PdfViewer({ pdfUrl, moduleSlug, resourceId, filename, in
 
               <div className="flex items-center gap-2">
                 {/* download button in header (visible on all sizes) */}
-                <button
+                <DownloadButton
                   onClick={handleDownload}
-                  className="flex items-center gap-2 px-3 py-2 rounded-md bg-primary text-primary-foreground hover:bg-primary/90"
-                  aria-label="Download PDF"
-                >
-                  <Download className="h-4 w-4" />
-                  <span className="hidden sm:inline">Download</span>
-                </button>
+                  tooltip="Download PDF"
+                  ariaLabel="Download PDF"
+                />
 
                 <button
                   aria-label="Close PDF"
