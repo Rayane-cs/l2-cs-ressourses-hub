@@ -63,12 +63,16 @@ const Footer = () => {
               <div
                 className="opacity-50 cursor-not-allowed relative"
                 title="Coming soon"
+                aria-label="GitHub (coming soon)"
+                role="img"
               >
                 <Github className="h-6 w-6" />
               </div>
               <div
                 className="opacity-50 cursor-not-allowed relative"
                 title="Coming soon"
+                aria-label="LinkedIn (coming soon)"
+                role="img"
               >
                 <Linkedin className="h-6 w-6" />
               </div>
@@ -77,6 +81,7 @@ const Footer = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-primary transition-smooth"
+                aria-label="Contact us on Telegram"
               >
                 <Send className="h-6 w-6" />
               </a>

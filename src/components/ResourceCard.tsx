@@ -10,7 +10,7 @@ interface Props {
   onShow?: (opts: { moduleSlug?: string | null; resourceId?: string; pdfUrl?: string; filename?: string }) => void;
 }
 
-export default function ResourceCard({ res, moduleSlug, onShow }: Props) {
+const ResourceCardComponent = React.memo(function ResourceCard({ res, moduleSlug, onShow }: Props) {
   const fileHref = res.driveUrl || res.url || res.file || "";
 
   const [isFlipped, setIsFlipped] = React.useState(false);
@@ -198,4 +198,6 @@ export default function ResourceCard({ res, moduleSlug, onShow }: Props) {
       `}</style>
     </Card>
   );
-}
+});
+
+export default ResourceCardComponent;

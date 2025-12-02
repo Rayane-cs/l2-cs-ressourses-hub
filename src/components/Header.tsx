@@ -154,7 +154,15 @@ const Header = () => {
                   onMouseLeave={() => !link.disabled && setIsDropdownOpen(false)}
                   title={link.disabled ? "Coming soon" : ""}
                 >
-                  <button className="text-sm font-medium transition-smooth hover:text-primary text-foreground" disabled={link.disabled}>More ▾</button>
+                  <button 
+                    className="text-sm font-medium transition-smooth hover:text-primary text-foreground" 
+                    disabled={link.disabled}
+                    aria-label="More modules (opens dropdown menu)"
+                    aria-haspopup="true"
+                    aria-expanded={isDropdownOpen}
+                  >
+                    More ▾
+                  </button>
 
                   {isDropdownOpen && (
                     <div className="fixed left-1/2 -translate-x-1/2 top-20 w-[min(1100px,calc(100vw-4rem))] bg-background border border-border rounded-lg shadow-lg p-6 z-50 animate-fade-in">
@@ -298,6 +306,8 @@ const Header = () => {
           size="icon"
           className="md:hidden"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-label={isMobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+          aria-expanded={isMobileMenuOpen}
         >
           {isMobileMenuOpen ? (
             <X className="h-6 w-6" />

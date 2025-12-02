@@ -13,13 +13,30 @@ export default defineConfig({
   },
   plugins: [react()],
   build: {
-    target: 'es2017',
+    target: 'es2020',
     minify: 'esbuild',
-    sourcemap: false,
+    sourcemap: true,
+    cssMinify: true,
     rollupOptions: {
       output: {
         manualChunks: {
-          vendor: ['react', 'react-dom']
+          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
+          'vendor-ui': ['lucide-react'],
+          'vendor-utils': ['next-themes', '@tanstack/react-query'],
+        },
+        entryFileNames: 'js/[name]-[hash].js',
+        chunkFileNames: 'js/[name]-[hash].js',
+        assetFileNames: (assetInfo) => {
+          const info = assetInfo.name.split('.');
+          const ext = info[info.length - 1];
+          if (/png|jpe?g|gif|svg/.test(ext)) {
+            return `images/[name]-[hash][extname]`;
+          } else if (/woff|woff2|eot|ttf|otf/.test(ext)) {
+            return `fonts/[name]-[hash][extname]`;
+          } else if (ext === 'css') {
+            return `css/[name]-[hash][extname]`;
+          }
+          return `[name]-[hash][extname]`;
         }
       }
     }

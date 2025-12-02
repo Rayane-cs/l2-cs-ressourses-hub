@@ -6,38 +6,20 @@
     <title>UHBC CS - Student Resource Platform</title>
     <meta name="description" content="Access all your UHBC Computer Science resources - Courses, TDs, TPs, and Code files in one place" />
     <meta name="author" content="UHBC CS" />
-
-    <meta property="og:title" content="UHBC L2 CS - Student Resource Platform" />
-    <meta property="og:description" content="Access all your UHBC L2 Computer Science resources - Courses, TDs, TPs, and Code files in one place" />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://postimg.cc/67wCvLsy" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
     <meta name="theme-color" content="#0f172a" />
-    <!-- Resource hints -->
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
-    <!-- Preload social preview image to improve LCP on share previews -->
-    <link rel="preload" as="image" href="https://postimg.cc/67wCvLsy" />
-    <!-- Google tag (gtag.js) - load async and initialize after interactive to avoid blocking FCP -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-28ZC8DB8WR"></script>
-    <script>
-      // Initialize analytics after user interaction or when the browser is idle to avoid render blocking
-      window.addEventListener('DOMContentLoaded', function () {
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);} 
-        window.gtag = gtag;
-        // Defer actual config to requestIdleCallback if available
-        var init = function(){ gtag('js', new Date()); gtag('config', 'G-28ZC8DB8WR'); };
-        if ('requestIdleCallback' in window) requestIdleCallback(init); else setTimeout(init, 2000);
-      });
-    </script>
+
+    <!-- Security and Performance Headers via Meta -->
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://l2cs.vercel.app/" />
     <meta property="og:title" content="UHBC CS - Student Resource Platform" />
     <meta property="og:description" content="Access all your UHBC Computer Science resources - Courses, TDs, TPs, and Code files in one place" />
     <meta property="og:image" content="https://postimg.cc/67wCvLsy" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
 
     <!-- X (Twitter) -->
     <meta property="twitter:card" content="summary_large_image" />
@@ -45,9 +27,34 @@
     <meta property="twitter:title" content="UHBC CS - Student Resource Platform" />
     <meta property="twitter:description" content="Access all your UHBC Computer Science resources - Courses, TDs, TPs, and Code files in one place" />
     <meta property="twitter:image" content="https://postimg.cc/67wCvLsy" />
+
+    <!-- Resource Hints -->
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+    <link rel="preload" as="image" href="https://postimg.cc/67wCvLsy" />
+    <link rel="modulepreload" href="/src/main.tsx" />
+
+    <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="/src/icon.png" />
-    <!-- Let the browser preload the module entry for faster hydration -->
-    <link rel="modulepreload" href="/src/main.tsx">
+
+    <!-- Google Analytics - loaded asynchronously -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-28ZC8DB8WR"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-28ZC8DB8WR', { 'send_page_view': false });
+      
+      // Only send page view after full page load to avoid blocking FCP
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() {
+          gtag('event', 'page_view');
+        });
+      } else {
+        gtag('event', 'page_view');
+      }
+    </script>
   </head>
 
   <body>
