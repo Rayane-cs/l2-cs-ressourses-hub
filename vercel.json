@@ -11,7 +11,7 @@
       "headers": [
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src * data: blob: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https:; frame-src 'self' https://docs.google.com https://drive.google.com https://*.googleusercontent.com blob:; child-src https://docs.google.com https://drive.google.com blob:; object-src 'none'; worker-src 'self' blob: data:;"
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' data: https://cdn.jsdelivr.net https://www.googletagmanager.com; script-src-elem 'self' 'unsafe-inline' 'unsafe-eval' data: https://cdn.jsdelivr.net https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; style-src-elem 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src * data: blob: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https:; frame-src 'self' https://docs.google.com https://drive.google.com https://*.googleusercontent.com blob:; child-src 'self' https://docs.google.com https://drive.google.com https://*.googleusercontent.com blob:; object-src 'none'; worker-src 'self' blob: data:;"
         },
         {
           "key": "X-Content-Type-Options",
