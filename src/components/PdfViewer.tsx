@@ -2,7 +2,7 @@ import { useEffect, useRef, useMemo, useState } from "react";
 import resources from "@/lib/index";
 import type { Resource } from "@/lib/types";
 import { Button } from "@/components/ui/button";
-import { Download, Eye, X } from "lucide-react";
+import { Download, Eye, X, ExternalLink } from "lucide-react";
 import DownloadButton from "@/components/DownloadButton";
 
 interface PdfViewerProps {
@@ -19,6 +19,7 @@ interface PdfViewerProps {
 // - Download button uses `download` when same-origin otherwise opens in new tab
 export default function PdfViewer({ pdfUrl, moduleSlug, resourceId, filename, initialOpen = false, onClose }: PdfViewerProps) {
   const [open, setOpen] = useState(initialOpen);
+  const [iframeError, setIframeError] = useState(false);
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const prevOverflowRef = useRef<string>("");
 
@@ -217,15 +218,45 @@ export default function PdfViewer({ pdfUrl, moduleSlug, resourceId, filename, in
 
             <div className="p-0 sm:p-0 h-[calc(100vh-60px)] sm:h-[calc(100vh-60px)] flex flex-col">
               <div className="flex-1 overflow-auto">
-                <iframe
-                  ref={iframeRef}
-                  title={filename || "PDF viewer"}
-                  className="w-full h-full border-0"
-                  src={resolvedPreviewUrl || resolvedRawUrl || ""}
-                  frameBorder={0}
-                  allow="autoplay; encrypted-media"
-                  sandbox="allow-scripts allow-same-origin allow-popups"
-                />
+                {iframeError ? (
+                  <div className="w-full h-full flex flex-col items-center justify-center bg-muted p-6">
+                    <div className="text-center max-w-md">
+                      <div className="text-lg font-semibold text-foreground mb-2">Preview Blocked</div>
+                      <p className="text-sm text-muted-foreground mb-4">
+                        This file's sharing settings don't allow preview in embedded viewers. You can download or open it directly in Google Drive.
+                      </p>
+                      <div className="flex gap-2 justify-center">
+                        <Button onClick={handleDownload} className="flex items-center gap-2">
+                          <Download className="h-4 w-4" />
+                          Download
+                        </Button>
+                        <Button 
+                          variant="outline"
+                          onClick={() => {
+                            if (resolvedRawUrl) {
+                              window.open(resolvedRawUrl, "_blank", "noopener,noreferrer");
+                            }
+                          }}
+                          className="flex items-center gap-2"
+                        >
+                          <ExternalLink className="h-4 w-4" />
+                          Open in Drive
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <iframe
+                    ref={iframeRef}
+                    title={filename || "PDF viewer"}
+                    className="w-full h-full border-0"
+                    src={resolvedPreviewUrl || resolvedRawUrl || ""}
+                    frameBorder={0}
+                    allow="autoplay; encrypted-media"
+                    sandbox="allow-scripts allow-same-origin allow-popups"
+                    onError={() => setIframeError(true)}
+                  />
+                )}
               </div>
             </div>
           </div>
