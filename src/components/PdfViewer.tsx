@@ -23,8 +23,9 @@ export default function PdfViewer({ pdfUrl, moduleSlug, resourceId, filename, in
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const prevOverflowRef = useRef<string>("");
 
-  // Helpers to support Google Drive links
+  // Helpers to support Google Drive and Docs links
   const isGoogleDriveUrl = (u: string) => /drive\.google\.com/.test(u);
+  const isGoogleDocsUrl = (u: string) => /docs\.google\.com/.test(u);
 
   const extractDriveId = (u: string) => {
     try {
@@ -43,8 +44,22 @@ export default function PdfViewer({ pdfUrl, moduleSlug, resourceId, filename, in
     return null;
   };
 
+  const extractDocsId = (u: string) => {
+    try {
+      const url = new URL(u, window.location.href);
+      // pattern: /document/d/DOCID/edit
+      const pathMatch = url.pathname.match(/\/document\/d\/([a-zA-Z0-9_-]+)/);
+      if (pathMatch) return pathMatch[1];
+    } catch (e) {
+      // ignore
+    }
+    return null;
+  };
+
   const drivePreviewUrl = (id: string) => `https://drive.google.com/file/d/${id}/preview`;
   const driveDownloadUrl = (id: string) => `https://drive.google.com/uc?export=download&id=${id}`;
+  // Google Docs can be embedded using the preview format, but frame-ancestors restrictions may still apply
+  const docsPreviewUrl = (id: string) => `https://docs.google.com/document/d/${id}/preview`;
 
   const handleIframeError = () => {
     setIframeError(true);
@@ -67,7 +82,7 @@ export default function PdfViewer({ pdfUrl, moduleSlug, resourceId, filename, in
   };
 
   // Resolve PDF url: priority -- explicit pdfUrl prop, then lookup by moduleSlug+resourceId
-  const { resolvedPreviewUrl, resolvedDownloadUrl, resolvedRawUrl } = useMemo(() => {
+  const { resolvedPreviewUrl, resolvedDownloadUrl, resolvedRawUrl, isGoogleService } = useMemo(() => {
     let candidate = pdfUrl || "";
     if (!candidate && moduleSlug && resourceId) {
       const list = (resources as Record<string, Array<Resource>>)[moduleSlug] || [];
@@ -77,14 +92,34 @@ export default function PdfViewer({ pdfUrl, moduleSlug, resourceId, filename, in
       }
     }
 
-    if (!candidate) return { resolvedPreviewUrl: "", resolvedDownloadUrl: "", resolvedRawUrl: "" };
+    if (!candidate) return { resolvedPreviewUrl: "", resolvedDownloadUrl: "", resolvedRawUrl: "", isGoogleService: false };
 
-    if (isGoogleDriveUrl(candidate)) {
-      const id = extractDriveId(candidate);
-      if (id) return { resolvedPreviewUrl: drivePreviewUrl(id), resolvedDownloadUrl: driveDownloadUrl(id), resolvedRawUrl: candidate };
+    // Handle Google Docs URLs
+    if (isGoogleDocsUrl(candidate)) {
+      const id = extractDocsId(candidate);
+      if (id) {
+        // Convert to preview format, but note: Google Docs may still block embedding due to frame-ancestors
+        return { 
+          resolvedPreviewUrl: docsPreviewUrl(id), 
+          resolvedDownloadUrl: `https://docs.google.com/document/d/${id}/export?format=pdf`, 
+          resolvedRawUrl: candidate,
+          isGoogleService: true
+        };
+      }
     }
 
-    return { resolvedPreviewUrl: candidate, resolvedDownloadUrl: candidate, resolvedRawUrl: candidate };
+    // Handle Google Drive URLs
+    if (isGoogleDriveUrl(candidate)) {
+      const id = extractDriveId(candidate);
+      if (id) return { 
+        resolvedPreviewUrl: drivePreviewUrl(id), 
+        resolvedDownloadUrl: driveDownloadUrl(id), 
+        resolvedRawUrl: candidate,
+        isGoogleService: true
+      };
+    }
+
+    return { resolvedPreviewUrl: candidate, resolvedDownloadUrl: candidate, resolvedRawUrl: candidate, isGoogleService: false };
   }, [pdfUrl, moduleSlug, resourceId]);
 
   // Try to download via fetch -> blob so the browser saves the file directly.
@@ -247,17 +282,20 @@ export default function PdfViewer({ pdfUrl, moduleSlug, resourceId, filename, in
                     loading="lazy"
                     frameBorder={0}
                     allow="fullscreen; autoplay"
-                    sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+                    // Remove sandbox for Google services to avoid security warnings and allow proper embedding
+                    // For other sources, sandbox provides security but may break functionality
+                    sandbox={isGoogleService ? undefined : "allow-same-origin allow-scripts allow-popups allow-forms"}
                     onError={handleIframeError}
                     onLoad={handleIframeLoad}
                   />
                 ) : (
                   <div className="flex flex-col items-center justify-center h-full text-center p-8 bg-muted/20">
                     <div className="max-w-md">
-                      <h3 className="text-lg font-semibold mb-2">PDF Preview Unavailable</h3>
+                      <h3 className="text-lg font-semibold mb-2">Preview Unavailable</h3>
                       <p className="text-muted-foreground mb-6">
-                        The PDF cannot be displayed in an embedded viewer. This might be due to security restrictions 
-                        or the file format. You can still download the PDF.
+                        {isGoogleService 
+                          ? "This Google Docs/Drive file cannot be embedded due to security restrictions. Please open it in a new tab or download it."
+                          : "The file cannot be displayed in an embedded viewer. This might be due to security restrictions or the file format. You can still download the file or open it in a new tab."}
                       </p>
                       <div className="flex gap-3 justify-center flex-wrap">
                         <Button onClick={retryIframeLoad} className="flex items-center gap-2">
@@ -266,7 +304,7 @@ export default function PdfViewer({ pdfUrl, moduleSlug, resourceId, filename, in
                         </Button>
                         <Button onClick={handleDownload} className="flex items-center gap-2">
                           <Download className="h-4 w-4" />
-                          <span>Download PDF</span>
+                          <span>Download</span>
                         </Button>
                         <Button 
                           variant="outline" 
