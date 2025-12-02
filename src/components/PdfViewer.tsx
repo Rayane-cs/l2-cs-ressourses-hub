@@ -20,6 +20,7 @@ interface PdfViewerProps {
 export default function PdfViewer({ pdfUrl, moduleSlug, resourceId, filename, initialOpen = false, onClose }: PdfViewerProps) {
   const [open, setOpen] = useState(initialOpen);
   const [iframeError, setIframeError] = useState(false);
+  const [useFallbackUrl, setUseFallbackUrl] = useState(false);
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const prevOverflowRef = useRef<string>("");
 
@@ -44,6 +45,9 @@ export default function PdfViewer({ pdfUrl, moduleSlug, resourceId, filename, in
   };
 
   const drivePreviewUrl = (id: string) => `https://drive.google.com/file/d/${id}/preview`;
+  // Alternative URLs for Google Drive files when preview is blocked
+  const driveEmbedUrl = (id: string) => `https://drive.google.com/file/d/${id}/view?usp=sharing`;
+  const driveViewerUrl = (id: string) => `https://docs.google.com/viewer?url=https://drive.google.com/uc?export=download%26id=${id}&embedded=true`;
   const driveDownloadUrl = (id: string) => `https://drive.google.com/uc?export=download&id=${id}`;
 
   // Resolve PDF url: priority -- explicit pdfUrl prop, then lookup by moduleSlug+resourceId
@@ -61,7 +65,14 @@ export default function PdfViewer({ pdfUrl, moduleSlug, resourceId, filename, in
 
     if (isGoogleDriveUrl(candidate)) {
       const id = extractDriveId(candidate);
-      if (id) return { resolvedPreviewUrl: drivePreviewUrl(id), resolvedDownloadUrl: driveDownloadUrl(id), resolvedRawUrl: candidate };
+      if (id) {
+        // Return multiple preview options to try in order
+        return { 
+          resolvedPreviewUrl: driveViewerUrl(id), // Try Google Docs Viewer first (works with blocked files)
+          resolvedDownloadUrl: driveDownloadUrl(id), 
+          resolvedRawUrl: candidate 
+        };
+      }
     }
 
     return { resolvedPreviewUrl: candidate, resolvedDownloadUrl: candidate, resolvedRawUrl: candidate };
@@ -129,15 +140,32 @@ export default function PdfViewer({ pdfUrl, moduleSlug, resourceId, filename, in
 
   useEffect(() => {
     if (open && iframeRef.current) {
-      // Use preview URL for Google Drive to ensure embeddable preview
-      const srcUrl = resolvedPreviewUrl || resolvedRawUrl || pdfUrl || "";
+      setIframeError(false);
+      // Use fallback Google Docs Viewer URL if primary failed
+      let srcUrl = resolvedRawUrl || pdfUrl || "";
+      if (isGoogleDriveUrl(srcUrl) && !useFallbackUrl) {
+        // Try the Google Docs Viewer URL first (more compatible with blocked files)
+        const id = extractDriveId(srcUrl);
+        if (id) {
+          srcUrl = driveViewerUrl(id);
+        }
+      }
+      if (useFallbackUrl && isGoogleDriveUrl(srcUrl)) {
+        // If Google Docs Viewer failed, try direct preview as fallback
+        const id = extractDriveId(srcUrl);
+        if (id) {
+          srcUrl = drivePreviewUrl(id);
+        }
+      }
       if (srcUrl && iframeRef.current.src !== srcUrl) {
         iframeRef.current.src = srcUrl;
       }
     } else if (!open && iframeRef.current) {
       iframeRef.current.src = "";
+      setIframeError(false);
+      setUseFallbackUrl(false);
     }
-  }, [open, resolvedPreviewUrl, resolvedRawUrl, pdfUrl]);
+  }, [open, resolvedRawUrl, pdfUrl, useFallbackUrl]);
 
   // Prevent background scrolling when modal is open. Save previous overflow and restore on close/unmount.
   useEffect(() => {
@@ -218,10 +246,22 @@ export default function PdfViewer({ pdfUrl, moduleSlug, resourceId, filename, in
 
             <div className="p-0 sm:p-0 h-[calc(100vh-60px)] sm:h-[calc(100vh-60px)] flex flex-col">
               <div className="flex-1 overflow-auto">
-                {iframeError ? (
+                {iframeError && !useFallbackUrl ? (
                   <div className="w-full h-full flex flex-col items-center justify-center bg-muted p-6">
                     <div className="text-center max-w-md">
-                      <div className="text-lg font-semibold text-foreground mb-2">Preview Blocked</div>
+                      <div className="text-lg font-semibold text-foreground mb-2">Trying Alternative Preview...</div>
+                      <p className="text-sm text-muted-foreground mb-4">
+                        Your file preview is being loaded using an alternative method.
+                      </p>
+                      <Button onClick={() => setUseFallbackUrl(true)} className="flex items-center gap-2">
+                        Try Alternative Viewer
+                      </Button>
+                    </div>
+                  </div>
+                ) : iframeError && useFallbackUrl ? (
+                  <div className="w-full h-full flex flex-col items-center justify-center bg-muted p-6">
+                    <div className="text-center max-w-md">
+                      <div className="text-lg font-semibold text-foreground mb-2">Preview Unavailable</div>
                       <p className="text-sm text-muted-foreground mb-4">
                         This file's sharing settings don't allow preview in embedded viewers. You can download or open it directly in Google Drive.
                       </p>
@@ -254,7 +294,7 @@ export default function PdfViewer({ pdfUrl, moduleSlug, resourceId, filename, in
                     frameBorder={0}
                     allow="autoplay; encrypted-media"
                     sandbox="allow-scripts allow-same-origin allow-popups"
-                    onError={() => setIframeError(true)}
+                    onError={() => !useFallbackUrl ? setIframeError(true) : null}
                   />
                 )}
               </div>
