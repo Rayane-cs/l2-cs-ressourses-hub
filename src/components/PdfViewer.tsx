@@ -129,10 +129,11 @@ export default function PdfViewer({ pdfUrl, moduleSlug, resourceId, filename, in
   useEffect(() => {
     if (open && iframeRef.current) {
       // Use preview URL for Google Drive to ensure embeddable preview
-      iframeRef.current.src = resolvedPreviewUrl || resolvedRawUrl || pdfUrl || "";
-    }
-
-    if (!open && iframeRef.current) {
+      const srcUrl = resolvedPreviewUrl || resolvedRawUrl || pdfUrl || "";
+      if (srcUrl && iframeRef.current.src !== srcUrl) {
+        iframeRef.current.src = srcUrl;
+      }
+    } else if (!open && iframeRef.current) {
       iframeRef.current.src = "";
     }
   }, [open, resolvedPreviewUrl, resolvedRawUrl, pdfUrl]);
@@ -221,8 +222,9 @@ export default function PdfViewer({ pdfUrl, moduleSlug, resourceId, filename, in
                   title={filename || "PDF viewer"}
                   className="w-full h-full border-0"
                   src={resolvedPreviewUrl || resolvedRawUrl || ""}
-                  loading="lazy"
                   frameBorder={0}
+                  allow="autoplay; encrypted-media"
+                  sandbox="allow-scripts allow-same-origin allow-popups"
                 />
               </div>
             </div>
