@@ -83,6 +83,7 @@ export default function YearSections() {
         .animate-gradient-shift {
           /* Very slow, subtle animation to avoid distraction */
           animation: gradient-shift 120s linear infinite;
+          will-change: background-position;
         }
 
         /* Respect users who prefer reduced motion */

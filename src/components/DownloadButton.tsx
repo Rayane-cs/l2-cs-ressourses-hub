@@ -43,6 +43,7 @@ const DownloadButton: React.FC<DownloadButtonProps> = ({ onClick, tooltip = "Dow
         .download-btn-wrapper .download-btn:hover .svgIcon {
           fill: black;
           animation: slide-in-top 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+          will-change: transform, opacity;
         }
 
         .download-btn-wrapper .icon2 {

@@ -76,39 +76,25 @@ export default function Intro() {
           height: 36px;
           animation: ballbns 2s ease-in infinite;
           background: hsl(217 91% 60%);
+          will-change: transform;
         }
 
         @keyframes ballbns {
           0% {
-            left: 0;
-            transform: translateX(-100%) rotate(0deg);
+            transform: translateX(0%) rotate(0deg);
             border-radius: 0;
             background: hsl(217 91% 60%);
-            box-shadow: 0 0 0 0 hsl(217 91% 60% / 0.8);
           }
           100% {
-            left: 100%;
-            transform: translateX(0%) rotate(360deg);
+            transform: translateX(calc(140px - 36px)) rotate(360deg);
             border-radius: 50%;
             background: hsl(217 91% 60%);
-            box-shadow: 0 0 8px 4px hsl(217 91% 60% / 0);
           }
         }
 
         /* Dark mode colors */
         :root.dark .loader:before {
           background: hsl(215 100% 58%);
-        }
-
-        :root.dark @keyframes ballbns {
-          0% {
-            background: hsl(215 100% 58%);
-            box-shadow: 0 0 0 0 hsl(215 100% 58% / 0.8);
-          }
-          100% {
-            background: hsl(215 100% 58%);
-            box-shadow: 0 0 8px 4px hsl(215 100% 58% / 0);
-          }
         }
 
         @keyframes float-square {
@@ -151,10 +137,12 @@ export default function Intro() {
 
         .animate-float-square {
           animation: float-square 3s ease-in-out infinite;
+          will-change: transform;
         }
 
         .animate-float-square-delayed {
           animation: float-square-delayed 3.5s ease-in-out infinite;
+          will-change: transform;
         }
       `}</style>
     </main>
