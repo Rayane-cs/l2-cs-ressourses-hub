@@ -105,7 +105,7 @@ const Hero = () => {
       <div className="container mx-auto px-4 relative z-10 flex justify-center pb-10 animate-fade-in" style={{ animationDelay: "0.4s" }}>
         <button onClick={scrollToYears} className="flex flex-col items-center gap-2 group hover:opacity-70 transition-opacity">
           <span className="text-sm text-muted-foreground">Explore Now</span>
-          <ArrowDown className="h-6 w-6 animate-bounce text-primary" />
+          <ArrowDown className="h-6 w-6 text-primary motion-safe:animate-bounce" />
         </button>
       </div>
 
@@ -150,7 +150,6 @@ const Hero = () => {
           animation-timing-function: linear;
           filter: blur(36px);
           opacity: 0.80;
-          will-change: transform, filter, opacity;
         }
 
         .background span:nth-child(1) {

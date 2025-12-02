@@ -15,14 +15,15 @@ export default defineConfig({
   build: {
     target: 'es2020',
     minify: 'esbuild',
-    sourcemap: true,
+    sourcemap: false,
     cssMinify: true,
+    chunkSizeWarningLimit: 1000,
     rollupOptions: {
       output: {
         manualChunks: {
           'vendor-react': ['react', 'react-dom', 'react-router-dom'],
-          'vendor-ui': ['lucide-react'],
-          'vendor-utils': ['next-themes', '@tanstack/react-query'],
+          'vendor-ui': ['lucide-react', '@radix-ui/react-tooltip', '@radix-ui/react-dialog', '@radix-ui/react-toast'],
+          'vendor-forms': ['react-hook-form', '@hookform/resolvers', 'zod'],
         },
         entryFileNames: 'js/[name]-[hash].js',
         chunkFileNames: 'js/[name]-[hash].js',
@@ -37,6 +38,12 @@ export default defineConfig({
             return `css/[name]-[hash][extname]`;
           }
           return `[name]-[hash][extname]`;
+        }
+      },
+      external: (id) => {
+        // Don't bundle unused packages
+        if (id.includes('@capacitor') || id.includes('react-syntax-highlighter')) {
+          return true;
         }
       }
     }

@@ -21,33 +21,33 @@
 @layer base {
   :root {
     --background: 220 20% 98%;
-    --foreground: 220 15% 15%;
+    --foreground: 220 15% 10%; /* Darker for better contrast */
 
     --card: 0 0% 100%;
-    --card-foreground: 220 15% 15%;
+    --card-foreground: 220 15% 10%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 220 15% 15%;
+    --popover-foreground: 220 15% 10%;
 
     /* 🌊 Blue primary color system */
-    --primary: 217 91% 60%; /* #1E88E5 */
+    --primary: 217 91% 50%; /* Darker blue for better contrast */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 217 100% 97%;
-    --secondary-foreground: 220 20% 25%;
+    --secondary: 217 100% 95%;
+    --secondary-foreground: 220 20% 15%; /* Darker text on secondary */
 
     --muted: 217 100% 95%;
-    --muted-foreground: 217 15% 45%;
+    --muted-foreground: 217 15% 40%; /* Darker muted text */
 
-    --accent: 210 100% 56%; /* Bright accent blue */
+    --accent: 210 100% 50%; /* Darker accent */
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84% 63%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 217 40% 90%;
-    --input: 217 40% 90%;
-    --ring: 217 91% 60%;
+    --border: 217 40% 85%; /* Darker border */
+    --input: 217 40% 85%;
+    --ring: 217 91% 50%;
 
     --radius: 0.75rem;
 
@@ -64,32 +64,32 @@
 
   /* 🌙 Dark mode */
   .dark {
-    --background: 220 15% 10%;
-    --foreground: 220 20% 95%;
+    --background: 220 15% 8%; /* Lighter dark bg */
+    --foreground: 220 20% 96%; /* Lighter text */
 
-    --card: 220 15% 14%;
-    --card-foreground: 220 20% 95%;
+    --card: 220 15% 12%;
+    --card-foreground: 220 20% 96%;
 
-    --popover: 220 15% 14%;
-    --popover-foreground: 220 20% 95%;
+    --popover: 220 15% 12%;
+    --popover-foreground: 220 20% 96%;
 
-    --primary: 210 100% 56%; /* Lighter blue for contrast */
+    --primary: 210 100% 60%; /* Brighter primary in dark mode */
     --primary-foreground: 0 0% 100%;
 
     --secondary: 220 15% 20%;
-    --secondary-foreground: 0 0% 100%;
+    --secondary-foreground: 220 20% 96%; /* Lighter text */
 
     --muted: 220 15% 20%;
-    --muted-foreground: 220 10% 70%;
+    --muted-foreground: 220 10% 75%; /* Lighter muted */
 
-    --accent: 217 91% 60%;
+    --accent: 217 91% 65%;
     --accent-foreground: 0 0% 10%;
 
-    --destructive: 0 70% 55%;
+    --destructive: 0 70% 60%;
     --destructive-foreground: 0 0% 96%;
 
-    --border: 220 15% 25%;
-    --input: 220 15% 25%;
+    --border: 220 15% 22%; /* Lighter dark border */
+    --input: 220 15% 22%;
     --ring: 217 91% 60%;
   }
 }

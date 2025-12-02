@@ -25,6 +25,7 @@ export default function YearSections() {
         onClick={() => navigate(`/year/${year.id}`)}
         onMouseEnter={() => setHovered(year.id)}
         onMouseLeave={() => setHovered(null)}
+        aria-label={`View ${year.title} - ${year.subtitle} resources`}
         className={`relative p-6 bg-card border border-border rounded-lg transition-all duration-300 cursor-pointer transform ${isActive ? 'scale-105 z-20 shadow-2xl' : isOtherActive ? 'scale-95 opacity-70 filter blur-[0.6px] translate-y-1' : ''}`}
       >
         <div className="text-center">

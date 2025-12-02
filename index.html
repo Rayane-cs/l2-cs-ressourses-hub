@@ -28,17 +28,19 @@
     <meta property="twitter:description" content="Access all your UHBC Computer Science resources - Courses, TDs, TPs, and Code files in one place" />
     <meta property="twitter:image" content="https://postimg.cc/67wCvLsy" />
 
-    <!-- Resource Hints -->
+    <!-- Resource Hints - prefetch critical routes -->
     <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+    <link rel="prefetch" href="/src/pages/YearPage.tsx" />
+    <link rel="prefetch" href="/src/pages/ModulePage.tsx" />
     <link rel="preload" as="image" href="https://postimg.cc/67wCvLsy" />
     <link rel="modulepreload" href="/src/main.tsx" />
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="/src/icon.png" />
 
-    <!-- Google Analytics - loaded asynchronously -->
+    <!-- Google Analytics - loaded asynchronously after page interactive -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-28ZC8DB8WR"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -46,7 +48,7 @@
       gtag('js', new Date());
       gtag('config', 'G-28ZC8DB8WR', { 'send_page_view': false });
       
-      // Only send page view after full page load to avoid blocking FCP
+      // Only send page view when page is interactive
       if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', function() {
           gtag('event', 'page_view');
