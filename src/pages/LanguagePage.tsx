@@ -87,7 +87,9 @@ const LanguagePage = () => {
       });
       setTimeout(() => setIsCopied(false), 2000);
     } catch (e) {
-      console.error("copy failed", e);
+      if (import.meta.env.DEV) {
+        console.error("copy failed", e);
+      }
       toast({
         variant: "destructive",
         description: "Failed to copy code",

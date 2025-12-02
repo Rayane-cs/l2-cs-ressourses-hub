@@ -18,7 +18,9 @@ function readLocalResources() {
     if (!raw) return {};
     return JSON.parse(raw) as Record<string, Array<Resource>>;
   } catch (e) {
-    console.error("Failed to read local drive_resources", e);
+    if (import.meta.env.DEV) {
+      console.error("Failed to read local drive_resources", e);
+    }
     return {};
   }
 }
