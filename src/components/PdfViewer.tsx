@@ -246,8 +246,8 @@ export default function PdfViewer({ pdfUrl, moduleSlug, resourceId, filename, in
                     className="w-full h-full border-0"
                     loading="lazy"
                     frameBorder={0}
-                    allow="fullscreen"
-                    sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-downloads"
+                    allow="fullscreen; autoplay"
+                    sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
                     onError={handleIframeError}
                     onLoad={handleIframeLoad}
                   />
