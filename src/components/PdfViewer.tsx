@@ -19,6 +19,7 @@ interface PdfViewerProps {
 // - Download button uses `download` when same-origin otherwise opens in new tab
 export default function PdfViewer({ pdfUrl, moduleSlug, resourceId, filename, initialOpen = false, onClose }: PdfViewerProps) {
   const [open, setOpen] = useState(initialOpen);
+  const [iframeError, setIframeError] = useState(false);
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const prevOverflowRef = useRef<string>("");
 
@@ -44,6 +45,26 @@ export default function PdfViewer({ pdfUrl, moduleSlug, resourceId, filename, in
 
   const drivePreviewUrl = (id: string) => `https://drive.google.com/file/d/${id}/preview`;
   const driveDownloadUrl = (id: string) => `https://drive.google.com/uc?export=download&id=${id}`;
+
+  const handleIframeError = () => {
+    setIframeError(true);
+  };
+
+  const handleIframeLoad = () => {
+    setIframeError(false);
+  };
+
+  const retryIframeLoad = () => {
+    setIframeError(false);
+    if (iframeRef.current) {
+      iframeRef.current.src = "";
+      setTimeout(() => {
+        if (iframeRef.current) {
+          iframeRef.current.src = resolvedPreviewUrl || resolvedRawUrl || pdfUrl || "";
+        }
+      }, 100);
+    }
+  };
 
   // Resolve PDF url: priority -- explicit pdfUrl prop, then lookup by moduleSlug+resourceId
   const { resolvedPreviewUrl, resolvedDownloadUrl, resolvedRawUrl } = useMemo(() => {
@@ -128,6 +149,8 @@ export default function PdfViewer({ pdfUrl, moduleSlug, resourceId, filename, in
 
   useEffect(() => {
     if (open && iframeRef.current) {
+      // Reset error state when opening
+      setIframeError(false);
       // Use preview URL for Google Drive to ensure embeddable preview
       iframeRef.current.src = resolvedPreviewUrl || resolvedRawUrl || pdfUrl || "";
     }
@@ -216,14 +239,47 @@ export default function PdfViewer({ pdfUrl, moduleSlug, resourceId, filename, in
 
             <div className="p-0 sm:p-0 h-[calc(100vh-60px)] sm:h-[calc(100vh-60px)] flex flex-col">
               <div className="flex-1 overflow-auto">
-                <iframe
-                  ref={iframeRef}
-                  title={filename || "PDF viewer"}
-                  className="w-full h-full border-0"
-                  src={resolvedPreviewUrl || resolvedRawUrl || ""}
-                  loading="lazy"
-                  frameBorder={0}
-                />
+                {!iframeError ? (
+                  <iframe
+                    ref={iframeRef}
+                    title={filename || "PDF viewer"}
+                    className="w-full h-full border-0"
+                    loading="lazy"
+                    frameBorder={0}
+                    allow="fullscreen"
+                    sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-downloads"
+                    onError={handleIframeError}
+                    onLoad={handleIframeLoad}
+                  />
+                ) : (
+                  <div className="flex flex-col items-center justify-center h-full text-center p-8 bg-muted/20">
+                    <div className="max-w-md">
+                      <h3 className="text-lg font-semibold mb-2">PDF Preview Unavailable</h3>
+                      <p className="text-muted-foreground mb-6">
+                        The PDF cannot be displayed in an embedded viewer. This might be due to security restrictions 
+                        or the file format. You can still download the PDF.
+                      </p>
+                      <div className="flex gap-3 justify-center flex-wrap">
+                        <Button onClick={retryIframeLoad} className="flex items-center gap-2">
+                          <Eye className="h-4 w-4" />
+                          <span>Retry Preview</span>
+                        </Button>
+                        <Button onClick={handleDownload} className="flex items-center gap-2">
+                          <Download className="h-4 w-4" />
+                          <span>Download PDF</span>
+                        </Button>
+                        <Button 
+                          variant="outline" 
+                          onClick={() => window.open(resolvedRawUrl || resolvedPreviewUrl, "_blank", "noopener,noreferrer")}
+                          className="flex items-center gap-2"
+                        >
+                          <Eye className="h-4 w-4" />
+                          <span>Open in New Tab</span>
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
