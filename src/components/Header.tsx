@@ -4,6 +4,7 @@ import { Button } from "./ui/button";
 import ThemeToggle from "./ThemeToggle";
 import LanguageToggle from "./LanguageToggle";
 import { Menu, X, GraduationCap } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -11,6 +12,7 @@ const Header = () => {
   const [hasFeedbackSubmitted, setHasFeedbackSubmitted] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const location = useLocation();
+  const { t } = useLanguage();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -32,12 +34,12 @@ const Header = () => {
   }, [location.pathname]);
 
   const navLinks = [
-    { name: "Home", path: "/home" },
-    { name: "Years", path: "/home#years" },
-    { name: "About", path: "/about" },
-    { name: "Search", path: "/search", disabled: true },
-    { name: "Feedback", path: "/feedback", isSpecial: true },
-    { name: "More", path: "#more", isMore: true, disabled: true },
+    { name: t.nav.home, path: "/home" },
+    { name: t.nav.years, path: "/home#years" },
+    { name: t.nav.about, path: "/about" },
+    { name: t.nav.search, path: "/search", disabled: true },
+    { name: t.nav.feedback, path: "/feedback", isSpecial: true },
+    { name: t.nav.more, path: "#more", isMore: true, disabled: true },
   ];
 
   const navigate = useNavigate();
@@ -140,7 +142,7 @@ const Header = () => {
           <span className="text-xl font-bold text-foreground">UHBC CS</span>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-6" role="navigation" aria-label="Main navigation">
+        <nav className="hidden md:flex items-center gap-6" role="navigation" aria-label={t.nav.comingSoon}>
           {navLinks.map((link) => {
             const routeOnly = link.path.includes("#") ? (link.path.split("#")[0] || "/") : link.path;
             const isSpecial = link.isSpecial && !hasFeedbackSubmitted;
@@ -152,16 +154,16 @@ const Header = () => {
                   className={`relative ${link.disabled ? "opacity-50 cursor-not-allowed" : ""}`}
                   onMouseEnter={() => !link.disabled && setIsDropdownOpen(true)}
                   onMouseLeave={() => !link.disabled && setIsDropdownOpen(false)}
-                  title={link.disabled ? "Coming soon" : ""}
+                  title={link.disabled ? t.nav.comingSoon : ""}
                 >
                   <button 
                     className="text-sm font-medium transition-smooth hover:text-primary text-foreground" 
                     disabled={link.disabled}
-                    aria-label="More modules (opens dropdown menu)"
+                    aria-label={`${t.nav.more} (${t.nav.comingSoon})`}
                     aria-haspopup="true"
                     aria-expanded={isDropdownOpen}
                   >
-                    More ▾
+                    {t.nav.more} ▾
                   </button>
 
                   {isDropdownOpen && (
@@ -296,7 +298,7 @@ const Header = () => {
           })}
         </nav>
 
-        <div className="hidden md:flex items-center gap-2" role="search" aria-label="Site tools">
+        <div className="hidden md:flex items-center gap-2" role="search" aria-label={t.nav.comingSoon}>
           <LanguageToggle />
           <ThemeToggle />
         </div>
@@ -306,7 +308,7 @@ const Header = () => {
           size="icon"
           className="md:hidden"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          aria-label={isMobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+          aria-label={isMobileMenuOpen ? t.nav.comingSoon : t.nav.comingSoon}
           aria-expanded={isMobileMenuOpen}
         >
           {isMobileMenuOpen ? (
@@ -319,7 +321,7 @@ const Header = () => {
 
         {isMobileMenuOpen && (
         <div className="md:hidden bg-background/98 backdrop-blur-md border-t border-border animate-fade-in">
-          <nav className="container mx-auto px-4 py-4 flex flex-col gap-4" role="navigation" aria-label="Mobile navigation">
+          <nav className="container mx-auto px-4 py-4 flex flex-col gap-4" role="navigation" aria-label={t.nav.comingSoon}>
             {navLinks.map((link) => {
               const routeOnly = link.path.includes("#") ? (link.path.split("#")[0] || "/") : link.path;
               const isSpecial = link.isSpecial && !hasFeedbackSubmitted;
@@ -337,7 +339,7 @@ const Header = () => {
                   className={`text-sm font-medium transition-smooth hover:text-primary relative ${
                     location.pathname === routeOnly ? "text-primary" : "text-foreground"
                   } ${isSpecial ? "feedback-shine px-3 py-1 rounded-md" : ""} ${link.disabled ? "opacity-50 cursor-not-allowed" : ""}`}
-                  title={link.disabled ? "Coming soon" : ""}
+                  title={link.disabled ? t.nav.comingSoon : ""}
                 >
                   {link.name}
                   {isSpecial && (

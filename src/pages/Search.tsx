@@ -9,8 +9,10 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import resources from "@/lib";
 import type { Resource } from "@/lib/types";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Search = () => {
+  const { t, lang } = useLanguage();
   const [searchTerm, setSearchTerm] = useState("");
   const [typeFilter, setTypeFilter] = useState("all");
   const [moduleFilter, setModuleFilter] = useState("all");
@@ -77,7 +79,8 @@ const Search = () => {
       "algo": "Algorithms",
       "archi-ord": "Architecture",
       "thg": "Graph Theory",
-      "english": "English",
+      "english": "English (S3)",
+      "english-s4": "English (S4)",
       "si": "Information Systems",
       "method-num": "Numerical Methods",
       "logique": "Logic",
@@ -95,9 +98,9 @@ const Search = () => {
       <main className="flex-1 pt-24 pb-10">
         <div className="container mx-auto px-4 relative">
           <div className="mb-8 animate-fade-in">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">Search Resources</h1>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">{t.search.title}</h1>
             <p className="text-xl text-muted-foreground">
-              Find courses, TDs, TPs, and code files across all modules
+              {t.search.subtitle}
             </p>
           </div>
 
@@ -106,8 +109,8 @@ const Search = () => {
               <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
               <Input
                 type="text"
-                aria-label="Search resources"
-                placeholder="Search by title, keyword..."
+                aria-label={t.search.title}
+                placeholder={t.search.placeholder}
                 value={searchTerm}
                 onChange={(e) => {
                   setSearchTerm(e.target.value);
@@ -140,35 +143,36 @@ const Search = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 animate-fade-in" style={{ animationDelay: "0.2s" }}>
               <div>
-                <label className="text-sm font-medium mb-2 block">Type</label>
+                <label className="text-sm font-medium mb-2 block">{t.search.type}</label>
                 <Select value={typeFilter} onValueChange={setTypeFilter}>
                   <SelectTrigger>
-                    <SelectValue placeholder="All Types" />
+                    <SelectValue placeholder={t.search.allTypes} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">All Types</SelectItem>
-                    <SelectItem value="course">Course</SelectItem>
-                    <SelectItem value="td">TD</SelectItem>
-                    <SelectItem value="tp">TP</SelectItem>
-                    <SelectItem value="tp-solution">TP Solution</SelectItem>
-                    <SelectItem value="td-solution">TD Solution</SelectItem>
-                    <SelectItem value="exercise">Exercise</SelectItem>
+                    <SelectItem value="all">{t.search.allTypes}</SelectItem>
+                    <SelectItem value="course">{t.tabs.course}</SelectItem>
+                    <SelectItem value="td">{t.tabs.td}</SelectItem>
+                    <SelectItem value="tp">{t.tabs.tp}</SelectItem>
+                    <SelectItem value="tp-solution">{t.tabs.tpSolutions}</SelectItem>
+                    <SelectItem value="td-solution">{t.tabs.tdSolutions}</SelectItem>
+                    <SelectItem value="exercise">{lang === "en" ? "Exercise" : "Exercice"}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
               <div>
-                <label className="text-sm font-medium mb-2 block">Module</label>
+                <label className="text-sm font-medium mb-2 block">{t.search.module}</label>
                 <Select value={moduleFilter} onValueChange={setModuleFilter}>
                   <SelectTrigger>
-                    <SelectValue placeholder="All Modules" />
+                    <SelectValue placeholder={t.search.allModules} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">All Modules</SelectItem>
+                    <SelectItem value="all">{t.search.allModules}</SelectItem>
                     <SelectItem value="algo">Algorithms</SelectItem>
                     <SelectItem value="archi-ord">Computer Architecture</SelectItem>
                     <SelectItem value="thg">Graph Theory</SelectItem>
-                    <SelectItem value="english">English</SelectItem>
+                    <SelectItem value="english">English (S3)</SelectItem>
+                    <SelectItem value="english-s4">English (S4)</SelectItem>
                     <SelectItem value="si">Information Systems</SelectItem>
                     <SelectItem value="method-num">Numerical Methods</SelectItem>
                     <SelectItem value="logique">Logic</SelectItem>
@@ -180,13 +184,13 @@ const Search = () => {
               </div>
 
               <div>
-                <label className="text-sm font-medium mb-2 block">Semester</label>
+                <label className="text-sm font-medium mb-2 block">{t.search.semester}</label>
                 <Select value={semesterFilter} onValueChange={setSemesterFilter}>
                   <SelectTrigger>
-                    <SelectValue placeholder="All Semesters" />
+                    <SelectValue placeholder={t.search.allSemesters} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">All Semesters</SelectItem>
+                    <SelectItem value="all">{t.search.allSemesters}</SelectItem>
                     <SelectItem value="S3">S3</SelectItem>
                     <SelectItem value="S4">S4</SelectItem>
                   </SelectContent>
@@ -199,7 +203,7 @@ const Search = () => {
               <div className="space-y-4 animate-fade-in" style={{ animationDelay: "0.3s" }}>
                 <div className="flex items-center justify-between">
                   <p className="text-muted-foreground">
-                    Found {filteredResources.length} result{filteredResources.length !== 1 ? 's' : ''}
+                    {t.search.found} {filteredResources.length} {filteredResources.length !== 1 ? t.search.results : t.search.result}
                   </p>
                 </div>
 
@@ -230,7 +234,7 @@ const Search = () => {
 
                             {resource.problem && (
                               <div className="text-sm text-muted-foreground mb-3">
-                                <strong>Problem:</strong>
+                                <strong>{t.search.problem}</strong>
                                 <div className="line-clamp-2 mt-1" dangerouslySetInnerHTML={{ __html: resource.problem.substring(0, 150) + "..." }} />
                               </div>
                             )}
@@ -249,7 +253,7 @@ const Search = () => {
                               className="flex items-center gap-2"
                             >
                               <ExternalLink className="h-4 w-4" />
-                              Open
+                              {t.search.open}
                             </a>
                           </Button>
                         </div>
@@ -261,17 +265,17 @@ const Search = () => {
             ) : searchTerm || typeFilter !== "all" || moduleFilter !== "all" || semesterFilter !== "all" ? (
               <div className="text-center py-20 animate-fade-in" style={{ animationDelay: "0.3s" }}>
                 <Filter className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
-                <h3 className="text-2xl font-semibold mb-2">No Results Found</h3>
+                <h3 className="text-2xl font-semibold mb-2">{t.search.noResults}</h3>
                 <p className="text-muted-foreground">
-                  Try adjusting your filters or search term
+                  {t.search.noResultsDesc}
                 </p>
               </div>
             ) : (
               <div className="text-center py-20 animate-fade-in" style={{ animationDelay: "0.3s" }}>
                 <SearchIcon className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
-                <h3 className="text-2xl font-semibold mb-2">Start Searching</h3>
+                <h3 className="text-2xl font-semibold mb-2">{t.search.startSearching}</h3>
                 <p className="text-muted-foreground">
-                  Enter a search term or use filters to find resources
+                  {t.search.startSearchingDesc}
                 </p>
               </div>
             )}

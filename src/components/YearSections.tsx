@@ -1,19 +1,21 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function YearSections() {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const [hovered, setHovered] = useState<string | null>(null);
   
   const licenseYears = [
-    { id: "l1", title: "Licence 1", subtitle: "First Year" },
-    { id: "l2", title: "Licence 2", subtitle: "Second Year" },
-    { id: "l3", title: "Licence 3", subtitle: "Third Year" },
+    { id: "l1", title: `${t.years.licence} 1`, subtitle: t.years.firstYear },
+    { id: "l2", title: `${t.years.licence} 2`, subtitle: t.years.secondYear },
+    { id: "l3", title: `${t.years.licence} 3`, subtitle: t.years.thirdYear },
   ];
 
   const masterYears = [
-    { id: "m1", title: "Master 1", subtitle: "Master Year 1" },
-    { id: "m2", title: "Master 2", subtitle: "Master Year 2" },
+    { id: "m1", title: `${t.years.master} 1`, subtitle: t.years.masterYear1 },
+    { id: "m2", title: `${t.years.master} 2`, subtitle: t.years.masterYear2 },
   ];
 
   const YearCard = ({ year }: { year: typeof licenseYears[0] }) => {
@@ -45,7 +47,7 @@ export default function YearSections() {
       <section id="years" className="container mx-auto px-4 py-16 space-y-12">
         {/* Licence Section */}
         <div>
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-8">Licence</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-8">{t.years.licence}</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {licenseYears.map((year) => (
               <YearCard key={year.id} year={year} />
@@ -55,7 +57,7 @@ export default function YearSections() {
 
         {/* Master Section */}
         <div>
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-8">Master</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-8">{t.years.master}</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl mx-auto">
             {masterYears.map((year) => (
               <YearCard key={year.id} year={year} />

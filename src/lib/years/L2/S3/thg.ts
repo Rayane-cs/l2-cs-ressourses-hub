@@ -1,34 +1,47 @@
 import { Resource } from "../../../types";
+import { course, td } from "../../../resourceFactory";
 
 const thg: Array<Resource> = [
-    {
-      id: "course-1",
-      title: "1.Fundamental Concepts (PDF)",
-      semester: "S3",
-      type: "course",
-      driveUrl: "https://drive.google.com/file/d/1IKTZlc144OpApV9Ig13DXNIyzM7E4CU8/view?usp=drive_link",
-    },
-    {
-      id: "course-2",
-      title: "2.Graph Coloring (PDF)",
-      semester: "S3",
-      type: "course",
-      driveUrl: "https://drive.google.com/file/d/1thxwinsTZlbtFJZoYxCtZQrdaVSGfHin/view?usp=drive_link",
-    },
-    {
-      id: "course-3",
-      title: "3.Graph Traversal (PDF)",
-      semester: "S3",
-      type: "course",
-      driveUrl: "https://drive.google.com/file/d/1zd9cPUTZM3baDEQhY_bJMr0tiGrd4Bit/view?usp=drive_link",
-    },
-    {
-      id: "td1&2",
-      title: "Td 1 & 2",
-      semester: "S3",
-      type: "td",
-      driveUrl: "https://drive.google.com/file/d/1PkNkrsD9u7Iukl6EGbxE1svfy289XgVV/view?usp=drive_link",
-    },
+  course(
+    "course-1",
+    "1.Fundamental Concepts",
+    "https://drive.google.com/file/d/1s7EcS9n7z1vLZTB0cJ1a4LvCJfp11rAE/view?usp=drive_link"
+  ),
+  course(
+    "course-2",
+    "2.Graph Coloring",
+    "https://drive.google.com/file/d/1J84lJw_DQt-1xYqQUU5xyCzv0Vy2Wkem/view?usp=drive_link"
+  ),
+  course(
+    "course-3",
+    "3.Graph Traversal",
+    "https://drive.google.com/file/d/1_o0VJMIyfNo_Mcx2XF-qxYr3Zy5QRupV/view?usp=drive_link"
+  ),
+  course(
+    "course-4",
+    "4.Graph Theory-Trees and Arborescence","https://drive.google.com/file/d/19wFQ7NWsdrotBTuvPa64RXx3KxNOam_E/view?usp=drive_link"
+  ),
+  course(
+    "course-5",
+    "5.Graph Theory-Routing Problem","https://drive.google.com/file/d/1CH2CcJfCcDUvORFG09AOPTZE8G0k1jnj/view?usp=drive_link"
+  ),
+  course(
+    "course-7",
+    "7.Graph Theory-Scheduling problems","https://drive.google.com/file/d/1h5taODBPfL32l1w3r1_HdB2tGf1Zdvjx/view?usp=drive_link"
+  ),
+  td(
+    "td1&2",
+    "Td 1 & 2",
+    "https://drive.google.com/file/d/1PkNkrsD9u7Iukl6EGbxE1svfy289XgVV/view?usp=drive_link"
+  ),
+  td(
+    "td3",
+    "Td 3","https://drive.google.com/file/d/165_uTrPMT6UDxPRWEciQNYGyCyQJ5geA/view?usp=drive_link"
+  ),
+  td(
+    "td4",
+    "Td 4","https://drive.google.com/file/d/1AQWv6ILHrDWCbZ9obqarM-C7RdiiJzla/view?usp=drive_link"
+  ),
 ];
 
 export default thg;

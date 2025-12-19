@@ -2,8 +2,10 @@ import { Alert, AlertTitle, AlertDescription } from "./ui/alert";
 import { ArrowDown, X } from "lucide-react";
 import { Button } from "./ui/button";
 import { useState, useEffect } from "react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Hero = () => {
+  const { t } = useLanguage();
   const [showAnnouncement, setShowAnnouncement] = useState(false);
 
   // CSS-driven scrolling categories (no JS interval)
@@ -52,7 +54,7 @@ const Hero = () => {
           {showAnnouncement && (
             <Alert className="max-w-2xl mx-auto animate-fade-in">
               <AlertTitle className="flex items-center justify-between">
-                🎉 New Feature Available!
+                {t.hero.announcementTitle}
                 <Button
                   variant="ghost"
                   size="sm"
@@ -63,14 +65,14 @@ const Hero = () => {
                 </Button>
               </AlertTitle>
               <AlertDescription>
-                Our powerful search feature is now live! Find courses, TDs, TPs, and code files across all modules instantly.
+                {t.hero.announcementDesc}
               </AlertDescription>
             </Alert>
           )}
         </div>
         <div className="max-w-4xl mx-auto text-center animate-fade-in">
           <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-            <span className="text-foreground">UHBC CS Student Hub</span>
+            <span className="text-foreground">{t.hero.title}</span>
             <br />
             <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
               All Your Resources
@@ -80,17 +82,17 @@ const Hero = () => {
                 Wrapper uses same font size as title so the scroller height equals title baseline */}
             <span className="inline-block scroller align-middle relative overflow-hidden text-5xl md:text-7xl leading-none" aria-hidden={false}>
               <div className="words" aria-live="polite">
-                <div className="word text-white font-extrabold">- Courses -</div>
+                <div className="word text-white font-extrabold">- {t.hero.courses} -</div>
                 <div className="word text-amber-100 font-extrabold">- TD -</div>
                 <div className="word text-lime-100 font-extrabold">- TP -</div>
-                <div className="word text-sky-100 font-extrabold">- Exams -</div>
-                <div className="word text-pink-100 font-extrabold">- Codes -</div>
+                <div className="word text-sky-100 font-extrabold">- {t.tabs.exam} -</div>
+                <div className="word text-pink-100 font-extrabold">- {t.hero.codes} -</div>
                 {/* duplicate sequence for seamless loop */}
-                <div className="word text-white font-extrabold">- Courses -</div>
+                <div className="word text-white font-extrabold">- {t.hero.courses} -</div>
                 <div className="word text-amber-100 font-extrabold">- TD -</div>
                 <div className="word text-lime-100 font-extrabold">- TP -</div>
-                <div className="word text-sky-100 font-extrabold">- Exams -</div>
-                <div className="word text-pink-100 font-extrabold">- Codes -</div>
+                <div className="word text-sky-100 font-extrabold">- {t.tabs.exam} -</div>
+                <div className="word text-pink-100 font-extrabold">- {t.hero.codes} -</div>
               </div>
             </span>
 
@@ -99,14 +101,14 @@ const Hero = () => {
           </h1>
 
           <p className="text-xl md:text-2xl text-muted-foreground mb-12 animate-fade-in" style={{ animationDelay: "0.2s" }}>
-            Organized CS resources by academic year (L1→M2): courses, TDs, TPs, and code
+            {t.hero.subtitle}
           </p>
         </div>
       </div>
 
       <div className="container mx-auto px-4 relative z-10 flex justify-center pb-10 animate-fade-in" style={{ animationDelay: "0.4s" }}>
         <button onClick={scrollToYears} className="flex flex-col items-center gap-2 group hover:opacity-70 transition-opacity">
-          <span className="text-sm text-muted-foreground">Explore Now</span>
+          <span className="text-sm text-muted-foreground">{t.hero.exploreNow}</span>
           <ArrowDown className="h-6 w-6 text-primary motion-safe:animate-bounce" />
         </button>
       </div>

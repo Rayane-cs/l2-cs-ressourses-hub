@@ -1,6 +1,16 @@
 import ModuleCard from "../ModuleCard";
 
-const modules: Array<{ title: string; slug: string; icon: any; color: string }> = [];
+import { Languages, Database, FileCodeIcon, Brain, Globe, MonitorCog, Code2 } from "lucide-react";
+
+const modules = [
+  { title: "DAW", slug: "daw", icon: FileCodeIcon, color: "bg-white-500", semester: "S4" },
+  { title: "Réseaux", slug: "reseaux", icon: Globe, color: "bg-purple-500", semester: "S4" },
+  { title: "THL", slug: "thl", icon: Brain, color: "bg-green-500", semester: "S4" },
+  { title: "English", slug: "english-s4", icon: Languages, color: "bg-red-500", semester: "S4" },
+  { title: "SE", slug: "se", icon: MonitorCog, color: "bg-yellow-500", semester: "S4" },
+  { title: "DB", slug: "db", icon: Database, color: "bg-indigo-500", semester: "S4" },
+  { title: "OOP", slug: "oop", icon: Code2, color: "bg-pink-500", semester: "S4" },
+];
 
 type Props = { showHeader?: boolean };
 
@@ -16,7 +26,7 @@ export default function L2S4Modules({ showHeader = true }: Props) {
         )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-          {modules.map((m) => <ModuleCard key={m.slug} {...m} />)}
+          {modules.map((m) => <ModuleCard key={m.slug} {...m} to={m.slug === "english-s4" ? `/module/${m.slug}` : `/module/${m.slug}?semester=${m.semester}`} />)}
         </div>
       </div>
     </section>

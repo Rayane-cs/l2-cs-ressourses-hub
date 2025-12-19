@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function Intro() {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
@@ -45,8 +47,8 @@ export default function Intro() {
         <div className="mb-8 flex justify-center">
           <span className="loader"></span>
         </div>
-        <h1 className="text-2xl sm:text-3xl font-bold mb-2">UHBC CS Resources</h1>
-        <p className="text-sm text-muted-foreground">Organized, fast, and student-focused — loading…</p>
+        <h1 className="text-2xl sm:text-3xl font-bold mb-2">{t.intro.title}</h1>
+        <p className="text-sm text-muted-foreground">{t.intro.subtitle}</p>
       </div>
 
       {/* Progress Bar */}

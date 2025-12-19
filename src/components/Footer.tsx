@@ -1,46 +1,48 @@
 import { Github, Linkedin, Send } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Footer = () => {
+  const { t } = useLanguage();
   return (
     <footer className="bg-secondary text-secondary-foreground py-12" role="contentinfo" aria-label="Footer">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-2">
           <div>
-            <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
+            <h3 className="text-lg font-semibold mb-4">{t.footer.quickLinks}</h3>
             <div className="flex flex-col gap-2">
               <Link to="/home" className="hover:text-primary transition-smooth">
-                Home
+                {t.nav.home}
               </Link>
               <Link to="/search" className="hover:text-primary transition-smooth">
-                Search
+                {t.nav.search}
               </Link>
               <Link to="/about" className="hover:text-primary transition-smooth">
-                About
+                {t.nav.about}
               </Link>
             </div>
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold mb-4">Academic Years</h3>
+            <h3 className="text-lg font-semibold mb-4">{t.footer.academicYears}</h3>
             <div className="flex flex-col gap-2">
               <Link to="/year/l1" className="hover:text-primary transition-smooth">
-                L1 - First Year
+                {t.footer.firstYear}
               </Link>
               <Link to="/year/l2" className="hover:text-primary transition-smooth">
-                L2 - Second Year
+                {t.footer.secondYear}
               </Link>
               <Link to="/year/l3" className="hover:text-primary transition-smooth">
-                L3 - Third Year
+                {t.footer.thirdYear}
               </Link>
               <Link to="/year/m1" className="hover:text-primary transition-smooth">
-                M1 - Master Year 1
+                {t.footer.masterYear1}
               </Link>
             </div>
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold mb-4">Programming Langs</h3>
+            <h3 className="text-lg font-semibold mb-4">{t.footer.programmingLangs}</h3>
             <div className="flex flex-col gap-2">
               <Link to="/programming-language/c" className="hover:text-primary transition-smooth">
                 C Language
@@ -58,20 +60,20 @@ const Footer = () => {
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold mb-4">Connect With Us</h3>
+            <h3 className="text-lg font-semibold mb-4">{t.footer.connectWithUs}</h3>
             <div className="flex gap-4">
               <div
                 className="opacity-50 cursor-not-allowed relative"
-                title="Coming soon"
-                aria-label="GitHub (coming soon)"
+                title={t.nav.comingSoon}
+                aria-label={`GitHub (${t.nav.comingSoon})`}
                 role="img"
               >
                 <Github className="h-6 w-6" />
               </div>
               <div
                 className="opacity-50 cursor-not-allowed relative"
-                title="Coming soon"
-                aria-label="LinkedIn (coming soon)"
+                title={t.nav.comingSoon}
+                aria-label={`LinkedIn (${t.nav.comingSoon})`}
                 role="img"
               >
                 <Linkedin className="h-6 w-6" />
@@ -90,7 +92,7 @@ const Footer = () => {
         </div>
 
         <div className="mt-8 pt-8 border-t border-border text-center text-sm">
-          <p>Copyright © {new Date().getFullYear()} UHBC CS</p>
+          <p>{t.footer.copyright} © {new Date().getFullYear()} UHBC CS</p>
         </div>
       </div>
     </footer>

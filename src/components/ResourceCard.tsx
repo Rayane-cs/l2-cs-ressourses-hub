@@ -8,9 +8,10 @@ interface Props {
   res: Resource;
   moduleSlug?: string | null;
   onShow?: (opts: { moduleSlug?: string | null; resourceId?: string; pdfUrl?: string; filename?: string }) => void;
+  onTabChange?: (tab: string) => void;
 }
 
-const ResourceCardComponent = React.memo(function ResourceCard({ res, moduleSlug, onShow }: Props) {
+const ResourceCardComponent = React.memo(function ResourceCard({ res, moduleSlug, onShow, onTabChange }: Props) {
   const fileHref = res.driveUrl || res.url || res.file || "";
 
   const [isFlipped, setIsFlipped] = React.useState(false);
@@ -172,11 +173,19 @@ const ResourceCardComponent = React.memo(function ResourceCard({ res, moduleSlug
                     <span>Download</span>
                   </Button>
                 </div>
-                <div className="w-full flex justify-center">
+                <div className="w-full flex justify-center gap-2">
                   <Button onClick={openDrive} className="flex items-center gap-2 px-3 py-1 text-sm bg-secondary text-foreground hover:bg-secondary/90">
                     <ExternalLink className="w-4 h-4" />
                     <span>Open in Drive</span>
                   </Button>
+                  {res.type === "exam" && onTabChange && (
+                    <Button 
+                      onClick={() => onTabChange("exam-solutions")} 
+                      className="flex items-center gap-2 px-3 py-1 text-sm bg-primary text-primary-foreground hover:bg-primary/90"
+                    >
+                      <span>Solution</span>
+                    </Button>
+                  )}
                 </div>
               </div>
             </div>

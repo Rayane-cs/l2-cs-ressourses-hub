@@ -15,6 +15,7 @@ import { Label } from "@/components/ui/label";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Heart, Star, FileText, Link as LinkIcon, Palette, Lightbulb, User } from "lucide-react";
 import { toast } from "sonner";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const feedbackSchema = z.object({
   name: z.string().min(2, "Please enter your name (at least 2 characters)").max(100, "Name must be less than 100 characters"),
@@ -35,6 +36,7 @@ type FeedbackFormValues = z.infer<typeof feedbackSchema>;
 
 const Feedback = () => {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -222,14 +224,14 @@ Submitted at: ${new Date().toLocaleString()}
               <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
                 <Heart className="h-8 w-8 text-primary" />
               </div>
-              <CardTitle className="text-2xl">Thank You!</CardTitle>
+              <CardTitle className="text-2xl">{t.feedback.thankYou}</CardTitle>
               <CardDescription className="mt-2">
-                We appreciate your feedback and will use it to improve our website.
+                {t.feedback.thankYouDesc}
               </CardDescription>
             </CardHeader>
             <CardContent className="flex justify-center">
               <Button onClick={() => navigate("/")} variant="default">
-                Go to Home
+                {t.feedback.goToHome}
               </Button>
             </CardContent>
           </Card>
@@ -246,9 +248,9 @@ Submitted at: ${new Date().toLocaleString()}
         <div className="container mx-auto px-4 max-w-3xl">
           <Card className="animate-fade-in">
             <CardHeader>
-              <CardTitle className="text-3xl text-center">Your Feedback Matters</CardTitle>
+              <CardTitle className="text-3xl text-center">{t.feedback.title}</CardTitle>
               <CardDescription className="text-center">
-                Help us improve by sharing your thoughts. This will only appear once per device.
+                {t.feedback.subtitle}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -263,14 +265,14 @@ Submitted at: ${new Date().toLocaleString()}
                       <FormItem>
                         <FormLabel className="text-base flex items-center gap-2">
                           <User className="h-5 w-5 text-primary" />
-                          Your Name
+                          {t.feedback.yourName}
                         </FormLabel>
                         <FormDescription>
-                          Please enter your name
+                          {t.feedback.yourNameDesc}
                         </FormDescription>
                         <FormControl>
                           <Input
-                            placeholder="Enter your name"
+                            placeholder={t.feedback.enterName}
                             {...field}
                           />
                         </FormControl>
@@ -287,10 +289,10 @@ Submitted at: ${new Date().toLocaleString()}
                       <FormItem>
                         <FormLabel className="text-base flex items-center gap-2">
                           <Star className="h-5 w-5 text-primary" />
-                          Do you find this website useful?
+                          {t.feedback.usefulness}
                         </FormLabel>
                         <FormDescription>
-                          Rate your experience from Poor to Excellent
+                          {t.feedback.usefulnessDesc}
                         </FormDescription>
                         <FormControl>
                           <RadioGroup
@@ -301,7 +303,7 @@ Submitted at: ${new Date().toLocaleString()}
                             <div className="flex items-center space-x-3 p-3 rounded-lg border border-border hover:bg-accent/50 transition-smooth">
                               <RadioGroupItem value="excellent" id="excellent" />
                               <Label htmlFor="excellent" className="cursor-pointer font-normal flex-1">
-                                <span className="font-semibold">Excellent</span> - So much useful
+                                <span className="font-semibold">{t.feedback.excellent.split(" - ")[0]}</span> - {t.feedback.excellent.split(" - ")[1]}
                               </Label>
                               <div className="flex gap-1">
                                 {[1,2,3,4,5].map((i) => (
@@ -312,7 +314,7 @@ Submitted at: ${new Date().toLocaleString()}
                             <div className="flex items-center space-x-3 p-3 rounded-lg border border-border hover:bg-accent/50 transition-smooth">
                               <RadioGroupItem value="very-good" id="very-good" />
                               <Label htmlFor="very-good" className="cursor-pointer font-normal flex-1">
-                                <span className="font-semibold">Very Good</span> - Very useful
+                                <span className="font-semibold">{t.feedback.veryGood.split(" - ")[0]}</span> - {t.feedback.veryGood.split(" - ")[1]}
                               </Label>
                               <div className="flex gap-1">
                                 {[1,2,3,4].map((i) => (
@@ -323,7 +325,7 @@ Submitted at: ${new Date().toLocaleString()}
                             <div className="flex items-center space-x-3 p-3 rounded-lg border border-border hover:bg-accent/50 transition-smooth">
                               <RadioGroupItem value="good" id="good" />
                               <Label htmlFor="good" className="cursor-pointer font-normal flex-1">
-                                <span className="font-semibold">Good</span> - Useful
+                                <span className="font-semibold">{t.feedback.good.split(" - ")[0]}</span> - {t.feedback.good.split(" - ")[1]}
                               </Label>
                               <div className="flex gap-1">
                                 {[1,2,3].map((i) => (
@@ -334,7 +336,7 @@ Submitted at: ${new Date().toLocaleString()}
                             <div className="flex items-center space-x-3 p-3 rounded-lg border border-border hover:bg-accent/50 transition-smooth">
                               <RadioGroupItem value="fair" id="fair" />
                               <Label htmlFor="fair" className="cursor-pointer font-normal flex-1">
-                                <span className="font-semibold">Fair</span> - Somewhat useful
+                                <span className="font-semibold">{t.feedback.fair.split(" - ")[0]}</span> - {t.feedback.fair.split(" - ")[1]}
                               </Label>
                               <div className="flex gap-1">
                                 {[1,2].map((i) => (
@@ -345,7 +347,7 @@ Submitted at: ${new Date().toLocaleString()}
                             <div className="flex items-center space-x-3 p-3 rounded-lg border border-border hover:bg-accent/50 transition-smooth">
                               <RadioGroupItem value="poor" id="poor" />
                               <Label htmlFor="poor" className="cursor-pointer font-normal flex-1">
-                                <span className="font-semibold">Poor</span> - Not very useful
+                                <span className="font-semibold">{t.feedback.poor.split(" - ")[0]}</span> - {t.feedback.poor.split(" - ")[1]}
                               </Label>
                               <div className="flex gap-1">
                                 <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
@@ -366,10 +368,10 @@ Submitted at: ${new Date().toLocaleString()}
                       <FormItem>
                         <FormLabel className="text-base flex items-center gap-2">
                           <FileText className="h-5 w-5 text-primary" />
-                          How should files be included?
+                          {t.feedback.filePreference}
                         </FormLabel>
                         <FormDescription>
-                          Should resources be included as PDFs or keep the Drive links?
+                          {t.feedback.filePreferenceDesc}
                         </FormDescription>
                         <FormControl>
                           <RadioGroup
@@ -381,14 +383,14 @@ Submitted at: ${new Date().toLocaleString()}
                               <RadioGroupItem value="pdfs" id="pdfs" />
                               <Label htmlFor="pdfs" className="cursor-pointer font-normal flex items-center gap-2">
                                 <FileText className="h-4 w-4" />
-                                Include files as PDFs
+                                {t.feedback.includePdfs}
                               </Label>
                             </div>
                             <div className="flex items-center space-x-3 p-3 rounded-lg border border-border hover:bg-accent/50 transition-smooth">
                               <RadioGroupItem value="drive-links" id="drive-links" />
                               <Label htmlFor="drive-links" className="cursor-pointer font-normal flex items-center gap-2">
                                 <LinkIcon className="h-4 w-4" />
-                                Keep Drive links (current approach)
+                                {t.feedback.keepDriveLinks}
                               </Label>
                             </div>
                             <div className="flex items-center space-x-3 p-3 rounded-lg border border-border hover:bg-accent/50 transition-smooth">
@@ -396,13 +398,13 @@ Submitted at: ${new Date().toLocaleString()}
                               <Label htmlFor="both" className="cursor-pointer font-normal flex items-center gap-2">
                                 <FileText className="h-4 w-4" />
                                 <LinkIcon className="h-4 w-4" />
-                                Both PDFs and Drive links
+                                {t.feedback.bothPdfsAndLinks}
                               </Label>
                             </div>
                             <div className="flex items-center space-x-3 p-3 rounded-lg border border-border hover:bg-accent/50 transition-smooth">
                               <RadioGroupItem value="no-preference" id="no-preference" />
                               <Label htmlFor="no-preference" className="cursor-pointer font-normal">
-                                No preference
+                                {t.feedback.noPreference}
                               </Label>
                             </div>
                           </RadioGroup>
@@ -420,10 +422,10 @@ Submitted at: ${new Date().toLocaleString()}
                       <FormItem>
                         <FormLabel className="text-base flex items-center gap-2">
                           <Palette className="h-5 w-5 text-primary" />
-                          Do you like the color theme?
+                          {t.feedback.themeLiked}
                         </FormLabel>
                         <FormDescription>
-                          Your opinion about the current color scheme
+                          {t.feedback.themeLikedDesc}
                         </FormDescription>
                         <FormControl>
                           <RadioGroup
@@ -434,13 +436,13 @@ Submitted at: ${new Date().toLocaleString()}
                             <div className="flex items-center space-x-2">
                               <RadioGroupItem value="yes" id="theme-yes" />
                               <Label htmlFor="theme-yes" className="cursor-pointer font-normal">
-                                Yes, I like it
+                                {t.feedback.yes}
                               </Label>
                             </div>
                             <div className="flex items-center space-x-2">
                               <RadioGroupItem value="no" id="theme-no" />
                               <Label htmlFor="theme-no" className="cursor-pointer font-normal">
-                                No, I don't like it
+                                {t.feedback.no}
                               </Label>
                             </div>
                           </RadioGroup>
@@ -458,16 +460,16 @@ Submitted at: ${new Date().toLocaleString()}
                       <FormItem>
                         <FormLabel className="text-base flex items-center gap-2">
                           <Palette className="h-5 w-5 text-primary" />
-                          Color Theme Suggestions
+                          {t.feedback.themeSuggestions}
                         </FormLabel>
                         <FormDescription>
                           {themeLiked === "no" 
-                            ? "What changes would you like to see in the color theme?"
-                            : "Any suggestions for improving the color theme? (Optional)"}
+                            ? t.feedback.themeSuggestionsDesc
+                            : t.feedback.themeSuggestionsDesc}
                         </FormDescription>
                         <FormControl>
                           <Textarea
-                            placeholder="Share your color theme suggestions..."
+                            placeholder={t.feedback.themeSuggestionsPlaceholder}
                             className="min-h-[100px] resize-none"
                             {...field}
                           />
@@ -485,20 +487,20 @@ Submitted at: ${new Date().toLocaleString()}
                       <FormItem>
                         <FormLabel className="text-base flex items-center gap-2">
                           <Lightbulb className="h-5 w-5 text-primary" />
-                          What would you like to see in the future?
+                          {t.feedback.futureFeatures}
                         </FormLabel>
                         <FormDescription>
-                          Share any features, improvements, or ideas you'd like to see on this website.
+                          {t.feedback.futureFeaturesDesc}
                         </FormDescription>
                         <FormControl>
                           <Textarea
-                            placeholder="Tell us what features you'd like to see..."
+                            placeholder={t.feedback.futureFeaturesPlaceholder}
                             className="min-h-[120px] resize-none"
                             {...field}
                           />
                         </FormControl>
                         <FormDescription className="text-right">
-                          {field.value?.length || 0}/500 characters
+                          {field.value?.length || 0}/500 {t.feedback.characters}
                         </FormDescription>
                         <FormMessage />
                       </FormItem>
@@ -512,14 +514,14 @@ Submitted at: ${new Date().toLocaleString()}
                       onClick={() => navigate("/")}
                       className="flex-1"
                     >
-                      Skip
+                      {t.feedback.skip}
                     </Button>
                     <Button
                       type="submit"
                       disabled={isSubmitting}
                       className="flex-1"
                     >
-                      {isSubmitting ? "Submitting..." : "Submit Feedback"}
+                      {isSubmitting ? t.feedback.submitting : t.feedback.submitFeedback}
                     </Button>
                   </div>
                 </form>

@@ -1,14 +1,14 @@
 import ModuleCard from "../ModuleCard";
-import { Binary, Cpu, Globe, Languages, Database, Calculator, Brain } from "lucide-react";
+import { Binary, Cpu, Waypoints, Languages, Database, Calculator, Brain } from "lucide-react";
 
 const modules = [
-  { title: "Algo", slug: "algo", icon: Binary, color: "bg-blue-500" },
-  { title: "Archi-Ord", slug: "archi-ord", icon: Cpu, color: "bg-purple-500" },
-  { title: "THG", slug: "thg", icon: Globe, color: "bg-green-500" },
-  { title: "English", slug: "english", icon: Languages, color: "bg-red-500" },
-  { title: "SI", slug: "si", icon: Database, color: "bg-yellow-500" },
-  { title: "Method-Num", slug: "method-num", icon: Calculator, color: "bg-indigo-500" },
-  { title: "Logique", slug: "logique", icon: Brain, color: "bg-pink-500" },
+  { title: "Algo", slug: "algo", icon: Binary, color: "bg-blue-500", semester: "S3" },
+  { title: "Archi-Ord", slug: "archi-ord", icon: Cpu, color: "bg-purple-500", semester: "S3" },
+  { title: "THG", slug: "thg", icon: Waypoints, color: "bg-green-500", semester: "S3" },
+  { title: "English", slug: "english", icon: Languages, color: "bg-red-500", semester: "S3" },
+  { title: "SI", slug: "si", icon: Database, color: "bg-yellow-500", semester: "S3" },
+  { title: "Method-Num", slug: "method-num", icon: Calculator, color: "bg-indigo-500", semester: "S3" },
+  { title: "Logique", slug: "logique", icon: Brain, color: "bg-pink-500", semester: "S3" },
 ];
 
 type Props = { showHeader?: boolean };
@@ -26,7 +26,7 @@ export default function L2S3Modules({ showHeader = true }: Props) {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {modules.map((m) => (
-            <ModuleCard key={m.slug} {...m} />
+            <ModuleCard key={m.slug} {...m} to={`/module/${m.slug}?semester=${m.semester}`} />
           ))}
         </div>
       </div>

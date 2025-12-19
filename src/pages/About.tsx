@@ -1,24 +1,42 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Card, CardContent } from "@/components/ui/card";
-import { GraduationCap, Users, BookOpen, MessageSquare } from "lucide-react";
+import { GraduationCap, Users, BookOpen, MessageSquare, Code, Search, FileText, Globe } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const About = () => {
+  const { t } = useLanguage();
+  
   const features = [
     {
       icon: GraduationCap,
-      title: "Comprehensive Resources",
-      description: "Access all course materials, TDs, TPs, and code files in one centralized platform.",
+      title: t.about.comprehensiveResources,
+      description: t.about.comprehensiveResourcesDesc,
     },
     {
       icon: BookOpen,
-      title: "Organized by Module",
-      description: "Easily navigate through 7 different modules with intuitive categorization.",
+      title: t.about.organizedByModule,
+      description: t.about.organizedByModuleDesc,
     },
     {
-      icon: BookOpen,
-      title: "Programming Language",
-      description: "Easily navigate through 7 ",
+      icon: Code,
+      title: t.about.programmingLanguage,
+      description: t.about.programmingLanguageDesc,
+    },
+    {
+      icon: Search,
+      title: t.about.advancedSearch,
+      description: t.about.advancedSearchDesc,
+    },
+    {
+      icon: FileText,
+      title: t.about.multipleResourceTypes,
+      description: t.about.multipleResourceTypesDesc,
+    },
+    {
+      icon: Globe,
+      title: t.about.bilingualSupport,
+      description: t.about.bilingualSupportDesc,
     },
   ];
 
@@ -29,13 +47,13 @@ const About = () => {
       <main className="flex-1 pt-24 pb-10">
         <div className="container mx-auto px-4">
           <div className="mb-12 text-center animate-fade-in">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">About UHBC CS Platform</h1>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">{t.about.title}</h1>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              A modern, student-friendly platform designed to help UHBC L2 Computer Science students access all their academic resources efficiently.
+              {t.about.subtitle}
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto mb-12">
             {features.map((feature, index) => (
               <Card
                 key={index}
@@ -59,13 +77,9 @@ const About = () => {
 
           <Card className="max-w-3xl mx-auto animate-fade-in" style={{ animationDelay: "0.4s" }}>
             <CardContent className="p-8">
-              <h2 className="text-2xl font-bold mb-4">Our Mission</h2>
+              <h2 className="text-2xl font-bold mb-4">{t.about.missionTitle}</h2>
               <p className="text-muted-foreground leading-relaxed">
-                We believe in empowering students through accessible education.
-                This platform was created to centralize all academic resources for UHBC L2 Computer Science students, 
-                making it easier to find materials, collaborate with peers, and succeed in your studies. 
-                With features like organized module pages, advanced search and secure file management via Google Drive, 
-                we're committed to enhancing your learning experience.
+                {t.about.missionText}
               </p>
             </CardContent>
           </Card>
