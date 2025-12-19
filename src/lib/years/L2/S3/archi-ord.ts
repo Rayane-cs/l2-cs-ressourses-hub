@@ -95,90 +95,78 @@ const archiOrd: Array<Resource> = [
     "test-td1",
     "Test td 1 2010",
     "https://docs.google.com/document/d/1liNMF5lD5WkVEB6MgDaFKM6Endl_3wqv/edit?usp=drive_link&ouid=114862124461485137731&rtpof=true&sd=true",
-    "S3",
-    { year: "2010" }
+    "2010"
   ),
   exam(
     "test-td2",
     "Test td 2 2010",
     "https://docs.google.com/document/d/1s187LT794SJW-PWLKVYX1BBMCsfq-aZv/edit?usp=drive_link&ouid=114862124461485137731&rtpof=true&sd=true",
-    "S3",
-    { year: "2010" }
+    "2010"
   ),
 
   examSolution(
     "solution-test-1",
     "Solution test 1 2010",
     "https://docs.google.com/document/d/1aePcecOXgzGTXW81e2MLqvbxfE06Qq4L/edit?usp=drive_link&ouid=114862124461485137731&rtpof=true&sd=true",
-    "S3",
-    { year: "2010" }
+    "2010"
   ),
   examSolution(
     "solution-test-2",
     "Solution test 2 2010",
     "https://docs.google.com/document/d/1KtdnS2TBcxqJZzK8H7AoVZzlfcGIgREC/edit?usp=drive_link&ouid=114862124461485137731&rtpof=true&sd=true",
-    "S3",
-    { year: "2010" }
+    "2010"
   ),
 
   exam(
     "exam-2024",
     "EMD 2024",
     "https://docs.google.com/document/d/1_Q0lZuYLYpKQFzYIauicGHu995XqAfrF/edit?usp=drive_link&ouid=114862124461485137731&rtpof=true&sd=true",
-    "S3",
-    { year: "2024" }
+    "2024"
   ),
   examSolution(
     "solution-exam-2024",
     "Solution exam 2024",
     "https://docs.google.com/document/d/1blFVvCU0q0Xr0FRcLUMWLXre57u-rJ2R/edit?usp=drive_link&ouid=114862124461485137731&rtpof=true&sd=true",
-    "S3",
-    { year: "2024" }
+    "2024"
   ),
 
   exam(
     "exam-2023",
     "EMD 2023",
     "https://docs.google.com/document/d/1vO4uahxUo2sg9AzXI74VlTNIX6b4Nacf/edit?usp=drive_link&ouid=114862124461485137731&rtpof=true&sd=true",
-    "S3",
-    { year: "2023" }
+    "2023"
   ),
   examSolution(
     "solution-exam-2023",
     "Solution exam 2023",
     "https://docs.google.com/document/d/1Fc4_tl9EpG1UuuViZMv6AC_7gM71Ro6H/edit?usp=drive_link&ouid=114862124461485137731&rtpof=true&sd=true",
-    "S3",
-    { year: "2023" }
+    "2023"
   ),
 
   exam(
     "exam-2022",
     "EMD 2022",
     "https://docs.google.com/document/d/14zKEKYYX9lOEdhC6SJHa-nPcw4OrW3XO/edit?usp=drive_link&ouid=114862124461485137731&rtpof=true&sd=true",
-    "S3",
-    { year: "2022" }
+    "2022"
   ),
   examSolution(
     "solution-exam-2022",
     "Solution exam 2022",
     "https://docs.google.com/document/d/1OUQpVKk05nX2zPTtO66fUsZ0AcoegoB9/edit?usp=drive_link&ouid=114862124461485137731&rtpof=true&sd=true",
-    "S3",
-    { year: "2022" }
+    "2023"
   ),
 
   exam(
     "exam-2021",
     "EMD 2021",
     "https://docs.google.com/document/d/1ZBIGCtyZ94_588a4JrVCM8eU8Wj79x4C/edit?usp=drive_link&ouid=114862124461485137731&rtpof=true&sd=true",
-    "S3",
-    { year: "2021" }
+    "2021"
   ),
   examSolution(
     "solution-exam-2021",
     "Solution exam 2021",
     "https://docs.google.com/document/d/10jPwOOrzGaFiWMG5JnSRzRpTeqYTn7m-/edit?usp=drive_link&ouid=114862124461485137731&rtpof=true&sd=true",
-    "S3",
-    { year: "2021" }
+    "2021"
   ),
 ];
 
