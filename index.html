@@ -1,10 +1,13 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>UHBC CS - Student Resource Platform</title>
-    <meta name="description" content="Access all your UHBC Computer Science resources - Courses, TDs, TPs, and Code files in one place" />
+    <meta
+      name="description"
+      content="Access all your UHBC Computer Science resources - Courses, TDs, TPs, and Code files in one place"
+    />
     <meta name="author" content="UHBC CS" />
     <meta name="theme-color" content="#0f172a" />
 
@@ -16,45 +19,70 @@
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://l2cs.vercel.app/" />
     <meta property="og:title" content="UHBC CS - Student Resource Platform" />
-    <meta property="og:description" content="Access all your UHBC Computer Science resources - Courses, TDs, TPs, and Code files in one place" />
-    <meta property="og:image" content="https://postimg.cc/67wCvLsy" />
+    <meta
+      property="og:description"
+      content="Access all your UHBC Computer Science resources - Courses, TDs, TPs, and Code files in one place"
+    />
+    <meta
+      property="og:image"
+      content="https://l2cs.vercel.app/Home_preview.png"
+    />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/png" />
 
     <!-- X (Twitter) -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content="https://l2cs.vercel.app/" />
-    <meta property="twitter:title" content="UHBC CS - Student Resource Platform" />
-    <meta property="twitter:description" content="Access all your UHBC Computer Science resources - Courses, TDs, TPs, and Code files in one place" />
-    <meta property="twitter:image" content="https://postimg.cc/67wCvLsy" />
+    <meta
+      property="twitter:title"
+      content="UHBC CS - Student Resource Platform"
+    />
+    <meta
+      property="twitter:description"
+      content="Access all your UHBC Computer Science resources - Courses, TDs, TPs, and Code files in one place"
+    />
+    <meta
+      property="twitter:image"
+      content="https://l2cs.vercel.app/Home_preview.png"
+    />
 
     <!-- Resource Hints - prefetch critical routes -->
     <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+    <link
+      rel="preconnect"
+      href="https://www.googletagmanager.com"
+      crossorigin
+    />
     <link rel="prefetch" href="/src/pages/YearPage.tsx" />
     <link rel="prefetch" href="/src/pages/ModulePage.tsx" />
-    <link rel="prefetch" as="image" href="https://postimg.cc/67wCvLsy" />
+    <link rel="prefetch" as="image" href="/Home_preview.png" />
     <link rel="modulepreload" href="/src/main.tsx" />
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="/src/icon.png" />
 
     <!-- Google Analytics - loaded asynchronously after page interactive -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-28ZC8DB8WR"></script>
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-28ZC8DB8WR"
+    ></script>
     <script>
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-28ZC8DB8WR', { 'send_page_view': false });
-      
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-28ZC8DB8WR", { send_page_view: false });
+
       // Only send page view when page is interactive
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', function() {
-          gtag('event', 'page_view');
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", function () {
+          gtag("event", "page_view");
         });
       } else {
-        gtag('event', 'page_view');
+        gtag("event", "page_view");
       }
     </script>
   </head>
