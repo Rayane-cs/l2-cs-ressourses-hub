@@ -14,7 +14,7 @@ export type ModuleTabsOptions = {
 
 const MODULE_TABS_OPTIONS: Record<string, ModuleTabsOptions> = {
   // L2 S3 modules
-  algo: { books: false,resumes: false}, 
+  algo: { books: false}, 
   "archi-ord": {yt: false,books: false,resumes: false},      // Algorithm has no Course no TD
   thg: { tp: false , yt: false, books: false, resumes: false, exam: false},                    // Graph Theory has no TP
   english: { tp: false, td: false, exam: false, yt: false, books: false, resumes: false }, // English has no TP, no Course
