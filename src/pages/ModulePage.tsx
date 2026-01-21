@@ -5,7 +5,7 @@ import Footer from "@/components/Footer";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { FileText, Download, Calendar, User, ChevronLeft, ChevronRight } from "lucide-react";
+import { FileText, Download, Calendar, User, ChevronLeft, ChevronRight, Folder } from "lucide-react";
 import PdfViewer from "@/components/PdfViewer";
 import resources from "@/lib/index";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -14,6 +14,7 @@ import ResourceCard from "@/components/ResourceCard";
 import YtVideoCard from "@/components/YtVideoCard";
 import BookCard from "@/components/BookCard";
 import ResumeCard from "@/components/ResumeCard";
+import ExoCard from "@/components/ExoCard";
 import { getModuleTabsOptions } from "@/lib/options";
 
 function readLocalResources() {
@@ -36,6 +37,140 @@ function getCombinedResources() {
   return combined;
 }
 
+const YearCard = ({ year, onClick }: { year: string; onClick: () => void }) => {
+  return (
+    <Card
+      className="cursor-pointer hover:shadow-lg transition-all duration-300 hover:scale-[1.02] border-muted bg-card/50 backdrop-blur-sm group"
+      onClick={onClick}
+    >
+      <CardContent className="p-6 flex flex-col items-center justify-center text-center gap-4 h-full min-h-[160px]">
+        <div className="p-4 rounded-full bg-primary/10 group-hover:bg-primary/20 transition-colors">
+          <Folder className="h-8 w-8 text-primary" />
+        </div>
+        <h3 className="text-xl font-semibold">{year}</h3>
+      </CardContent>
+    </Card>
+  );
+};
+
+const YearGroupedGrid = ({
+  resources,
+  moduleSlug,
+  onShow,
+  onTabChange,
+  placeholder
+}: {
+  resources: Resource[],
+  moduleSlug?: string,
+  onShow: (opts: any) => void,
+  onTabChange: (tab: string) => void,
+  placeholder: React.ReactNode
+}) => {
+  const { t } = useLanguage();
+  const [selectedYear, setSelectedYear] = useState<string | null>(null);
+
+  if (resources.length === 0) return placeholder;
+
+  // Group by year if there are 5+ resources (reduced threshold could be useful if testing)
+  // Revert to 1 to force grouping for testing purposes if needed, but 5 is standard
+  const shouldGroupByYear = resources.length >= 1 && resources.some(r => !!r.year);
+
+  if (shouldGroupByYear) {
+    const groupedByYear: Record<string, Resource[]> = {};
+    const ungrouped: Resource[] = [];
+
+    resources.forEach((res) => {
+      if (res.year) {
+        if (!groupedByYear[res.year]) {
+          groupedByYear[res.year] = [];
+        }
+        groupedByYear[res.year].push(res);
+      } else {
+        ungrouped.push(res);
+      }
+    });
+
+    // Sort years descending (newest first)
+    const sortYears = (a: string, b: string): number => {
+      const getYearNum = (yearStr: string): number | null => {
+        const match = yearStr.match(/\b(\d{4})\b/);
+        return match ? parseInt(match[1], 10) : null;
+      };
+
+      const yearA = getYearNum(a);
+      const yearB = getYearNum(b);
+
+      if (yearA !== null && yearB !== null) {
+        return yearB - yearA;
+      }
+      return b.localeCompare(a);
+    };
+    const sortedYears = Object.keys(groupedByYear).sort(sortYears);
+
+    // If a year is selected, show its resources with a back button
+    if (selectedYear) {
+      return (
+        <div className="animate-fade-in space-y-6">
+          <div className="flex items-center gap-4">
+            <Button variant="ghost" onClick={() => setSelectedYear(null)} className="flex items-center gap-2 pl-0 hover:pl-2 transition-all">
+              <ChevronLeft className="h-4 w-4" />
+              <span className="text-lg font-semibold">{selectedYear}</span>
+            </Button>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {groupedByYear[selectedYear]?.map((res: Resource) => (
+              <ResourceCard
+                key={res.id}
+                res={res}
+                moduleSlug={moduleSlug}
+                onShow={onShow}
+                onTabChange={onTabChange}
+              />
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    // Show Year Cards (Folders) + Ungrouped items
+    return (
+      <div className="space-y-8 animate-fade-in">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {sortedYears.map((year) => (
+            <YearCard key={year} year={year} onClick={() => setSelectedYear(year)} />
+          ))}
+          {/* Also show ungrouped items at the root level if desired, or move them to "Other" folder */}
+          {ungrouped.map((res: Resource) => (
+            <ResourceCard
+              key={res.id}
+              res={res}
+              moduleSlug={moduleSlug}
+              onShow={onShow}
+              onTabChange={onTabChange}
+            />
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  // Simple grid
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      {resources.map((res: Resource) => (
+        <ResourceCard
+          key={res.id}
+          res={res}
+          moduleSlug={moduleSlug}
+          onShow={onShow}
+          onTabChange={onTabChange}
+        />
+      ))}
+    </div>
+  );
+};
+
 const ModulePage = () => {
   const { moduleSlug } = useParams();
   const [searchParams] = useSearchParams();
@@ -45,7 +180,7 @@ const ModulePage = () => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
-  
+
   // Per-module tab options (Course, TD, TP, Exams, YT, Books, Resumes) configured in src/lib/options.ts
   const {
     course: showCourse,
@@ -55,6 +190,7 @@ const ModulePage = () => {
     yt: showYt,
     books: showBooks,
     resumes: showResumes,
+    exo: showExo,
   } = getModuleTabsOptions(moduleSlug);
 
   // Calculate number of visible tabs for grid
@@ -69,7 +205,7 @@ const ModulePage = () => {
 
   const combined = getCombinedResources();
   let moduleResources = combined[moduleSlug || ""] || [];
-  
+
   // Filter by semester if semester parameter is provided in URL
   if (semesterFilter) {
     moduleResources = moduleResources.filter((resource) => resource.semester === semesterFilter);
@@ -90,7 +226,7 @@ const ModulePage = () => {
   const checkScrollButtons = () => {
     const container = scrollContainerRef.current;
     if (!container) return;
-    
+
     setCanScrollLeft(container.scrollLeft > 0);
     setCanScrollRight(
       container.scrollLeft < container.scrollWidth - container.clientWidth - 1
@@ -118,13 +254,13 @@ const ModulePage = () => {
     const timer = setTimeout(() => {
       checkScrollButtons();
     }, 100);
-    
+
     const container = scrollContainerRef.current;
     if (container) {
       container.addEventListener("scroll", checkScrollButtons);
       window.addEventListener("resize", checkScrollButtons);
     }
-    
+
     return () => {
       clearTimeout(timer);
       if (container) {
@@ -168,7 +304,7 @@ const ModulePage = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      
+
       <main className="flex-1 pt-24 pb-10">
         <div className="container mx-auto px-4">
           <div className="mb-8 animate-fade-in">
@@ -203,8 +339,8 @@ const ModulePage = () => {
               >
                 <TabsList className="inline-flex gap-2 p-2 bg-muted/30 rounded-lg min-w-max backdrop-blur-sm">
                   {showCourse && (
-                    <TabsTrigger 
-                      className="text-sm px-3 py-2 whitespace-nowrap" 
+                    <TabsTrigger
+                      className="text-sm px-3 py-2 whitespace-nowrap"
                       value="course"
                     >
                       {t.tabs.course}
@@ -213,14 +349,14 @@ const ModulePage = () => {
                   {showTD && (
                     <>
                       <div className="h-8 w-px bg-border/60 dark:bg-border/40 mx-2" role="separator" />
-                      <TabsTrigger 
-                        className="text-sm px-3 py-2 whitespace-nowrap" 
+                      <TabsTrigger
+                        className="text-sm px-3 py-2 whitespace-nowrap"
                         value="td"
                       >
                         {t.tabs.td}
                       </TabsTrigger>
-                      <TabsTrigger 
-                        className="text-sm px-3 py-2 whitespace-nowrap" 
+                      <TabsTrigger
+                        className="text-sm px-3 py-2 whitespace-nowrap"
                         value="td-solutions"
                       >
                         {t.tabs.tdSolutions}
@@ -230,14 +366,14 @@ const ModulePage = () => {
                   {showTP && (
                     <>
                       <div className="h-8 w-px bg-border/60 dark:bg-border/40 mx-2" role="separator" />
-                      <TabsTrigger 
-                        className="text-sm px-3 py-2 whitespace-nowrap" 
+                      <TabsTrigger
+                        className="text-sm px-3 py-2 whitespace-nowrap"
                         value="tp"
                       >
                         {t.tabs.tp}
                       </TabsTrigger>
-                      <TabsTrigger 
-                        className="text-sm px-3 py-2 whitespace-nowrap" 
+                      <TabsTrigger
+                        className="text-sm px-3 py-2 whitespace-nowrap"
                         value="tp-solutions"
                       >
                         {t.tabs.tpSolutions}
@@ -247,14 +383,14 @@ const ModulePage = () => {
                   {showExam && (
                     <>
                       <div className="h-8 w-px bg-border/60 dark:bg-border/40 mx-2" role="separator" />
-                      <TabsTrigger 
-                        className="text-sm px-3 py-2 whitespace-nowrap" 
+                      <TabsTrigger
+                        className="text-sm px-3 py-2 whitespace-nowrap"
                         value="exam"
                       >
                         {t.tabs.exam}
                       </TabsTrigger>
-                      <TabsTrigger 
-                        className="text-sm px-3 py-2 whitespace-nowrap" 
+                      <TabsTrigger
+                        className="text-sm px-3 py-2 whitespace-nowrap"
                         value="exam-solutions"
                       >
                         {t.tabs.examSolutions}
@@ -276,16 +412,16 @@ const ModulePage = () => {
               )}
             </div>
 
-        {/* Desktop: Regular layout */}
-        <div className="relative w-full max-w-3xl mx-auto mb-8 hidden md:flex justify-center overflow-hidden">
-          <TabsList 
-            className="inline-flex flex-row gap-2 p-2 items-center bg-muted/30 rounded-lg backdrop-blur-sm"
-          >
+            {/* Desktop: Regular layout */}
+            <div className="relative w-full max-w-3xl mx-auto mb-8 hidden md:flex justify-center overflow-hidden">
+              <TabsList
+                className="inline-flex flex-row gap-2 p-2 items-center bg-muted/30 rounded-lg backdrop-blur-sm"
+              >
                 {/* Main Section */}
                 <div className="flex gap-1">
                   {showCourse && (
-                    <TabsTrigger 
-                      className="text-base px-3 py-2 flex-none" 
+                    <TabsTrigger
+                      className="text-base px-3 py-2 flex-none"
                       value="course"
                     >
                       {t.tabs.course}
@@ -298,14 +434,14 @@ const ModulePage = () => {
                   <>
                     <div className="h-8 w-px bg-border/60 dark:bg-border/40 mx-2" role="separator" />
                     <div className="flex gap-1">
-                      <TabsTrigger 
-                        className="text-base px-3 py-2 flex-none" 
+                      <TabsTrigger
+                        className="text-base px-3 py-2 flex-none"
                         value="td"
                       >
                         {t.tabs.td}
                       </TabsTrigger>
-                      <TabsTrigger 
-                        className="text-base px-3 py-2 flex-none" 
+                      <TabsTrigger
+                        className="text-base px-3 py-2 flex-none"
                         value="td-solutions"
                       >
                         {t.tabs.tdSolutions}
@@ -319,14 +455,14 @@ const ModulePage = () => {
                   <>
                     <div className="h-8 w-px bg-border/60 dark:bg-border/40 mx-2" role="separator" />
                     <div className="flex gap-1">
-                      <TabsTrigger 
-                        className="text-base px-3 py-2 flex-none" 
+                      <TabsTrigger
+                        className="text-base px-3 py-2 flex-none"
                         value="tp"
                       >
                         {t.tabs.tp}
                       </TabsTrigger>
-                      <TabsTrigger 
-                        className="text-base px-3 py-2 flex-none" 
+                      <TabsTrigger
+                        className="text-base px-3 py-2 flex-none"
                         value="tp-solutions"
                       >
                         {t.tabs.tpSolutions}
@@ -340,14 +476,14 @@ const ModulePage = () => {
                   <>
                     <div className="h-8 w-px bg-border/60 dark:bg-border/40 mx-2" role="separator" />
                     <div className="flex gap-1">
-                      <TabsTrigger 
-                        className="text-base px-3 py-2 flex-none" 
+                      <TabsTrigger
+                        className="text-base px-3 py-2 flex-none"
                         value="exam"
                       >
                         {t.tabs.exam}
                       </TabsTrigger>
-                      <TabsTrigger 
-                        className="text-base px-3 py-2 flex-none" 
+                      <TabsTrigger
+                        className="text-base px-3 py-2 flex-none"
                         value="exam-solutions"
                       >
                         {t.tabs.examSolutions}
@@ -360,320 +496,106 @@ const ModulePage = () => {
 
             {showCourse && (
               <TabsContent value="course" className="animate-fade-in">
-                {moduleResources.filter((r) => r.type === "course").length > 0 ? (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                    {moduleResources
-                      .filter((r) => r.type === "course")
-                      .map((res) => (
-                        <ResourceCard key={res.id} res={res} moduleSlug={moduleSlug} onShow={openViewer} onTabChange={setActiveTab} />
-                      ))}
-                  </div>
-                ) : (
-                  placeholderMessage
-                )}
+                <YearGroupedGrid
+                  resources={moduleResources.filter((r) => r.type === "course")}
+                  moduleSlug={moduleSlug}
+                  onShow={openViewer}
+                  onTabChange={setActiveTab}
+                  placeholder={placeholderMessage}
+                />
               </TabsContent>
             )}
 
             {showTD && (
               <TabsContent value="td" className="animate-fade-in">
-                {moduleResources.filter((r) => r.type === "td").length > 0 ? (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                    {moduleResources
-                      .filter((r) => r.type === "td")
-                      .map((res: Resource) => (
-                        <ResourceCard key={res.id} res={res} moduleSlug={moduleSlug} onShow={openViewer} onTabChange={setActiveTab} />
-                      ))}
-                  </div>
-                ) : (
-                  placeholderMessage
-                )}
+                <YearGroupedGrid
+                  resources={moduleResources.filter((r) => r.type === "td")}
+                  moduleSlug={moduleSlug}
+                  onShow={openViewer}
+                  onTabChange={setActiveTab}
+                  placeholder={placeholderMessage}
+                />
               </TabsContent>
             )}
 
             {showTP && (
               <TabsContent value="tp" className="animate-fade-in">
-                {moduleResources.filter((r) => r.type === "tp").length > 0 ? (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                    {moduleResources
-                      .filter((r) => r.type === "tp")
-                      .map((res: Resource) => (
-                        <ResourceCard key={res.id} res={res} moduleSlug={moduleSlug} onShow={openViewer} onTabChange={setActiveTab} />
-                      ))}
-                  </div>
-                ) : (
-                  placeholderMessage
-                )}
+                <YearGroupedGrid
+                  resources={moduleResources.filter((r) => r.type === "tp")}
+                  moduleSlug={moduleSlug}
+                  onShow={openViewer}
+                  onTabChange={setActiveTab}
+                  placeholder={placeholderMessage}
+                />
               </TabsContent>
             )}
 
             {/* TD Solutions */}
             {showTD && (
               <TabsContent value="td-solutions" className="animate-fade-in">
-                {moduleResources.filter((r) => r.type === "td-solution" || r.type === "td-sols").length > 0 ? (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                    {moduleResources
-                      .filter((r) => r.type === "td-solution" || r.type === "td-sols")
-                      .map((res: Resource) => (
-                        <ResourceCard key={res.id} res={res} moduleSlug={moduleSlug} onShow={openViewer} onTabChange={setActiveTab} />
-                      ))}
-                  </div>
-                ) : (
-                  placeholderMessage
-                )}
+                <YearGroupedGrid
+                  resources={moduleResources.filter((r) => r.type === "td-solution" || r.type === "td-sols")}
+                  moduleSlug={moduleSlug}
+                  onShow={openViewer}
+                  onTabChange={setActiveTab}
+                  placeholder={placeholderMessage}
+                />
               </TabsContent>
             )}
 
             {/* TP Solutions */}
             {showTP && (
               <TabsContent value="tp-solutions" className="animate-fade-in">
-                {moduleResources.filter((r) => r.type === "tp-solution" || r.type === "tp-sols").length > 0 ? (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                    {moduleResources
-                      .filter((r) => r.type === "tp-solution" || r.type === "tp-sols")
-                      .map((res: Resource) => (
-                        <ResourceCard key={res.id} res={res} moduleSlug={moduleSlug} onShow={openViewer} onTabChange={setActiveTab} />
-                      ))}
-                  </div>
-                ) : (
-                  placeholderMessage
-                )}
+                <YearGroupedGrid
+                  resources={moduleResources.filter((r) => r.type === "tp-solution" || r.type === "tp-sols")}
+                  moduleSlug={moduleSlug}
+                  onShow={openViewer}
+                  onTabChange={setActiveTab}
+                  placeholder={placeholderMessage}
+                />
               </TabsContent>
             )}
 
             {/* Exams */}
             {showExam && (
               <TabsContent value="exam" className="animate-fade-in">
-                {(() => {
-                  const exams = moduleResources.filter((r) => r.type === "exam");
-                  if (exams.length === 0) return placeholderMessage;
-
-                  // Group by year if there are 5+ exams
-                  const shouldGroupByYear = exams.length >= 5;
-                  
-                  if (shouldGroupByYear) {
-                    const groupedByYear: Record<string, Resource[]> = {};
-                    const ungrouped: Resource[] = [];
-                    
-                    exams.forEach((exam) => {
-                      if (exam.year) {
-                        if (!groupedByYear[exam.year]) {
-                          groupedByYear[exam.year] = [];
-                        }
-                        groupedByYear[exam.year].push(exam);
-                      } else {
-                        ungrouped.push(exam);
-                      }
-                    });
-
-                    // Sort years descending (newest first)
-                    // Extract numeric year for better sorting (handles "2024", "2023-2024", etc.)
-                    const sortYears = (a: string, b: string): number => {
-                      // Try to extract the first 4-digit number from each year string
-                      const getYearNum = (yearStr: string): number | null => {
-                        const match = yearStr.match(/\b(\d{4})\b/);
-                        return match ? parseInt(match[1], 10) : null;
-                      };
-                      
-                      const yearA = getYearNum(a);
-                      const yearB = getYearNum(b);
-                      
-                      // If both have numeric years, compare numerically
-                      if (yearA !== null && yearB !== null) {
-                        return yearB - yearA; // Descending (newest first)
-                      }
-                      
-                      // Fallback to string comparison
-                      return b.localeCompare(a);
-                    };
-                    const sortedYears = Object.keys(groupedByYear).sort(sortYears);
-
-                    return (
-                      <div className="space-y-8">
-                        {sortedYears.map((year) => (
-                          <div key={year} className="space-y-4">
-                            <h3 className="text-xl font-semibold text-foreground border-b pb-2">
-                              {year}
-                            </h3>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                              {groupedByYear[year].map((res: Resource) => (
-                                <ResourceCard
-                                  key={res.id}
-                                  res={res}
-                                  moduleSlug={moduleSlug}
-                                  onShow={openViewer}
-                                  onTabChange={setActiveTab}
-                                />
-                              ))}
-                            </div>
-                          </div>
-                        ))}
-                        {ungrouped.length > 0 && (
-                          <div className="space-y-4">
-                            {sortedYears.length > 0 && (
-                              <h3 className="text-xl font-semibold text-foreground border-b pb-2">
-                                {t.modulePage.other}
-                              </h3>
-                            )}
-                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                              {ungrouped.map((res: Resource) => (
-                                <ResourceCard
-                                  key={res.id}
-                                  res={res}
-                                  moduleSlug={moduleSlug}
-                                  onShow={openViewer}
-                                  onTabChange={setActiveTab}
-                                />
-                              ))}
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    );
-                  }
-
-                  // Simple grid if fewer than 5 exams
-                  return (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                      {exams.map((res: Resource) => (
-                        <ResourceCard
-                          key={res.id}
-                          res={res}
-                          moduleSlug={moduleSlug}
-                          onShow={openViewer}
-                          onTabChange={setActiveTab}
-                        />
-                      ))}
-                    </div>
-                  );
-                })()}
+                <YearGroupedGrid
+                  resources={moduleResources.filter((r) => r.type === "exam")}
+                  moduleSlug={moduleSlug}
+                  onShow={openViewer}
+                  onTabChange={setActiveTab}
+                  placeholder={placeholderMessage}
+                />
               </TabsContent>
             )}
 
             {/* Exam Solutions */}
             {showExam && (
               <TabsContent value="exam-solutions" className="animate-fade-in">
-                {(() => {
-                  const examSolutions = moduleResources.filter(
-                    (r) => r.type === "exam-solution" || r.type === "exam-sols"
-                  );
-                  if (examSolutions.length === 0) return placeholderMessage;
-
-                  // Group by year if there are 5+ solutions
-                  const shouldGroupByYear = examSolutions.length >= 5;
-                  
-                  if (shouldGroupByYear) {
-                    const groupedByYear: Record<string, Resource[]> = {};
-                    const ungrouped: Resource[] = [];
-                    
-                    examSolutions.forEach((solution) => {
-                      if (solution.year) {
-                        if (!groupedByYear[solution.year]) {
-                          groupedByYear[solution.year] = [];
-                        }
-                        groupedByYear[solution.year].push(solution);
-                      } else {
-                        ungrouped.push(solution);
-                      }
-                    });
-
-                    // Sort years descending (newest first)
-                    // Extract numeric year for better sorting (handles "2024", "2023-2024", etc.)
-                    const sortYears = (a: string, b: string): number => {
-                      // Try to extract the first 4-digit number from each year string
-                      const getYearNum = (yearStr: string): number | null => {
-                        const match = yearStr.match(/\b(\d{4})\b/);
-                        return match ? parseInt(match[1], 10) : null;
-                      };
-                      
-                      const yearA = getYearNum(a);
-                      const yearB = getYearNum(b);
-                      
-                      // If both have numeric years, compare numerically
-                      if (yearA !== null && yearB !== null) {
-                        return yearB - yearA; // Descending (newest first)
-                      }
-                      
-                      // Fallback to string comparison
-                      return b.localeCompare(a);
-                    };
-                    const sortedYears = Object.keys(groupedByYear).sort(sortYears);
-
-                    return (
-                      <div className="space-y-8">
-                        {sortedYears.map((year) => (
-                          <div key={year} className="space-y-4">
-                            <h3 className="text-xl font-semibold text-foreground border-b pb-2">
-                              {year}
-                            </h3>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                              {groupedByYear[year].map((res: Resource) => (
-                                <ResourceCard
-                                  key={res.id}
-                                  res={res}
-                                  moduleSlug={moduleSlug}
-                                  onShow={openViewer}
-                                  onTabChange={setActiveTab}
-                                />
-                              ))}
-                            </div>
-                          </div>
-                        ))}
-                        {ungrouped.length > 0 && (
-                          <div className="space-y-4">
-                            {sortedYears.length > 0 && (
-                              <h3 className="text-xl font-semibold text-foreground border-b pb-2">
-                                {t.modulePage.other}
-                              </h3>
-                            )}
-                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                              {ungrouped.map((res: Resource) => (
-                                <ResourceCard
-                                  key={res.id}
-                                  res={res}
-                                  moduleSlug={moduleSlug}
-                                  onShow={openViewer}
-                                  onTabChange={setActiveTab}
-                                />
-                              ))}
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    );
-                  }
-
-                  // Simple grid if fewer than 5 solutions
-                  return (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                      {examSolutions.map((res: Resource) => (
-                        <ResourceCard
-                          key={res.id}
-                          res={res}
-                          moduleSlug={moduleSlug}
-                          onShow={openViewer}
-                          onTabChange={setActiveTab}
-                        />
-                      ))}
-                    </div>
-                  );
-                })()}
+                <YearGroupedGrid
+                  resources={moduleResources.filter((r) => r.type === "exam-solution" || r.type === "exam-sols")}
+                  moduleSlug={moduleSlug}
+                  onShow={openViewer}
+                  onTabChange={setActiveTab}
+                  placeholder={placeholderMessage}
+                />
               </TabsContent>
             )}
           </Tabs>
 
-          {/* Extra resources section: YT videos, Books, Resumes */}
-          {(showYt || showBooks || showResumes) && (
+          {/* Extra resources section: YT videos, Books, Resumes, Exos */}
+          {(showYt || showBooks || showResumes || showExo) && (
             <div className="mt-12">
               <Tabs value={extraTab} onValueChange={setExtraTab} className="w-full">
                 <div className="relative w-full max-w-3xl mx-auto mb-6 flex justify-center overflow-hidden">
-                  <TabsList 
+                  <TabsList
                     className="inline-flex flex-row gap-2 p-2 items-center bg-muted/30 rounded-lg backdrop-blur-sm"
                   >
                     {/* YT group */}
                     <div className="flex gap-1">
                       {showYt && (
-                        <TabsTrigger 
-                          className="text-base px-3 py-2 flex-none" 
+                        <TabsTrigger
+                          className="text-base px-3 py-2 flex-none"
                           value="yt"
                         >
                           {t.modulePage.ytVideos}
@@ -686,8 +608,8 @@ const ModulePage = () => {
                       <>
                         <div className="h-8 w-px bg-border/60 dark:bg-border/40 mx-2" role="separator" />
                         <div className="flex gap-1">
-                          <TabsTrigger 
-                            className="text-base px-3 py-2 flex-none" 
+                          <TabsTrigger
+                            className="text-base px-3 py-2 flex-none"
                             value="books"
                           >
                             {t.modulePage.books}
@@ -701,11 +623,26 @@ const ModulePage = () => {
                       <>
                         <div className="h-8 w-px bg-border/60 dark:bg-border/40 mx-2" role="separator" />
                         <div className="flex gap-1">
-                          <TabsTrigger 
-                            className="text-base px-3 py-2 flex-none" 
+                          <TabsTrigger
+                            className="text-base px-3 py-2 flex-none"
                             value="resumes"
                           >
                             {t.modulePage.resumes}
+                          </TabsTrigger>
+                        </div>
+                      </>
+                    )}
+
+                    {/* Exo group */}
+                    {showExo && (
+                      <>
+                        <div className="h-8 w-px bg-border/60 dark:bg-border/40 mx-2" role="separator" />
+                        <div className="flex gap-1">
+                          <TabsTrigger
+                            className="text-base px-3 py-2 flex-none"
+                            value="exos"
+                          >
+                            {t.modulePage.exo}
                           </TabsTrigger>
                         </div>
                       </>
@@ -753,6 +690,27 @@ const ModulePage = () => {
                           .filter((r) => r.type === "resume")
                           .map((res: Resource) => (
                             <ResumeCard
+                              key={res.id}
+                              res={res}
+                              moduleSlug={moduleSlug}
+                              onShow={openViewer}
+                            />
+                          ))}
+                      </div>
+                    ) : (
+                      placeholderMessage
+                    )}
+                  </TabsContent>
+                )}
+
+                {showExo && (
+                  <TabsContent value="exos" className="animate-fade-in">
+                    {moduleResources.filter((r) => r.type === "exo").length > 0 ? (
+                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                        {moduleResources
+                          .filter((r) => r.type === "exo")
+                          .map((res: Resource) => (
+                            <ExoCard
                               key={res.id}
                               res={res}
                               moduleSlug={moduleSlug}

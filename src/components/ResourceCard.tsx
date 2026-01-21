@@ -145,23 +145,23 @@ const ResourceCardComponent = React.memo(function ResourceCard({ res, moduleSlug
         >
           {isTouchDevice && (
             <div aria-hidden className={`absolute top-3 right-3 z-30 pointer-events-none transition-opacity ${isFlipped ? 'opacity-100' : 'opacity-0'}`}>
-              <div className="w-7 h-7 rounded-full bg-white/95 dark:bg-slate-800/80 flex items-center justify-center text-sky-600 dark:text-sky-300 shadow">
+              <div className="w-7 h-7 rounded-full bg-card flex items-center justify-center text-primary shadow">
                 <RotateCw className="w-4 h-4" />
               </div>
             </div>
           )}
 
-        <div className={`flip-card-inner ${isFlipped ? 'is-flipped' : ''}`}>
-            <div className="flip-card-front p-3 rounded-md bg-white/95 dark:bg-slate-800">
+          <div className={`flip-card-inner ${isFlipped ? 'is-flipped' : ''}`}>
+            <div className="flip-card-front p-3 rounded-md bg-card border border-border/50 shadow-sm">
               <div className="flex flex-col items-center justify-center gap-2 h-full">
-                <div className="inline-flex items-center justify-center w-12 h-12 rounded-lg bg-sky-50 text-sky-900 dark:bg-slate-700/60 dark:text-sky-100">
+                <div className="inline-flex items-center justify-center w-12 h-12 rounded-lg bg-primary/10 text-primary">
                   <FileText className="w-5 h-5" />
                 </div>
-                <CardTitle className="title mt-1 text-sky-900 dark:text-sky-100 px-2 text-center line-clamp-2">{res.title}</CardTitle>
+                <CardTitle className="title mt-1 text-card-foreground px-2 text-center line-clamp-2">{res.title}</CardTitle>
                 <p className="text-xs text-muted-foreground opacity-80">{isTouchDevice ? 'Tap to flip' : 'Hover for more'}</p>
               </div>
             </div>
-            <div className="flip-card-back p-3 rounded-md backdrop-blur-sm bg-white/30 dark:bg-slate-900/40 border border-white/5">
+            <div className="flip-card-back p-3 rounded-md backdrop-blur-sm bg-card/95 border border-primary/20 shadow-md">
               <div className="flex flex-col items-center justify-center gap-3 h-full">
                 <div className="flex gap-2 w-full justify-center">
                   <Button onClick={handleShow} className="flex items-center gap-2 px-2 py-1 text-sm bg-primary text-primary-foreground hover:bg-primary/90">
@@ -179,8 +179,8 @@ const ResourceCardComponent = React.memo(function ResourceCard({ res, moduleSlug
                     <span>Open in Drive</span>
                   </Button>
                   {res.type === "exam" && onTabChange && (
-                    <Button 
-                      onClick={() => onTabChange("exam-solutions")} 
+                    <Button
+                      onClick={() => onTabChange("exam-solutions")}
                       className="flex items-center gap-2 px-3 py-1 text-sm bg-primary text-primary-foreground hover:bg-primary/90"
                     >
                       <span>Solution</span>
@@ -203,7 +203,7 @@ const ResourceCardComponent = React.memo(function ResourceCard({ res, moduleSlug
           .flip-card:hover .flip-card-inner { transform: none !important; }
         }
         .flip-card-front, .flip-card-back { box-shadow: 0 6px 18px 0 rgba(2,6,23,0.06); position: absolute; display:flex; flex-direction: column; justify-content: center; width: 100%; height: 100%; min-height: 0; -webkit-backface-visibility: hidden; backface-visibility: hidden; border-radius: 0.5rem; }
-        .flip-card-back { color: #fff; transform: rotateY(180deg); }
+        .flip-card-back { color: var(--card-foreground); transform: rotateY(180deg); }
       `}</style>
     </Card>
   );

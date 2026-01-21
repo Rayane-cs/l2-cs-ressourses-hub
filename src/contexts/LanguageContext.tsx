@@ -66,24 +66,24 @@ type Translations = {
     masterYear2: string;
   };
   // About
-    about: {
-      title: string;
-      subtitle: string;
-      comprehensiveResources: string;
-      comprehensiveResourcesDesc: string;
-      organizedByModule: string;
-      organizedByModuleDesc: string;
-      programmingLanguage: string;
-      programmingLanguageDesc: string;
-      missionTitle: string;
-      missionText: string;
-      advancedSearch: string;
-      advancedSearchDesc: string;
-      multipleResourceTypes: string;
-      multipleResourceTypesDesc: string;
-      bilingualSupport: string;
-      bilingualSupportDesc: string;
-    };
+  about: {
+    title: string;
+    subtitle: string;
+    comprehensiveResources: string;
+    comprehensiveResourcesDesc: string;
+    organizedByModule: string;
+    organizedByModuleDesc: string;
+    programmingLanguage: string;
+    programmingLanguageDesc: string;
+    missionTitle: string;
+    missionText: string;
+    advancedSearch: string;
+    advancedSearchDesc: string;
+    multipleResourceTypes: string;
+    multipleResourceTypesDesc: string;
+    bilingualSupport: string;
+    bilingualSupportDesc: string;
+  };
   // Search
   search: {
     title: string;
@@ -156,6 +156,7 @@ type Translations = {
     ytVideos: string;
     books: string;
     resumes: string;
+    exo: string;
     scrollLeft: string;
     scrollRight: string;
   };
@@ -187,6 +188,12 @@ const TRANSLATIONS: Record<Lang, Translations> = {
       si: "Information Systems",
       "method-num": "Numerical Methods",
       logique: "Logic",
+      daw: "Web Application Development",
+      reseaux: "Communication Networks",
+      thl: "Theory of Languages",
+      se: "Operating Systems 1",
+      bdd: "Databases",
+      oop: "Object Oriented Programming",
     },
     accessText: "Access all course materials, TDs and TPs files",
     noResourcesTitle: "No Resources Yet",
@@ -328,6 +335,7 @@ const TRANSLATIONS: Record<Lang, Translations> = {
       ytVideos: "YT Videos",
       books: "Books",
       resumes: "Resumes",
+      exo: "Exercises",
       scrollLeft: "Scroll left",
       scrollRight: "Scroll right",
     },
@@ -355,6 +363,12 @@ const TRANSLATIONS: Record<Lang, Translations> = {
       si: "Systèmes d'Information",
       "method-num": "Méthodes Numériques",
       logique: "Logique",
+      daw: "Développement d'Applications Web",
+      reseaux: "Réseaux de Communication",
+      thl: "Théorie des Langages",
+      se: "Systèmes d'Exploitation 1",
+      bdd: "Bases de Données",
+      oop: "Programmation Orientée Objet",
     },
     accessText: "Accédez à tous les documents de cours, TD et TP",
     noResourcesTitle: "Aucune ressource pour l'instant",
@@ -496,6 +510,7 @@ const TRANSLATIONS: Record<Lang, Translations> = {
       ytVideos: "Vidéos YouTube",
       books: "Livres",
       resumes: "Résumés",
+      exo: "Exercices",
       scrollLeft: "Défiler vers la gauche",
       scrollRight: "Défiler vers la droite",
     },

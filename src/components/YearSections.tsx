@@ -6,7 +6,7 @@ export default function YearSections() {
   const navigate = useNavigate();
   const { t } = useLanguage();
   const [hovered, setHovered] = useState<string | null>(null);
-  
+
   const licenseYears = [
     { id: "l1", title: `${t.years.licence} 1`, subtitle: t.years.firstYear },
     { id: "l2", title: `${t.years.licence} 2`, subtitle: t.years.secondYear },
@@ -42,7 +42,7 @@ export default function YearSections() {
   return (
     <div className="w-full relative">
       {/* Animated Top Border */}
-      <div className="w-full h-1 bg-gradient-to-r from-transparent via-blue-700 to-transparent bg-[length:200%_100%] animate-gradient-shift" />
+      <div className="w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent bg-[length:200%_100%] animate-gradient-shift" />
 
       <section id="years" className="container mx-auto px-4 py-16 space-y-12">
         {/* Licence Section */}
@@ -67,7 +67,7 @@ export default function YearSections() {
       </section>
 
       {/* Animated Bottom Border */}
-      <div className="w-full h-1 bg-gradient-to-r from-transparent via-blue-700 to-transparent bg-[length:200%_100%] animate-gradient-shift" style={{ animationDirection: 'reverse' }} />
+      <div className="w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent bg-[length:200%_100%] animate-gradient-shift" style={{ animationDirection: 'reverse' }} />
 
       <style>{`
         @keyframes gradient-shift {

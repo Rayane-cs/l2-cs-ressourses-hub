@@ -28,12 +28,12 @@ const DownloadButton: React.FC<DownloadButtonProps> = ({ onClick, tooltip = "Dow
         }
 
         .download-btn-wrapper .download-btn:hover {
-          background-color: #2196f3;
+          background-color: hsl(var(--primary));
           transform: scale(1.05);
         }
 
         .download-btn-wrapper .svgIcon {
-          fill: #2196f3;
+          fill: hsl(var(--primary));
           width: 1em;
           height: 1em;
           transition: fill 0.3s;
@@ -48,9 +48,9 @@ const DownloadButton: React.FC<DownloadButtonProps> = ({ onClick, tooltip = "Dow
         .download-btn-wrapper .icon2 {
           width: 10px;
           height: 2px;
-          border-bottom: 2px solid #2196f3;
-          border-left: 2px solid #2196f3;
-          border-right: 2px solid #2196f3;
+          border-bottom: 2px solid hsl(var(--primary));
+          border-left: 2px solid hsl(var(--primary));
+          border-right: 2px solid hsl(var(--primary));
           transition: border-color 0.3s;
           position: absolute;
           bottom: 4px;
@@ -110,7 +110,7 @@ const DownloadButton: React.FC<DownloadButtonProps> = ({ onClick, tooltip = "Dow
           }
         }
       `}</style>
-      
+
       <div className="download-btn-wrapper">
         <button className="download-btn" onClick={onClick} aria-label={ariaLabel} type="button">
           <svg className="svgIcon" viewBox="0 0 384 512" height="1em" xmlns="http://www.w3.org/2000/svg">

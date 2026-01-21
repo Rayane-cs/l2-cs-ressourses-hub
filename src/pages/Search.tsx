@@ -1,4 +1,5 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Input } from "@/components/ui/input";
@@ -10,14 +11,41 @@ import { Badge } from "@/components/ui/badge";
 import resources from "@/lib";
 import type { Resource } from "@/lib/types";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useSearch } from "@/hooks/useSearch";
+
+// Map Levels to Semesters
+const LEVEL_SEMESTERS: Record<string, string[]> = {
+  "L1": ["S1", "S2"],
+  "L2": ["S3", "S4"],
+  "L3": ["S5", "S6"],
+  "M1": ["S1", "S2"],
+  "M2": ["S1", "S2"]
+};
 
 const Search = () => {
   const { t, lang } = useLanguage();
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchParams] = useSearchParams();
+  const initialQuery = searchParams.get("q") || "";
+
+  const [searchTerm, setSearchTerm] = useState(initialQuery);
   const [typeFilter, setTypeFilter] = useState("all");
   const [moduleFilter, setModuleFilter] = useState("all");
+  const [yearFilter, setYearFilter] = useState("all"); // Represents Level (L1, L2...)
   const [semesterFilter, setSemesterFilter] = useState("all");
   const [showSuggestions, setShowSuggestions] = useState(false);
+
+  // Update search term when URL changes
+  useEffect(() => {
+    const query = searchParams.get("q");
+    if (query !== null) {
+      setSearchTerm(query);
+    }
+  }, [searchParams]);
+
+  // Reset semester filter when year (level) changes
+  useEffect(() => {
+    setSemesterFilter("all");
+  }, [yearFilter]);
 
   // Flatten all resources with module information
   const allResources = useMemo(() => {
@@ -30,41 +58,45 @@ const Search = () => {
     return flattened;
   }, []);
 
-  // Filter resources based on search and filters
-  const filteredResources = useMemo(() => {
-    return allResources.filter(resource => {
-      // Search term filter
-      const matchesSearch = searchTerm === "" ||
-        resource.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        (resource.description && resource.description.toLowerCase().includes(searchTerm.toLowerCase())) ||
-        (resource.problem && resource.problem.toLowerCase().includes(searchTerm.toLowerCase()));
+  // Use the custom search hook for fuzzy matching
+  const { results: searchResults, suggestions: searchSuggestions } = useSearch(allResources, searchTerm);
 
+  // Filter resources based on search results and active filters
+  const filteredResources = useMemo(() => {
+    // Determine the base set of resources: fuzzy results or everything if no search
+    const baseResources = searchTerm ? searchResults : allResources;
+
+    return baseResources.filter(resource => {
       // Type filter
       const matchesType = typeFilter === "all" || resource.type === typeFilter;
 
       // Module filter
       const matchesModule = moduleFilter === "all" || resource.module === moduleFilter;
 
+      // Level (Year) Filter
+      let matchesYear = true;
+      if (yearFilter !== "all") {
+        const allowedSemesters = LEVEL_SEMESTERS[yearFilter] || [];
+        // Match if resource semester is in the allowed list for this level
+        // (This assumes data uses simple S3, S4 strings)
+        if (resource.semester) {
+          matchesYear = allowedSemesters.includes(resource.semester);
+        } else {
+          // If resource has no semester, it might not match level unless we relax logic
+          matchesYear = false;
+        }
+      }
+
       // Semester filter
+      // Only check semantic semester if selected, otherwise handled by Year filter logic implicity (or ignore)
       const matchesSemester = semesterFilter === "all" || resource.semester === semesterFilter;
 
-      return matchesSearch && matchesType && matchesModule && matchesSemester;
+      return matchesType && matchesModule && matchesYear && matchesSemester;
     });
-  }, [allResources, searchTerm, typeFilter, moduleFilter, semesterFilter]);
+  }, [allResources, searchResults, searchTerm, typeFilter, moduleFilter, semesterFilter, yearFilter]);
 
-  // Get suggestions for autocomplete
-  const suggestions = useMemo(() => {
-    if (searchTerm.length < 2) return [];
-
-    const uniqueTitles = new Set<string>();
-    allResources.forEach(resource => {
-      if (resource.title.toLowerCase().includes(searchTerm.toLowerCase())) {
-        uniqueTitles.add(resource.title);
-      }
-    });
-
-    return Array.from(uniqueTitles).slice(0, 5);
-  }, [allResources, searchTerm]);
+  // Use hook suggestions
+  const suggestions = searchSuggestions;
 
   const getTypeIcon = (type: string) => {
     switch (type) {
@@ -94,7 +126,7 @@ const Search = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      
+
       <main className="flex-1 pt-24 pb-10">
         <div className="container mx-auto px-4 relative">
           <div className="mb-8 animate-fade-in">
@@ -141,7 +173,7 @@ const Search = () => {
               )}
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 animate-fade-in" style={{ animationDelay: "0.2s" }}>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 animate-fade-in" style={{ animationDelay: "0.2s" }}>
               <div>
                 <label className="text-sm font-medium mb-2 block">{t.search.type}</label>
                 <Select value={typeFilter} onValueChange={setTypeFilter}>
@@ -159,6 +191,40 @@ const Search = () => {
                   </SelectContent>
                 </Select>
               </div>
+
+              <div>
+                <label className="text-sm font-medium mb-2 block">Level</label>
+                <Select value={yearFilter} onValueChange={setYearFilter}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="All Levels" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Levels</SelectItem>
+                    <SelectItem value="L1">L1</SelectItem>
+                    <SelectItem value="L2">L2</SelectItem>
+                    <SelectItem value="L3">L3</SelectItem>
+                    <SelectItem value="M1">M1</SelectItem>
+                    <SelectItem value="M2">M2</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {yearFilter !== "all" && (
+                <div className="animate-fade-in">
+                  <label className="text-sm font-medium mb-2 block">{t.search.semester}</label>
+                  <Select value={semesterFilter} onValueChange={setSemesterFilter}>
+                    <SelectTrigger>
+                      <SelectValue placeholder={t.search.allSemesters} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">{t.search.allSemesters}</SelectItem>
+                      {LEVEL_SEMESTERS[yearFilter]?.map(sem => (
+                        <SelectItem key={sem} value={sem}>{sem}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
 
               <div>
                 <label className="text-sm font-medium mb-2 block">{t.search.module}</label>
@@ -179,20 +245,6 @@ const Search = () => {
                     <SelectItem value="programming-c">C Programming</SelectItem>
                     <SelectItem value="programming-python">Python Programming</SelectItem>
                     <SelectItem value="programming-assembly">Assembly</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div>
-                <label className="text-sm font-medium mb-2 block">{t.search.semester}</label>
-                <Select value={semesterFilter} onValueChange={setSemesterFilter}>
-                  <SelectTrigger>
-                    <SelectValue placeholder={t.search.allSemesters} />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">{t.search.allSemesters}</SelectItem>
-                    <SelectItem value="S3">S3</SelectItem>
-                    <SelectItem value="S4">S4</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -224,6 +276,7 @@ const Search = () => {
                             <div className="flex items-center gap-4 text-sm text-muted-foreground mb-3">
                               <span>{getModuleDisplayName(resource.module)}</span>
                               {resource.semester && <span>• {resource.semester}</span>}
+                              {resource.year && <span>• {resource.year}</span>}
                             </div>
 
                             {resource.description && (
@@ -262,7 +315,7 @@ const Search = () => {
                   ))}
                 </div>
               </div>
-            ) : searchTerm || typeFilter !== "all" || moduleFilter !== "all" || semesterFilter !== "all" ? (
+            ) : searchTerm || typeFilter !== "all" || moduleFilter !== "all" || semesterFilter !== "all" || yearFilter !== "all" ? (
               <div className="text-center py-20 animate-fade-in" style={{ animationDelay: "0.3s" }}>
                 <Filter className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
                 <h3 className="text-2xl font-semibold mb-2">{t.search.noResults}</h3>

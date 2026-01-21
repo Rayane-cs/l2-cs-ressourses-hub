@@ -6,22 +6,86 @@
 
 @layer utilities {
   .scrollbar-hide {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
   }
+
   .scrollbar-hide::-webkit-scrollbar {
-    display: none; /* Chrome, Safari and Opera */
+    display: none;
+    /* Chrome, Safari and Opera */
   }
 }
 
-/* 🎨 Design system for "Resources Hub for Students"
-   Blue-focused color palette (HSL)
-*/
+/* 🎨 Design system for "Resources Hub for Students" */
 
 @layer base {
   :root {
+    /* =========================================
+       🔴 RED THEME (Default)
+       ========================================= */
+    /* Background: Beige #F5EFE1 */
+    --background: 42 50% 92%;
+    /* Foreground: Dark Grey #1C1C1C */
+    --foreground: 0 0% 11%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 11%;
+
+    /* 🍷 Primary: Burgundy #800020 (HSL 345, 100%, 25%) */
+    --primary: 345 100% 25%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 42 30% 85%;
+    --secondary-foreground: 345 100% 25%;
+
+    --muted: 42 30% 85%;
+    --muted-foreground: 0 0% 40%;
+
+    --accent: 345 80% 90%;
+    --accent-foreground: 345 100% 25%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 85%;
+    --input: 0 0% 85%;
+    --ring: 345 100% 25%;
+
+    --radius: 0.75rem;
+
+    /* 🌈 Gradients & shadows - RED */
+    --gradient-hero: linear-gradient(135deg, hsl(345 100% 25%) 0%, hsl(345 80% 40%) 50%, hsl(42 50% 80%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(345 100% 25% / 0.05) 0%, hsl(42 50% 92% / 0.2) 100%);
+
+    --shadow-glow: 0 0 40px hsl(345 100% 25% / 0.2);
+    --shadow-card: 0 4px 20px hsl(0 0% 0% / 0.08);
+    --shadow-hover: 0 8px 30px hsl(345 100% 25% / 0.15);
+
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Hero Animation Colors - RED (Default) */
+    --hero-bg: #f5efe1;
+    --hero-c1: #800020;
+    /* Burgundy */
+    --hero-c2: #5c0017;
+    /* Dark Burgundy */
+    --hero-c3: #b34d66;
+    /* Light Burgundy */
+    --hero-c4: #e6ccb3;
+    /* Beige Accent */
+  }
+
+  /* =========================================
+     🔵 BLUE THEME (Data Attribute)
+     ========================================= */
+  :root[data-theme="blue"] {
     --background: 220 20% 98%;
-    --foreground: 220 15% 10%; /* Darker for better contrast */
+    --foreground: 220 15% 10%;
 
     --card: 0 0% 100%;
     --card-foreground: 220 15% 10%;
@@ -29,29 +93,27 @@
     --popover: 0 0% 100%;
     --popover-foreground: 220 15% 10%;
 
-    /* 🌊 Blue primary color system */
-    --primary: 217 91% 50%; /* Darker blue for better contrast */
+    /* 🌊 Blue primary */
+    --primary: 217 91% 50%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 217 100% 95%;
-    --secondary-foreground: 220 20% 15%; /* Darker text on secondary */
+    --secondary-foreground: 220 20% 15%;
 
     --muted: 217 100% 95%;
-    --muted-foreground: 217 15% 40%; /* Darker muted text */
+    --muted-foreground: 217 15% 40%;
 
-    --accent: 210 100% 50%; /* Darker accent */
+    --accent: 210 100% 50%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 217 40% 85%; /* Darker border */
+    --border: 217 40% 85%;
     --input: 217 40% 85%;
     --ring: 217 91% 50%;
 
-    --radius: 0.75rem;
-
-    /* 🌈 Gradients & shadows */
+    /* 🌈 Gradients & shadows - BLUE */
     --gradient-hero: linear-gradient(135deg, rgb(60, 131, 246) 0%, hsl(210 100% 70%) 50%, rgb(153, 221, 255) 100%);
     --gradient-card: linear-gradient(145deg, #3c83f60d 0%, hsl(210 100% 70% / 0.05) 100%);
 
@@ -59,13 +121,69 @@
     --shadow-card: 0 4px 20px hsl(217 91% 20% / 0.08);
     --shadow-hover: 0 8px 30px hsl(217 91% 60% / 0.25);
 
-    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Hero Animation Colors - BLUE */
+    --hero-bg: #c1c9d8;
+    --hero-c1: #1e88e5;
+    /* Medium Blue */
+    --hero-c2: #12356d;
+    /* Dark Blue */
+    --hero-c3: #99d3ff;
+    /* Light Blue */
+    --hero-c4: #99d3ff;
+    /* Reusing Light Blue for accent */
   }
 
-  /* 🌙 Dark mode */
+  /* =========================================
+     🌙 DARK MODE
+     ========================================= */
+
+  /* 🔴 RED DARK (Default Dark) */
   .dark {
-    --background: 220 15% 8%; /* Lighter dark bg */
-    --foreground: 220 20% 96%; /* Lighter text */
+    /* Background: Dark Grey #1C1C1C */
+    --background: 0 0% 11%;
+    /* Foreground: Beige #F5EFE1 */
+    --foreground: 42 50% 92%;
+
+    --card: 0 0% 16%;
+    --card-foreground: 42 50% 92%;
+
+    --popover: 0 0% 16%;
+    --popover-foreground: 42 50% 92%;
+
+    /* Primary: Burgundy */
+    --primary: 345 100% 35%;
+    --primary-foreground: 42 50% 92%;
+
+    --secondary: 0 0% 20%;
+    --secondary-foreground: 42 50% 92%;
+
+    --muted: 0 0% 20%;
+    --muted-foreground: 0 0% 60%;
+
+    --accent: 345 50% 20%;
+    --accent-foreground: 42 50% 92%;
+
+    --destructive: 0 70% 60%;
+    --destructive-foreground: 0 0% 96%;
+
+    --border: 0 0% 25%;
+    --input: 0 0% 25%;
+    --ring: 345 80% 40%;
+
+    /* Hero Animation Colors - RED DARK */
+    --hero-bg: #1c1c1c;
+    --hero-c1: #800020;
+    --hero-c2: #5c0017;
+    --hero-c3: #b34d66;
+    --hero-c4: #4a0410;
+    /* Darker accent/bg blend */
+  }
+
+  /* 🔵 BLUE DARK */
+  :root[data-theme="blue"] .dark,
+  html.dark[data-theme="blue"] {
+    --background: 220 15% 8%;
+    --foreground: 220 20% 96%;
 
     --card: 220 15% 12%;
     --card-foreground: 220 20% 96%;
@@ -73,14 +191,14 @@
     --popover: 220 15% 12%;
     --popover-foreground: 220 20% 96%;
 
-    --primary: 210 100% 60%; /* Brighter primary in dark mode */
+    --primary: 210 100% 60%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 220 15% 20%;
-    --secondary-foreground: 220 20% 96%; /* Lighter text */
+    --secondary-foreground: 220 20% 96%;
 
     --muted: 220 15% 20%;
-    --muted-foreground: 220 10% 75%; /* Lighter muted */
+    --muted-foreground: 220 10% 75%;
 
     --accent: 217 91% 65%;
     --accent-foreground: 0 0% 10%;
@@ -88,13 +206,18 @@
     --destructive: 0 70% 60%;
     --destructive-foreground: 0 0% 96%;
 
-    --border: 220 15% 22%; /* Lighter dark border */
+    --border: 220 15% 22%;
     --input: 220 15% 22%;
     --ring: 217 91% 60%;
-  }
-}
 
-@layer base {
+    /* Hero Animation Colors - BLUE DARK */
+    --hero-bg: #21273f;
+    --hero-c1: #1e88e5;
+    --hero-c2: #12356d;
+    --hero-c3: #99d3ff;
+    --hero-c4: #12356d;
+  }
+
   * {
     @apply border-border;
   }
@@ -109,8 +232,15 @@
 
   /* Respect users who prefer reduced motion */
   @media (prefers-reduced-motion: reduce) {
-    :root { --transition-smooth: none; }
-    * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+    :root {
+      --transition-smooth: none;
+    }
+
+    * {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
   }
 }
 
@@ -139,9 +269,5 @@
     transition: var(--transition-smooth);
   }
 
-  /* Make focus visible for keyboard users */
-  :focus-visible {
-    outline: 3px solid rgba(34,139,230,0.35);
-    outline-offset: 2px;
-  }
+
 }

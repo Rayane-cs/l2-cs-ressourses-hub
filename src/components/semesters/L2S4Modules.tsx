@@ -8,7 +8,7 @@ const modules = [
   { title: "THL", slug: "thl", icon: Brain, color: "bg-green-500", semester: "S4" },
   { title: "English", slug: "english-s4", icon: Languages, color: "bg-red-500", semester: "S4" },
   { title: "SE", slug: "se", icon: MonitorCog, color: "bg-yellow-500", semester: "S4" },
-  { title: "DB", slug: "db", icon: Database, color: "bg-indigo-500", semester: "S4" },
+  { title: "BDD", slug: "bdd", icon: Database, color: "bg-indigo-500", semester: "S4" },
   { title: "OOP", slug: "oop", icon: Code2, color: "bg-pink-500", semester: "S4" },
 ];
 
