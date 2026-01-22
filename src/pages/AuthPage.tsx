@@ -18,10 +18,10 @@ import {
   Globe,
   Loader2
 } from "lucide-react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { supabase } from "@/lib/supabaseClient";
-import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 
 const AuthPage = () => {
@@ -68,11 +68,14 @@ const AuthPage = () => {
             data: {
               full_name: fullName,
               email: email, // Sync email to metadata
+              language: lang,
+              theme_color: themeColor,
             }
           }
         });
         if (error) throw error;
-        toast.success("Check your email for confirmation!");
+        toast.success(t.auth.signUpSuccess);
+        setIsLogin(true);
       }
     } catch (error: any) {
       toast.error(error.message);

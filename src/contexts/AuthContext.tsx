@@ -10,6 +10,7 @@ interface AuthProfile {
   email: string | null;
   language: string;
   theme_color: string;
+  display_id: string | null;
 }
 
 interface AuthContextType {
@@ -43,7 +44,31 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         .single();
 
       if (error) {
-        console.error("Error fetching profile:", error);
+        if (error.code === "PGRST116" || error.message.includes("no rows")) {
+          // Profile doesn't exist, try to create it
+          const { data: userData } = await supabase.auth.getUser();
+          if (userData.user) {
+            const { data: newProfile, error: createError } = await supabase
+              .from("profiles")
+              .insert([
+                {
+                  id: userId,
+                  email: userData.user.email,
+                  full_name: userData.user.user_metadata?.full_name,
+                  language: userData.user.user_metadata?.language || 'en',
+                  theme_color: userData.user.user_metadata?.theme_color || 'red'
+                }
+              ])
+              .select()
+              .single();
+            
+            if (!createError) {
+              setProfile(newProfile);
+              return;
+            }
+          }
+        }
+        console.error("Error fetching/creating profile:", error);
         setProfile(null);
       } else {
         setProfile(data);

@@ -5,15 +5,18 @@ import { ThemeProvider } from "next-themes";
 import { LanguageProvider } from "./contexts/LanguageContext";
 import { ThemeColorProvider } from "./contexts/ThemeColorContext";
 import { AuthProvider } from "./contexts/AuthContext";
+import { UsageTrackingProvider } from "./contexts/UsageTrackingContext";
 
 createRoot(document.getElementById("root")!).render(
 	<ThemeProvider attribute="class" defaultTheme="system">
-		<ThemeColorProvider>
-			<AuthProvider>
+		<AuthProvider>
+			<ThemeColorProvider>
 				<LanguageProvider>
-					<App />
+					<UsageTrackingProvider>
+						<App />
+					</UsageTrackingProvider>
 				</LanguageProvider>
-			</AuthProvider>
-		</ThemeColorProvider>
+			</ThemeColorProvider>
+		</AuthProvider>
 	</ThemeProvider>
 );

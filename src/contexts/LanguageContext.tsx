@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
 
 type Lang = "en" | "fr";
 
@@ -201,6 +202,7 @@ type Translations = {
     theme: string;
     language: string;
     invalidAccount: string;
+    signUpSuccess: string;
   };
 };
 
@@ -404,6 +406,7 @@ const TRANSLATIONS: Record<Lang, Translations> = {
       theme: "Theme",
       language: "Language",
       invalidAccount: "No account found. Please create an account or continue as a guest.",
+      signUpSuccess: "Account created! You can login right now.",
     },
   },
   fr: {
@@ -605,6 +608,7 @@ const TRANSLATIONS: Record<Lang, Translations> = {
       theme: "Thème",
       language: "Langue",
       invalidAccount: "Aucun compte trouvé. Veuillez créer un compte ou continuer en tant qu'invité.",
+      signUpSuccess: "Compte créé ! Vous pouvez vous connecter dès maintenant.",
     },
   },
 };
@@ -618,25 +622,46 @@ interface LangContextValue {
 const LanguageContext = createContext<LangContextValue | undefined>(undefined);
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { profile, updateProfile } = useAuth();
   const [lang, setLang] = useState<Lang>(() => {
     try {
       const raw = localStorage.getItem("lang");
       if (raw === "en" || raw === "fr") return raw as Lang;
     } catch (e) {
-      // fallback to navigator
       console.warn("LanguageContext: failed to read localStorage", e);
     }
     const nav = typeof navigator !== "undefined" ? navigator.language : "en";
     return nav && nav.startsWith("fr") ? "fr" : "en";
   });
 
+  const prevProfileIdRef = React.useRef<string | null>(null);
+
+  // Sync with profile when it loads or user changes
+  useEffect(() => {
+    if (profile?.id && profile.id !== prevProfileIdRef.current) {
+      prevProfileIdRef.current = profile.id;
+      if (profile.language && (profile.language === "en" || profile.language === "fr")) {
+        setLang(profile.language as Lang);
+      }
+    } else if (!profile) {
+      prevProfileIdRef.current = null;
+    }
+  }, [profile]);
+
   useEffect(() => {
     try {
       localStorage.setItem("lang", lang);
+      
+      // Only sync TO the database if we are logged in AND 
+      // the profile's language is actually different from our current state.
+      // This avoids pushing the temporary guest state to the DB immediately on login.
+      if (profile && profile.language !== lang) {
+        updateProfile({ language: lang });
+      }
     } catch (e) {
-      console.warn("LanguageContext: failed to write localStorage", e);
+      console.warn("LanguageContext: failed to write localStorage or sync to DB", e);
     }
-  }, [lang]);
+  }, [lang, profile?.id, updateProfile]);
 
   const value = useMemo(() => ({ lang, setLang, t: TRANSLATIONS[lang] }), [lang]);
 
