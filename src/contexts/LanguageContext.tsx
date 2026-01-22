@@ -175,6 +175,29 @@ type Translations = {
     title: string;
     subtitle: string;
   };
+  // Auth
+  auth: {
+    title: string;
+    subtitle: string;
+    email: string;
+    password: string;
+    fullName: string;
+    signIn: string;
+    signUp: string;
+    noAccount: string;
+    haveAccount: string;
+    guest: string;
+    google: string;
+    facebook: string;
+    mobile: string;
+    welcomeBack: string;
+    createAccount: string;
+    signInWith: string;
+    or: string;
+    theme: string;
+    language: string;
+    invalidAccount: string;
+  };
 };
 
 const TRANSLATIONS: Record<Lang, Translations> = {
@@ -352,6 +375,28 @@ const TRANSLATIONS: Record<Lang, Translations> = {
       title: "UHBC CS Resources",
       subtitle: "Organized, fast, and student-focused — loading…",
     },
+    auth: {
+      title: "Welcome to CS Hub",
+      subtitle: "Join our community of student resources",
+      email: "Email",
+      password: "Password",
+      fullName: "Full Name",
+      signIn: "Sign In",
+      signUp: "Create Account",
+      noAccount: "Don't have an account?",
+      haveAccount: "Already have an account?",
+      guest: "Continue as Guest",
+      google: "Google",
+      facebook: "Facebook",
+      mobile: "Mobile Number",
+      welcomeBack: "Welcome Back",
+      createAccount: "Join Now",
+      signInWith: "Sign in with",
+      or: "or continue with",
+      theme: "Theme",
+      language: "Language",
+      invalidAccount: "No account found. Please create an account or continue as a guest.",
+    },
   },
   fr: {
     moduleNames: {
@@ -526,6 +571,28 @@ const TRANSLATIONS: Record<Lang, Translations> = {
     intro: {
       title: "Ressources UHBC CS",
       subtitle: "Organisé, rapide et axé sur les étudiants — chargement…",
+    },
+    auth: {
+      title: "Bienvenue sur CS Hub",
+      subtitle: "Rejoignez notre communauté de ressources étudiantes",
+      email: "Email",
+      password: "Mot de passe",
+      fullName: "Nom complet",
+      signIn: "Se connecter",
+      signUp: "Créer un compte",
+      noAccount: "Vous n'avez pas de compte ?",
+      haveAccount: "Vous avez déjà un compte ?",
+      guest: "Continuer en tant qu'invité",
+      google: "Google",
+      facebook: "Facebook",
+      mobile: "Numéro de mobile",
+      welcomeBack: "Bon retour",
+      createAccount: "Rejoindre maintenant",
+      signInWith: "Se connecter avec",
+      or: "ou continuer avec",
+      theme: "Thème",
+      language: "Langue",
+      invalidAccount: "Aucun compte trouvé. Veuillez créer un compte ou continuer en tant qu'invité.",
     },
   },
 };

@@ -4,13 +4,16 @@ import "./index.css";
 import { ThemeProvider } from "next-themes";
 import { LanguageProvider } from "./contexts/LanguageContext";
 import { ThemeColorProvider } from "./contexts/ThemeColorContext";
+import { AuthProvider } from "./contexts/AuthContext";
 
 createRoot(document.getElementById("root")!).render(
 	<ThemeProvider attribute="class" defaultTheme="system">
 		<ThemeColorProvider>
-			<LanguageProvider>
-				<App />
-			</LanguageProvider>
+			<AuthProvider>
+				<LanguageProvider>
+					<App />
+				</LanguageProvider>
+			</AuthProvider>
 		</ThemeColorProvider>
 	</ThemeProvider>
 );

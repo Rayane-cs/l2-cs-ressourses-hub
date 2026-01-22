@@ -17,6 +17,7 @@ const ProgrammingLanguage = lazy(() => import("./pages/ProgrammingLanguage"));
 const Search = lazy(() => import("./pages/Search"));
 const About = lazy(() => import("./pages/About"));
 const Feedback = lazy(() => import("./pages/Feedback"));
+const AuthPage = lazy(() => import("./pages/AuthPage"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
@@ -27,6 +28,19 @@ const LoadingFallback = () => (
     <div className="animate-pulse text-foreground">Loading...</div>
   </div>
 );
+
+import { useAuth } from "./contexts/AuthContext";
+import { Navigate } from "react-router-dom";
+
+// Auth Guard Wrapper
+const AuthGuard = ({ children }: { children: React.ReactNode }) => {
+  const { user, isGuest, loading } = useAuth();
+  
+  if (loading) return <LoadingFallback />;
+  if (!user && !isGuest) return <Navigate to="/auth" replace />;
+  
+  return <>{children}</>;
+};
 
 const App = () => {
   const [showSplash, setShowSplash] = useState(true);
@@ -43,15 +57,16 @@ const App = () => {
         </AnimatePresence>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/home" element={<Index />} />
-            <Route path="/year/:yearSlug" element={<Suspense fallback={<LoadingFallback />}><YearPage /></Suspense>} />
-            <Route path="/module/:moduleSlug" element={<Suspense fallback={<LoadingFallback />}><ModulePage /></Suspense>} />
-            <Route path="/programming/:languageSlug" element={<Suspense fallback={<LoadingFallback />}><LanguagePage /></Suspense>} />
-            <Route path="/programming-language/:lang" element={<Suspense fallback={<LoadingFallback />}><ProgrammingLanguage /></Suspense>} />
-            <Route path="/search" element={<Suspense fallback={<LoadingFallback />}><Search /></Suspense>} />
-            <Route path="/about" element={<Suspense fallback={<LoadingFallback />}><About /></Suspense>} />
-            <Route path="/feedback" element={<Suspense fallback={<LoadingFallback />}><Feedback /></Suspense>} />
+            <Route path="/auth" element={<Suspense fallback={<LoadingFallback />}><AuthPage /></Suspense>} />
+            <Route path="/" element={<AuthGuard><Index /></AuthGuard>} />
+            <Route path="/home" element={<AuthGuard><Index /></AuthGuard>} />
+            <Route path="/year/:yearSlug" element={<AuthGuard><Suspense fallback={<LoadingFallback />}><YearPage /></Suspense></AuthGuard>} />
+            <Route path="/module/:moduleSlug" element={<AuthGuard><Suspense fallback={<LoadingFallback />}><ModulePage /></Suspense></AuthGuard>} />
+            <Route path="/programming/:languageSlug" element={<AuthGuard><Suspense fallback={<LoadingFallback />}><LanguagePage /></Suspense></AuthGuard>} />
+            <Route path="/programming-language/:lang" element={<AuthGuard><Suspense fallback={<LoadingFallback />}><ProgrammingLanguage /></Suspense></AuthGuard>} />
+            <Route path="/search" element={<AuthGuard><Suspense fallback={<LoadingFallback />}><Search /></Suspense></AuthGuard>} />
+            <Route path="/about" element={<AuthGuard><Suspense fallback={<LoadingFallback />}><About /></Suspense></AuthGuard>} />
+            <Route path="/feedback" element={<AuthGuard><Suspense fallback={<LoadingFallback />}><Feedback /></Suspense></AuthGuard>} />
             <Route path="*" element={<Suspense fallback={<LoadingFallback />}><NotFound /></Suspense>} />
           </Routes>
         </BrowserRouter>
