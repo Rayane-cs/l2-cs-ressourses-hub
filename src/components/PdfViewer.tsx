@@ -4,6 +4,8 @@ import type { Resource } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { Download, Eye, X } from "lucide-react";
 import DownloadButton from "@/components/DownloadButton";
+import { useAuth } from "@/contexts/AuthContext";
+import { GuestDownloadDialog } from "./GuestDownloadDialog";
 
 interface PdfViewerProps {
   pdfUrl?: string;
@@ -20,6 +22,8 @@ interface PdfViewerProps {
 export default function PdfViewer({ pdfUrl, moduleSlug, resourceId, filename, initialOpen = false, onClose }: PdfViewerProps) {
   const [open, setOpen] = useState(initialOpen);
   const [iframeError, setIframeError] = useState(false);
+  const [showGuestDialog, setShowGuestDialog] = useState(false);
+  const { isGuest } = useAuth();
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const prevOverflowRef = useRef<string>("");
 
@@ -125,6 +129,11 @@ export default function PdfViewer({ pdfUrl, moduleSlug, resourceId, filename, in
   // Try to download via fetch -> blob so the browser saves the file directly.
   // If fetch fails (CORS or network error), fallback to opening in a new tab.
   const handleDownload = async () => {
+    if (isGuest) {
+      setShowGuestDialog(true);
+      return;
+    }
+
     // Prefer resolvedDownloadUrl (transforms Drive links to uc?export=download)
     const downloadTarget = resolvedDownloadUrl || pdfUrl;
     try {
@@ -323,6 +332,11 @@ export default function PdfViewer({ pdfUrl, moduleSlug, resourceId, filename, in
           </div>
         </div>
       )}
+
+      <GuestDownloadDialog 
+        open={showGuestDialog} 
+        onOpenChange={setShowGuestDialog} 
+      />
     </div>
   );
 }

@@ -204,6 +204,12 @@ type Translations = {
     invalidAccount: string;
     signUpSuccess: string;
   };
+  downloadRestricted: {
+    title: string;
+    description: string;
+    continueGuest: string;
+    createAccount: string;
+  };
 };
 
 const TRANSLATIONS: Record<Lang, Translations> = {
@@ -408,6 +414,12 @@ const TRANSLATIONS: Record<Lang, Translations> = {
       invalidAccount: "No account found. Please create an account or continue as a guest.",
       signUpSuccess: "Account created! You can login right now.",
     },
+    downloadRestricted: {
+      title: "Authentication Required",
+      description: "You must create an account or sign in to download resources. This helps us provide a better experience.",
+      continueGuest: "No, continue as guest",
+      createAccount: "Create an account",
+    },
   },
   fr: {
     moduleNames: {
@@ -609,6 +621,12 @@ const TRANSLATIONS: Record<Lang, Translations> = {
       language: "Langue",
       invalidAccount: "Aucun compte trouvé. Veuillez créer un compte ou continuer en tant qu'invité.",
       signUpSuccess: "Compte créé ! Vous pouvez vous connecter dès maintenant.",
+    },
+    downloadRestricted: {
+      title: "Authentification requise",
+      description: "Vous devez créer un compte ou vous connecter pour télécharger des ressources. Cela nous aide à offrir une meilleure expérience.",
+      continueGuest: "Non, continuer en tant qu'invité",
+      createAccount: "Créer un compte",
     },
   },
 };

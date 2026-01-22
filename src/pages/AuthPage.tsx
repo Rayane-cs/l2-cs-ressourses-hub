@@ -31,7 +31,10 @@ const AuthPage = () => {
   const { theme, setTheme } = useTheme();
   const navigate = useNavigate();
 
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(() => {
+    const params = new URLSearchParams(window.location.search);
+    return params.get("mode") !== "signup";
+  });
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
