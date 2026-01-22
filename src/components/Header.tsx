@@ -346,9 +346,13 @@ const Header = () => {
                   )}
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56 rounded-xl">
-                <DropdownMenuLabel>
-                  {user ? user.email : (isGuest ? "Guest User" : "Account")}
+              <DropdownMenuContent align="end" className="min-w-[240px] max-w-[300px] rounded-xl">
+                <DropdownMenuLabel className="font-normal">
+                  <div className="flex flex-col space-y-1">
+                    <p className="text-sm font-medium leading-none truncate" title={user?.email}>
+                      {user ? user.email : (isGuest ? "Guest User" : "Account")}
+                    </p>
+                  </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={() => signOut()} className="text-red-500 focus:text-red-500 cursor-pointer text-sm font-medium">

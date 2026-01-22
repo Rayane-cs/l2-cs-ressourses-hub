@@ -183,6 +183,10 @@ type Translations = {
     password: string;
     fullName: string;
     signIn: string;
+    wrongPassword: string;
+    confirmTitle: string;
+    confirmSubtitle: string;
+    backToLogin: string;
     signUp: string;
     noAccount: string;
     haveAccount: string;
@@ -382,6 +386,10 @@ const TRANSLATIONS: Record<Lang, Translations> = {
       password: "Password",
       fullName: "Full Name",
       signIn: "Sign In",
+      wrongPassword: "Incorrect password. Please try again.",
+      confirmTitle: "Email Verified!",
+      confirmSubtitle: "Your email has been successfully verified. You can now access all features of the hub.",
+      backToLogin: "Continue to Hub",
       signUp: "Create Account",
       noAccount: "Don't have an account?",
       haveAccount: "Already have an account?",
@@ -579,6 +587,10 @@ const TRANSLATIONS: Record<Lang, Translations> = {
       password: "Mot de passe",
       fullName: "Nom complet",
       signIn: "Se connecter",
+      wrongPassword: "Mot de passe incorrect. Veuillez réessayer.",
+      confirmTitle: "E-mail vérifié !",
+      confirmSubtitle: "Votre e-mail a été vérifié avec succès. Vous pouvez désormais accéder à toutes les fonctionnalités du hub.",
+      backToLogin: "Continuer vers le Hub",
       signUp: "Créer un compte",
       noAccount: "Vous n'avez pas de compte ?",
       haveAccount: "Vous avez déjà un compte ?",

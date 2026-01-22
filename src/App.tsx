@@ -18,6 +18,7 @@ const Search = lazy(() => import("./pages/Search"));
 const About = lazy(() => import("./pages/About"));
 const Feedback = lazy(() => import("./pages/Feedback"));
 const AuthPage = lazy(() => import("./pages/AuthPage"));
+const ConfirmSuccessPage = lazy(() => import("./pages/ConfirmSuccessPage"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
@@ -58,6 +59,7 @@ const App = () => {
         <BrowserRouter>
           <Routes>
             <Route path="/auth" element={<Suspense fallback={<LoadingFallback />}><AuthPage /></Suspense>} />
+            <Route path="/confirm-success" element={<Suspense fallback={<LoadingFallback />}><ConfirmSuccessPage /></Suspense>} />
             <Route path="/" element={<AuthGuard><Index /></AuthGuard>} />
             <Route path="/home" element={<AuthGuard><Index /></AuthGuard>} />
             <Route path="/year/:yearSlug" element={<AuthGuard><Suspense fallback={<LoadingFallback />}><YearPage /></Suspense></AuthGuard>} />

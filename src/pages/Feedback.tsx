@@ -16,6 +16,7 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Heart, Star, FileText, Link as LinkIcon, Palette, Lightbulb, User } from "lucide-react";
 import { toast } from "sonner";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useAuth } from "@/contexts/AuthContext";
 
 const feedbackSchema = z.object({
   name: z.string().min(2, "Please enter your name (at least 2 characters)").max(100, "Name must be less than 100 characters"),
@@ -29,7 +30,7 @@ const feedbackSchema = z.object({
     required_error: "Please indicate if you like the color theme",
   }),
   themeSuggestions: z.string().optional(),
-  futureFeatures: z.string().min(10, "Please provide at least 10 characters").max(500, "Feedback must be less than 500 characters"),
+  futureFeatures: z.string().max(500, "Feedback must be less than 500 characters").optional().or(z.literal("")),
 });
 
 type FeedbackFormValues = z.infer<typeof feedbackSchema>;
@@ -37,16 +38,9 @@ type FeedbackFormValues = z.infer<typeof feedbackSchema>;
 const Feedback = () => {
   const navigate = useNavigate();
   const { t } = useLanguage();
+  const { user, isGuest } = useAuth();
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  useEffect(() => {
-    // Check if user has already submitted feedback
-    const submitted = localStorage.getItem("feedbackSubmitted");
-    if (submitted === "true") {
-      setHasSubmitted(true);
-    }
-  }, []);
 
   const form = useForm<FeedbackFormValues>({
     resolver: zodResolver(feedbackSchema),
@@ -59,6 +53,19 @@ const Feedback = () => {
       futureFeatures: "",
     },
   });
+
+  useEffect(() => {
+    // Check if user has already submitted feedback
+    const submitted = localStorage.getItem("feedbackSubmitted");
+    if (submitted === "true") {
+      setHasSubmitted(true);
+    }
+    
+    // Auto-fill email if user is logged in
+    if (user?.email) {
+      form.setValue("name", user.email);
+    }
+  }, [user, form]);
 
   // Watch themeLiked to conditionally require themeSuggestions
   const themeLiked = form.watch("themeLiked");
@@ -268,12 +275,14 @@ Submitted at: ${new Date().toLocaleString()}
                           {t.feedback.yourName}
                         </FormLabel>
                         <FormDescription>
-                          {t.feedback.yourNameDesc}
+                          {user ? "Your account email is pre-filled" : t.feedback.yourNameDesc}
                         </FormDescription>
                         <FormControl>
                           <Input
                             placeholder={t.feedback.enterName}
                             {...field}
+                            readOnly={!!user}
+                            className={user ? "bg-muted/50 cursor-not-allowed" : ""}
                           />
                         </FormControl>
                         <FormMessage />
