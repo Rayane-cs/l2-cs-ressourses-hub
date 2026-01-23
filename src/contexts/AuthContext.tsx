@@ -79,6 +79,29 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
+  // Function to increment login count
+  const incrementLoginCount = async (userId: string) => {
+    try {
+      const { error } = await supabase.rpc('increment_usage_stats', {
+        user_id: userId,
+        inc_total: 0,
+        inc_red: 0,
+        inc_blue: 0,
+        inc_en: 0,
+        inc_fr: 0,
+        inc_login: 1
+      });
+
+      if (error) {
+        console.error('[AuthContext] Failed to increment login count:', error);
+      } else {
+        console.log('[AuthContext] ✅ Login count incremented');
+      }
+    } catch (err) {
+      console.error('[AuthContext] Unexpected error incrementing login count:', err);
+    }
+  };
+
   useEffect(() => {
     // Get initial user securely
     supabase.auth.getUser().then(({ data: { user } }) => {
@@ -104,6 +127,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         fetchProfile(currentUser.id);
         setIsGuest(false);
         localStorage.removeItem('isGuest');
+        
+        // Only increment login count on actual sign-in events, not session restoration
+        if (event === 'SIGNED_IN') {
+          incrementLoginCount(currentUser.id);
+        }
       } else {
         setProfile(null);
       }

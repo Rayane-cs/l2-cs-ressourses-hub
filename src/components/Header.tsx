@@ -14,45 +14,14 @@ import {
   DropdownMenuSeparator, 
   DropdownMenuTrigger 
 } from "./ui/dropdown-menu";
-import { toast } from "sonner";
 
 const Header = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [hasFeedbackSubmitted, setHasFeedbackSubmitted] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const location = useLocation();
   const { t } = useLanguage();
-  const { user, isGuest, signOut, profile, updateProfile } = useAuth();
-  const [newAvatarUrl, setNewAvatarUrl] = useState("");
-  const [isUpdatingAvatar, setIsUpdatingAvatar] = useState(false);
-
-  const handleAvatarUpdate = async () => {
-    if (!newAvatarUrl.trim()) return;
-    setIsUpdatingAvatar(true);
-    try {
-      const { error } = await updateProfile({ avatar_url: newAvatarUrl.trim() });
-      if (error) {
-        toast.error("Failed to update avatar");
-      } else {
-        toast.success("Avatar updated successfully!");
-        setNewAvatarUrl("");
-      }
-    } catch (err) {
-      toast.error("An unexpected error occurred");
-    } finally {
-      setIsUpdatingAvatar(false);
-    }
-  };
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  const { user, isGuest, signOut, profile } = useAuth();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -206,8 +175,10 @@ const Header = () => {
                       className="text-sm font-medium transition-smooth hover:text-primary text-foreground"
                       disabled={link.disabled}
                       aria-label={`${t.nav.more} (${t.nav.comingSoon})`}
-                      aria-haspopup="true"
-                      aria-expanded={isDropdownOpen}
+                      {...(!link.disabled && {
+                        "aria-haspopup": true,
+                        "aria-expanded": isDropdownOpen
+                      })}
                     >
                       {t.nav.more} ▾
                     </button>
@@ -355,6 +326,19 @@ const Header = () => {
             </form>
             <LanguageToggle />
             <ThemeToggle />
+            
+            {/* Show Sign Up button for guest users */}
+            {isGuest && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => navigate("/auth?mode=signup")}
+                className="rounded-full px-4 h-9"
+              >
+                Sign Up
+              </Button>
+            )}
+            
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon" className="rounded-full overflow-hidden border border-border">
@@ -409,26 +393,13 @@ const Header = () => {
                 {user && (
                   <>
                     <DropdownMenuSeparator />
-                    <div className="p-2 space-y-2">
-                      <p className="text-[10px] font-bold uppercase text-muted-foreground px-1">Update Profile Picture</p>
-                      <div className="flex gap-2">
-                        <input
-                          type="text"
-                          placeholder="Paste image URL here..."
-                          value={newAvatarUrl}
-                          onChange={(e) => setNewAvatarUrl(e.target.value)}
-                          className="flex-1 bg-muted/50 border border-transparent focus:border-primary/30 rounded-lg px-3 py-1.5 text-xs outline-none transition-all"
-                        />
-                        <Button 
-                          size="sm" 
-                          onClick={handleAvatarUpdate} 
-                          disabled={isUpdatingAvatar || !newAvatarUrl.trim()}
-                          className="h-8 rounded-lg px-3"
-                        >
-                          {isUpdatingAvatar ? "..." : "Set"}
-                        </Button>
-                      </div>
-                    </div>
+                    <DropdownMenuItem 
+                      onClick={() => navigate("/profile")}
+                      className="cursor-pointer text-sm font-medium rounded-lg"
+                    >
+                      <User className="mr-2 h-4 w-4" />
+                      <span>Profile Settings</span>
+                    </DropdownMenuItem>
                   </>
                 )}
                 
@@ -444,6 +415,19 @@ const Header = () => {
           <div className="flex md:hidden items-center gap-2">
             <LanguageToggle />
             <ThemeToggle />
+            
+            {/* Show Sign Up button for guest users on mobile */}
+            {isGuest && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => navigate("/auth?mode=signup")}
+                className="rounded-full px-3 h-9 text-xs"
+              >
+                Sign Up
+              </Button>
+            )}
+            
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon" className="rounded-full h-9 w-9 overflow-hidden border border-border">
@@ -498,26 +482,13 @@ const Header = () => {
                 {user && (
                   <>
                     <DropdownMenuSeparator />
-                    <div className="p-2 space-y-2">
-                      <p className="text-[10px] font-bold uppercase text-muted-foreground px-1">Update Profile Picture</p>
-                      <div className="flex gap-2">
-                        <input
-                          type="text"
-                          placeholder="Paste image URL here..."
-                          value={newAvatarUrl}
-                          onChange={(e) => setNewAvatarUrl(e.target.value)}
-                          className="flex-1 bg-muted/50 border border-transparent focus:border-primary/30 rounded-lg px-3 py-1.5 text-xs outline-none transition-all"
-                        />
-                        <Button 
-                          size="sm" 
-                          onClick={handleAvatarUpdate} 
-                          disabled={isUpdatingAvatar || !newAvatarUrl.trim()}
-                          className="h-8 rounded-lg px-3"
-                        >
-                          {isUpdatingAvatar ? "..." : "Set"}
-                        </Button>
-                      </div>
-                    </div>
+                    <DropdownMenuItem 
+                      onClick={() => navigate("/profile")}
+                      className="cursor-pointer text-sm font-medium rounded-lg"
+                    >
+                      <User className="mr-2 h-4 w-4" />
+                      <span>Profile Settings</span>
+                    </DropdownMenuItem>
                   </>
                 )}
                 
