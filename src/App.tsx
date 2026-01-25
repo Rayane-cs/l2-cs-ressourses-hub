@@ -8,6 +8,7 @@ import { Suspense, lazy, useState } from "react";
 import Index from "./pages/Index";
 import SplashScreen from "./components/SplashScreen";
 import { AnimatePresence } from "framer-motion";
+import { useAntiDevTools } from "./hooks/useAntiDevTools";
 
 // Lazy load route components for better code splitting
 const YearPage = lazy(() => import("./pages/YearPage"));
@@ -47,6 +48,7 @@ const AuthGuard = ({ children }: { children: React.ReactNode }) => {
 };
 
 const App = () => {
+  useAntiDevTools();
   const [showSplash, setShowSplash] = useState(true);
 
   return (

@@ -47,18 +47,7 @@ const AuthPage = () => {
       if (isLogin) {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) {
-          // Check if the user exists in our profiles table to provide a specific error
-          const { data: profileExists } = await supabase
-            .from("profiles")
-            .select("id")
-            .eq("email", email)
-            .maybeSingle();
-
-          if (profileExists) {
-            toast.error(t.auth.wrongPassword);
-          } else {
-            toast.error(t.auth.invalidAccount);
-          }
+          toast.error(t.auth.invalidAccount);
           return;
         }
         toast.success(t.auth.welcomeBack);
