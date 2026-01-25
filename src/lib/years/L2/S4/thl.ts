@@ -6,49 +6,49 @@ const thl: Resource[] = [
         "course-1",
         "Chapter 1",
         "https://drive.google.com/file/d/1Z2Ao0nNUJUtnVtiPcemWhmDttU_ozAs8/view?usp=drive_link",
-        "S4", "2022-23"
+        "S4", "2025-26"
     ),
     course(
         "course-2",
         "Chapter 2",
         "https://drive.google.com/file/d/11H24rnZFzEFV6XgXAmgDD2C4OO8O0ICj/view?usp=drive_link",
-        "S4", "2022-23"
+        "S4", "2025-26"
     ),
     course(
         "course-3",
         "Chapter 3",
         "https://drive.google.com/file/d/1O8Xj4HWNARC_arSQaO2-5bJksvFiYzZ0/view?usp=drive_link",
-        "S4", "2022-23"
+        "S4", "2025-26"
     ),
     course(
         "course-4",
         "Chapter 4",
         "https://drive.google.com/file/d/1flHsySDZwYJBLL8eh2RbXiDC3MQHrG3g/view?usp=drive_link",
-        "S4", "2022-23"
+        "S4", "2025-26"
     ),
     course(
         "course-5",
         "Chapter 5",
         "https://drive.google.com/file/d/1lcMWW7pf0uJnd1v_HuoDKtOJfY77x-Dz/view?usp=drive_link",
-        "S4", "2022-23"
+        "S4", "2025-26"
     ),
     course(
         "course-6",
         "Chapter 6",
         "https://drive.google.com/file/d/1nfJN_fXOyT8fR_BZXmZfADrlgV1tzG_n/view?usp=drive_link",
-        "S4", "2022-23"
+        "S4", "2025-26"
     ),
     course(
         "course-7",
         "Chapter 7",
         "https://drive.google.com/file/d/1yICb7NeHi7VIQI25YSrM8HZv5JMufdzB/view?usp=drive_link",
-        "S4", "2022-23"
+        "S4", "2025-26"
     ),
     course(
         "course-8",
         "Chapter 8",
         "https://drive.google.com/file/d/15HUkcLRILh19fcUIAZZyJuJK_srUjUXA/view?usp=drive_link",
-        "S4", "2022-23"
+        "S4", "2025-26"
     ),
     td(
         "td-1",
@@ -65,7 +65,7 @@ const thl: Resource[] = [
     td(
         "td-3",
         "TD 3",
-        "https://drive.google.com/file/d/1-CSNDwGjlMZ0uLsi5P5cp3HsXyHGtRIa/view?usp=drive_link",
+        "https://drive.google.com/file/d/1kPnK82mNmAUXNKrb9wtv6ljgClZAr-9g/view?usp=drive_link",
         "S4", "2024-25"
     ),
     td(
@@ -87,20 +87,62 @@ const thl: Resource[] = [
         "S4", "2024-25"
     ),
     tdSolution(
+        "td-sol-3",
+        "TD 3 Solution",
+        "https://drive.google.com/file/d/14CBP2GRaMmp7k6vPyqvAyh-aGyKeokWZ/view?usp=drive_link",
+        "S4", "2024-25"
+    ),
+    tdSolution(
         "td-sol-4",
         "TD 4 Solution",
-        "https://drive.google.com/file/d/1GmJBD7hnl_iTmlpEaiPpJNdM7rW0hXtH/view?usp=drive_link",
+        "https://drive.google.com/file/d/15kBzZMrQ2ciaOzUqppiKYJUrkmxymoXI/view?usp=drive_link",
         "S4", "2024-25"
+    ),
+    tp(
+        "tp-1",
+        "TP 1",
+        "https://drive.google.com/file/d/1uOXOi99EvxI2q4ULsJoIRsyq1wDcNmgH/view?usp=drive_link",
+        "S4", "2020-21"
+    ),
+    tp(
+        "tp-2",
+        "TP 2",
+        "https://drive.google.com/file/d/1EkiqGpK_fJVnO9LN4v7qYG0CqJBP0o3Y/view?usp=drive_link",
+        "S4", "2020-21"
     ),
     tp(
         "tp-3",
         "TP 3",
-        "https://drive.google.com/file/d/1AlRp091ra4_V3_R3XqxTi6FVEcYtiF8W/view?usp=drive_link",
+        "https://drive.google.com/file/d/195cNq4oPtmZhhxF1znif7ue3V3JmPIne/view?usp=drive_link",
+        "S4", "2020-21"
+    ),
+    tp(
+        "tp-4",
+        "TP 4",
+        "https://drive.google.com/file/d/1B6GJ1fXB1nTlZhgWWUacYAolkXkdkhAm/view?usp=drive_link",
+        "S4", "2020-21"
+    ),
+    tp(
+        "tp-5",
+        "TP 5",
+        "https://drive.google.com/file/d/1ZrmEq_rV31dtdDwreZf0mLsKziWWFFVA/view?usp=drive_link",
+        "S4", "2020-21"
+    ),
+    tp(
+        "tp-6",
+        "TP 6",
+        "https://drive.google.com/file/d/1Q09XhaYh1iC8nmnZ51vu9erJtYXf9QqE/view?usp=drive_link",
+        "S4", "2020-21"
+    ),
+    tp(
+        "tp-7",
+        "TP 7",
+        "https://drive.google.com/file/d/19-jnsleHpez_O6LNJv6CDeex5zZf-gYC/view?usp=drive_link",
         "S4", "2020-21"
     ),
     tpSolution(
-        "tp-sol-5",
-        "TP 5 Solution",
+        "tp-sol-1",
+        "TP 1 Solution",
         "https://drive.google.com/file/d/1arLyZsg8qODaXkxBzgvPAh-of-gXs8VT/view?usp=drive_link",
         "S4", "2020-21"
     ),

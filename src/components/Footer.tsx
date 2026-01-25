@@ -44,17 +44,20 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold mb-4">{t.footer.programmingLangs}</h3>
             <div className="flex flex-col gap-2">
-              <Link to="/programming-language/c" className="hover:text-primary transition-smooth">
-                C Language
+              <Link to="/programming-languages/html" className="hover:text-primary transition-smooth">
+                HTML
               </Link>
-              <Link to="/programming-language/python" className="hover:text-primary transition-smooth">
-                Python
+              <Link to="/programming-languages/c" className="hover:text-primary transition-smooth flex items-center gap-2 group">
+                C Language <span className="text-[10px] opacity-0 group-hover:opacity-100 transition-opacity bg-primary/20 px-1.5 rounded-full uppercase font-bold tracking-tighter">Soon</span>
               </Link>
-              <Link to="/programming-language/java" className="hover:text-primary transition-smooth">
-                Java
+              <Link to="/programming-languages/python" className="hover:text-primary transition-smooth flex items-center gap-2 group">
+                Python <span className="text-[10px] opacity-0 group-hover:opacity-100 transition-opacity bg-primary/20 px-1.5 rounded-full uppercase font-bold tracking-tighter">Soon</span>
               </Link>
-              <Link to="/programming-language/assembly" className="hover:text-primary transition-smooth">
-                Assembly
+              <Link to="/programming-languages/java" className="hover:text-primary transition-smooth flex items-center gap-2 group">
+                Java <span className="text-[10px] opacity-0 group-hover:opacity-100 transition-opacity bg-primary/20 px-1.5 rounded-full uppercase font-bold tracking-tighter">Soon</span>
+              </Link>
+              <Link to="/programming-languages/assembly" className="hover:text-primary transition-smooth flex items-center gap-2 group">
+                Assembly <span className="text-[10px] opacity-0 group-hover:opacity-100 transition-opacity bg-primary/20 px-1.5 rounded-full uppercase font-bold tracking-tighter">Soon</span>
               </Link>
             </div>
           </div>

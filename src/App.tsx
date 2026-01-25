@@ -14,6 +14,8 @@ const YearPage = lazy(() => import("./pages/YearPage"));
 const ModulePage = lazy(() => import("./pages/ModulePage"));
 const LanguagePage = lazy(() => import("./pages/LanguagePage"));
 const ProgrammingLanguage = lazy(() => import("./pages/ProgrammingLanguage"));
+const ProgrammingLanguagesHub = lazy(() => import("./pages/ProgrammingLanguagesHub"));
+const ProgrammingLanguageDetail = lazy(() => import("./pages/ProgrammingLanguageDetail"));
 const Search = lazy(() => import("./pages/Search"));
 const About = lazy(() => import("./pages/About"));
 const Feedback = lazy(() => import("./pages/Feedback"));
@@ -66,7 +68,8 @@ const App = () => {
             <Route path="/home" element={<AuthGuard><Index /></AuthGuard>} />
             <Route path="/year/:yearSlug" element={<AuthGuard><Suspense fallback={<LoadingFallback />}><YearPage /></Suspense></AuthGuard>} />
             <Route path="/module/:moduleSlug" element={<AuthGuard><Suspense fallback={<LoadingFallback />}><ModulePage /></Suspense></AuthGuard>} />
-            <Route path="/programming/:languageSlug" element={<AuthGuard><Suspense fallback={<LoadingFallback />}><LanguagePage /></Suspense></AuthGuard>} />
+            <Route path="/programming-languages" element={<AuthGuard><Suspense fallback={<LoadingFallback />}><ProgrammingLanguagesHub /></Suspense></AuthGuard>} />
+            <Route path="/programming-languages/:lang" element={<AuthGuard><Suspense fallback={<LoadingFallback />}><ProgrammingLanguageDetail /></Suspense></AuthGuard>} />
             <Route path="/programming-language/:lang" element={<AuthGuard><Suspense fallback={<LoadingFallback />}><ProgrammingLanguage /></Suspense></AuthGuard>} />
             <Route path="/search" element={<AuthGuard><Suspense fallback={<LoadingFallback />}><Search /></Suspense></AuthGuard>} />
             <Route path="/about" element={<AuthGuard><Suspense fallback={<LoadingFallback />}><About /></Suspense></AuthGuard>} />

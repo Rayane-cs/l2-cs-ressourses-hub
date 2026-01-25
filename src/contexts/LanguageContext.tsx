@@ -29,6 +29,7 @@ type Translations = {
     about: string;
     search: string;
     feedback: string;
+    programming: string;
     more: string;
     comingSoon: string;
     switchLanguage: string;
@@ -250,6 +251,7 @@ const TRANSLATIONS: Record<Lang, Translations> = {
       about: "About",
       search: "Search",
       feedback: "Feedback",
+      programming: "Programming",
       more: "More",
       comingSoon: "Coming soon",
       switchLanguage: "Switch language",
@@ -458,6 +460,7 @@ const TRANSLATIONS: Record<Lang, Translations> = {
       about: "À propos",
       search: "Recherche",
       feedback: "Commentaires",
+      programming: "Programmation",
       more: "Plus",
       comingSoon: "Bientôt disponible",
       switchLanguage: "Changer de langue",

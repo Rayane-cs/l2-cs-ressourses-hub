@@ -67,10 +67,6 @@ export default function YearPage() {
                 <L2S4Modules showHeader={false} />
               </div>
             </div>
-            <div>
-              <h2 className="text-4xl md:text-5xl font-bold text-center mb-6">{t.yearPage.programmingLanguages}</h2>
-              <LanguageModules showHeader={false} />
-            </div>
           </div>
         ) : (
           <div className="bg-card p-8 rounded-lg border border-border text-center">

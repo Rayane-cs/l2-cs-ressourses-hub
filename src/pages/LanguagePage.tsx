@@ -12,6 +12,7 @@ import { useToast } from "@/components/ui/use-toast";
 import type { Resource } from "@/lib/types";
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import YoutubeCard from "@/components/YoutubeCard";
 
 const LanguagePage = () => {
   const { languageSlug } = useParams();
@@ -211,37 +212,45 @@ const LanguagePage = () => {
             <TabsContent value="all" className="animate-fade-in">
               {languageResources.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {languageResources.map((res) => (
-                    <Card key={res.id}>
-                      <CardHeader>
-                        <CardTitle className="flex items-center gap-2">
-                          {res.title}
-                        </CardTitle>
-                        <div className="flex items-center justify-between mt-2">
-                          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                            <span className="px-2 py-1 bg-secondary/10 rounded-md capitalize">{res.type}</span>
-                            <span className="px-2 py-1 bg-secondary/10 rounded-md">{languageName}</span>
+                  {languageResources.map((res) => {
+                    if (res.type === "youtube") {
+                      return (
+                        <YoutubeCard 
+                          key={res.id}
+                          title={res.title}
+                          url={res.url}
+                          languageName={languageName}
+                        />
+                      );
+                    }
+                    return (
+                      <Card key={res.id} className="bg-muted/20 border border-border/50 rounded-2xl overflow-hidden hover:border-primary/30 transition-all group">
+                        <CardHeader className="p-5">
+                          <CardTitle className="text-base font-bold line-clamp-2 leading-tight">
+                            {res.title}
+                          </CardTitle>
+                          <div className="flex items-center justify-between mt-4">
+                            <div className="flex items-center gap-2">
+                              <span className="px-2 py-0.5 bg-secondary/10 text-secondary text-[10px] font-black uppercase rounded-md">{res.type}</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              {res.type === "exercise" ? (
+                                  <Button size="sm" className="rounded-xl font-bold" onClick={() => { setActiveExercise(res); setShowExplanation(false); }}>
+                                      Open Exercise
+                                  </Button>
+                              ) : (
+                                  <Button asChild size="sm" variant="secondary" className="rounded-xl font-bold">
+                                    <a href={res.url} target="_blank" rel="noreferrer">
+                                        View
+                                    </a>
+                                  </Button>
+                              )}
+                            </div>
                           </div>
-                          <div className="flex items-center gap-2">
-                            {res.type === "exercise" ? (
-                                <Button size="sm" onClick={() => { setActiveExercise(res); setShowExplanation(false); }}>
-                                    Open Exercise
-                                </Button>
-                            ) : (
-                                <a
-                                    href={res.url}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    className="px-3 py-1.5 text-sm bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
-                                >
-                                    View
-                                </a>
-                            )}
-                          </div>
-                        </div>
-                      </CardHeader>
-                    </Card>
-                  ))}
+                        </CardHeader>
+                      </Card>
+                    );
+                  })}
                 </div>
               ) : (
                 placeholderMessage
@@ -273,22 +282,18 @@ const LanguagePage = () => {
 
             <TabsContent value="youtube" className="animate-fade-in">
               {languageResources.filter((r) => r.type === "youtube").length > 0 ? (
-                languageResources
-                  .filter((r) => r.type === "youtube")
-                  .map((res) => (
-                    <Card key={res.id}>
-                      <CardHeader>
-                        <CardTitle className="flex items-center justify-between">
-                          <span className="flex items-center gap-2">
-                            {res.title}
-                          </span>
-                          <a href={res.url} target="_blank" rel="noreferrer" aria-label={`Open ${res.title} in new tab`} className="text-sm text-primary underline">
-                            Open
-                          </a>
-                        </CardTitle>
-                      </CardHeader>
-                    </Card>
-                  ))
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {languageResources
+                    .filter((r) => r.type === "youtube")
+                    .map((res) => (
+                      <YoutubeCard 
+                        key={res.id}
+                        title={res.title}
+                        url={res.url}
+                        languageName={languageName}
+                      />
+                    ))}
+                </div>
               ) : (
                 placeholderMessage
               )}

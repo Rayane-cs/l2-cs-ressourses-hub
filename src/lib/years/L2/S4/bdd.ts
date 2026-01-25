@@ -4,51 +4,57 @@ import { course, exam, examSolution, resume, td, tdSolution, tp, tpSolution, ytV
 const bdd: Resource[] = [
     course(
         "course-1",
-        "Chapitre 0 -fichier",
-        "https://drive.google.com/file/d/1hYJcujsbZF6Oi8uSYM1jG0geAcC8e8Zt/view?usp=drive_link",
-        "S4", "2024-25"
+        "0.2020_présentation",
+        "https://drive.google.com/file/d/1iy5fM9xqCdayQizA_iTMlMmyyLtodtUi/view?usp=drive_link",
+        "S4", "2025-26"
     ),
     course(
         "course-2",
-        "Chapitre 1 -intro",
-        "https://drive.google.com/file/d/1dv4urLqZZKxrakrrEAxtuOI1SfUQTTYX/view?usp=drive_link",
-        "S4", "2024-25"
+        "0.Chapitre_fichier",
+        "https://drive.google.com/file/d/1gab4BW9JhqhQVbd1qP2i77iY__44QXUz/view?usp=drive_link",
+        "S4", "2025-26"
     ),
     course(
         "course-3",
-        "Chapitre 2 -EA",
-        "https://drive.google.com/file/d/1R9ofE46QB_CCRWj8pJB9yEuF8gfvy5nS/view?usp=drive_link",
-        "S4", "2024-25"
+        "1.chapitre1-introduction_2013",
+        "https://drive.google.com/file/d/1VTFvK9GbD_reE7h4WQ4UNJIH5B5TzqgG/view?usp=drive_link",
+        "S4", "2025-26"
     ),
     course(
         "course-4",
-        "Chapitre 3 -MR",
-        "https://drive.google.com/file/d/1uUL2lRYF47DaXITMZ_lmmNjv_F8UvFg4/view?usp=drive_link",
-        "S4", "2024-25"
+        "2.chapitre2-EA_2013",
+        "https://drive.google.com/file/d/1X5xafiZuZ7_PLazFiy45Fh6JmBAQRiNx/view?usp=drive_link",
+        "S4", "2025-26"
     ),
     course(
         "course-5",
-        "Chapitre 4 -NORM",
-        "https://drive.google.com/file/d/1VdzUHGKwcgMKHqd76i0atDrbEmr5Hycb/view?usp=drive_link",
-        "S4", "2024-25"
+        "3.chapitre3-MR_2013",
+        "https://drive.google.com/file/d/18U-9j9gHSevZQ8fDpohhz79ZxmnhBoEK/view?usp=drive_link",
+        "S4", "2025-26"
     ),
     course(
         "course-6",
-        "Chapitre 5 -ALGRE",
-        "https://drive.google.com/file/d/1MKjQtw-z_zsSaOiDcSA0uwHQy-rj3Bqe/view?usp=drive_link",
-        "S4", "2024-25"
+        "4.chapitre4-NORM_2017",
+        "https://drive.google.com/file/d/1m3Wj7XzekU0t3j9CRh_izUrmNjBaDgej/view?usp=drive_link",
+        "S4", "2025-26"
     ),
     course(
         "course-7",
-        "Chapitre 6 -SQL",
-        "https://drive.google.com/file/d/1fla5LOl0cSuR44d04kPWIcEqIekGy0MC/view?usp=drive_link",
-        "S4", "2024-25"
+        "5.chapitre5-ALGRE",
+        "https://drive.google.com/file/d/1877bqBIoAViZ6ZGdtPMKYvcJx5AQHKBb/view?usp=drive_link",
+        "S4", "2025-26"
     ),
     course(
-        "course",
+        "course-8",
+        "6.slides_chap_6",
+        "https://drive.google.com/file/d/1tMi01ZGxYUzqy_5CbjVOp_Zuu2F866ql/view?usp=drive_link",
+        "S4", "2025-26"
+    ),
+    course(
+        "course-9",
         "Requete SQL",
         "https://drive.google.com/file/d/1q8HSDC6qw2Oi44GPcuz07pNwewD_72zv/view?usp=drive_link",
-        "S4", "2024-25"
+        "S4", "2025-26"
     ),
     td(
         "td-0",
