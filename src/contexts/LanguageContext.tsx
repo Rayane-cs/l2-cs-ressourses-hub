@@ -418,7 +418,7 @@ const TRANSLATIONS: Record<Lang, Translations> = {
     },
     downloadRestricted: {
       title: "Authentication Required",
-      description: "You must create an account or sign in to download resources. This helps us provide a better experience.",
+      description: "You must create an account or sign in to access this resource. This helps us provide a better experience.",
       continueGuest: "No, continue as guest",
       createAccount: "Create an account",
     },
@@ -627,7 +627,7 @@ const TRANSLATIONS: Record<Lang, Translations> = {
     },
     downloadRestricted: {
       title: "Authentification requise",
-      description: "Vous devez créer un compte ou vous connecter pour télécharger des ressources. Cela nous aide à offrir une meilleure expérience.",
+      description: "Vous devez créer un compte ou vous connecter pour accéder à cette ressource. Cela nous aide à offrir une meilleure expérience.",
       continueGuest: "Non, continuer en tant qu'invité",
       createAccount: "Créer un compte",
     },
