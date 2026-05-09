@@ -7,15 +7,59 @@
 @layer utilities {
   .scrollbar-hide {
     -ms-overflow-style: none;
-    /* IE and Edge */
     scrollbar-width: none;
-    /* Firefox */
   }
 
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
-    /* Chrome, Safari and Opera */
   }
+}
+
+/* Themed scrollbar — outside @layer so pseudo-elements work reliably */
+.scrollbar-themed {
+  scrollbar-width: thin;
+}
+
+.scrollbar-themed::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.scrollbar-themed::-webkit-scrollbar-track {
+  border-radius: 4px;
+}
+
+.scrollbar-themed::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+}
+
+.scrollbar-themed::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Global themed scrollbar for html/body */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--primary) / 0.5) hsl(var(--muted) / 0.2);
+}
+
+html::-webkit-scrollbar {
+  width: 6px;
+}
+
+html::-webkit-scrollbar-track {
+  background: hsl(var(--muted) / 0.2);
+  border-radius: 10px;
+  margin: 4px 0;
+}
+
+html::-webkit-scrollbar-thumb {
+  background: hsl(var(--primary) / 0.5);
+  border-radius: 10px;
+}
+
+html::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary) / 0.85);
 }
 
 /* 🎨 Design system for "Resources Hub for Students" */
@@ -134,6 +178,98 @@
   }
 
   /* =========================================
+     🩷 PINK THEME (Data Attribute)
+     ========================================= */
+  :root[data-theme="pink"] {
+    --background: 340 30% 96%;
+    --foreground: 330 20% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 330 20% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 330 20% 15%;
+
+    --primary: 330 80% 55%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 340 30% 90%;
+    --secondary-foreground: 330 20% 15%;
+
+    --muted: 340 20% 92%;
+    --muted-foreground: 330 10% 40%;
+
+    --accent: 330 70% 60%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 340 20% 85%;
+    --input: 340 20% 85%;
+    --ring: 330 80% 55%;
+
+    --gradient-hero: linear-gradient(135deg, hsl(330 80% 55%) 0%, hsl(330 70% 70%) 50%, hsl(340 60% 85%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(330 80% 55% / 0.05) 0%, hsl(340 60% 85% / 0.2) 100%);
+
+    --shadow-glow: 0 0 40px hsl(330 80% 55% / 0.2);
+    --shadow-card: 0 4px 20px hsl(0 0% 0% / 0.08);
+    --shadow-hover: 0 8px 30px hsl(330 80% 55% / 0.15);
+
+    --hero-bg: #f8f0f5;
+    --hero-c1: #d63384;
+    --hero-c2: #a0206b;
+    --hero-c3: #f2a6d6;
+    --hero-c4: #f5d0e6;
+  }
+
+  /* =========================================
+     🟢 GREEN THEME (Data Attribute)
+     ========================================= */
+  :root[data-theme="green"] {
+    --background: 140 30% 96%;
+    --foreground: 140 20% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 140 20% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 140 20% 15%;
+
+    --primary: 142 70% 45%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 140 30% 90%;
+    --secondary-foreground: 140 20% 15%;
+
+    --muted: 140 20% 92%;
+    --muted-foreground: 140 10% 40%;
+
+    --accent: 142 60% 50%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 140 20% 85%;
+    --input: 140 20% 85%;
+    --ring: 142 70% 45%;
+
+    --gradient-hero: linear-gradient(135deg, hsl(142 70% 45%) 0%, hsl(142 60% 60%) 50%, hsl(140 50% 85%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(142 70% 45% / 0.05) 0%, hsl(140 50% 85% / 0.2) 100%);
+
+    --shadow-glow: 0 0 40px hsl(142 70% 45% / 0.2);
+    --shadow-card: 0 4px 20px hsl(0 0% 0% / 0.08);
+    --shadow-hover: 0 8px 30px hsl(142 70% 45% / 0.15);
+
+    --hero-bg: #f0f7f2;
+    --hero-c1: #2e8b57;
+    --hero-c2: #1a5c38;
+    --hero-c3: #8fd9a8;
+    --hero-c4: #c8e6c9;
+  }
+
+  /* =========================================
      🌙 DARK MODE
      ========================================= */
 
@@ -216,6 +352,84 @@
     --hero-c2: #12356d;
     --hero-c3: #99d3ff;
     --hero-c4: #12356d;
+  }
+
+  /* 🩷 PINK DARK */
+  :root[data-theme="pink"] .dark,
+  html.dark[data-theme="pink"] {
+    --background: 330 20% 8%;
+    --foreground: 340 30% 96%;
+
+    --card: 330 15% 12%;
+    --card-foreground: 340 30% 96%;
+
+    --popover: 330 15% 12%;
+    --popover-foreground: 340 30% 96%;
+
+    --primary: 330 80% 60%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 330 15% 18%;
+    --secondary-foreground: 340 30% 96%;
+
+    --muted: 330 15% 18%;
+    --muted-foreground: 330 10% 70%;
+
+    --accent: 330 70% 60%;
+    --accent-foreground: 0 0% 10%;
+
+    --destructive: 0 70% 60%;
+    --destructive-foreground: 0 0% 96%;
+
+    --border: 330 15% 20%;
+    --input: 330 15% 20%;
+    --ring: 330 80% 55%;
+
+    /* Hero Animation Colors - PINK DARK */
+    --hero-bg: #2a1822;
+    --hero-c1: #d63384;
+    --hero-c2: #a0206b;
+    --hero-c3: #f2a6d6;
+    --hero-c4: #a0206b;
+  }
+
+  /* 🟢 GREEN DARK */
+  :root[data-theme="green"] .dark,
+  html.dark[data-theme="green"] {
+    --background: 140 15% 8%;
+    --foreground: 140 30% 96%;
+
+    --card: 140 15% 12%;
+    --card-foreground: 140 30% 96%;
+
+    --popover: 140 15% 12%;
+    --popover-foreground: 140 30% 96%;
+
+    --primary: 142 70% 55%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 140 15% 18%;
+    --secondary-foreground: 140 30% 96%;
+
+    --muted: 140 15% 18%;
+    --muted-foreground: 140 10% 70%;
+
+    --accent: 142 60% 55%;
+    --accent-foreground: 0 0% 10%;
+
+    --destructive: 0 70% 60%;
+    --destructive-foreground: 0 0% 96%;
+
+    --border: 140 15% 20%;
+    --input: 140 15% 20%;
+    --ring: 142 70% 55%;
+
+    /* Hero Animation Colors - GREEN DARK */
+    --hero-bg: #18261e;
+    --hero-c1: #2e8b57;
+    --hero-c2: #1a5c38;
+    --hero-c3: #8fd9a8;
+    --hero-c4: #1a5c38;
   }
 
   * {

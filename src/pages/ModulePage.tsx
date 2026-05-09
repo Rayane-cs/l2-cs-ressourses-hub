@@ -334,7 +334,7 @@ const ModulePage = () => {
               )}
               <div
                 ref={scrollContainerRef}
-                className="overflow-x-auto scrollbar-hide px-10"
+                className="overflow-x-auto scrollbar-themed px-10"
                 onScroll={checkScrollButtons}
               >
                 <TabsList className="inline-flex gap-2 p-2 bg-muted/30 rounded-lg min-w-max backdrop-blur-sm">

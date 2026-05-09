@@ -105,10 +105,10 @@ const AuthPage = () => {
         <Button
           variant="outline"
           size="icon"
-          onClick={() => setThemeColor(themeColor === "red" ? "blue" : "red")}
+          onClick={() => setThemeColor(themeColor === "pink" ? "red" : themeColor === "red" ? "blue" : themeColor === "blue" ? "green" : "pink")}
           className="rounded-full bg-background/50 backdrop-blur-sm border-primary/20"
         >
-          <div className={`w-3 h-3 rounded-full ${themeColor === 'red' ? 'bg-red-500' : 'bg-blue-500'}`} />
+          <div className={`w-3 h-3 rounded-full ${themeColor === 'pink' ? 'bg-[#d63384]' : themeColor === 'red' ? 'bg-red-500' : themeColor === 'blue' ? 'bg-blue-500' : 'bg-green-500'}`} />
         </Button>
         <Button
           variant="outline"

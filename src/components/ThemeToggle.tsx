@@ -31,6 +31,15 @@ const ThemeToggle: React.FC = () => {
       <DropdownMenuContent align="end" className="w-40 animate-fade-in">
         <DropdownMenuGroup>
           <DropdownMenuLabel className="text-xs font-normal text-muted-foreground ml-1">Color Palette</DropdownMenuLabel>
+          <DropdownMenuItem onClick={() => setThemeColor("pink")}>
+            <div className="flex items-center justify-between w-full">
+              <span className="flex items-center gap-2">
+                <div className="h-3 w-3 rounded-full bg-[#d63384] border border-stone-200"></div>
+                Pink
+              </span>
+              {themeColor === "pink" && <Check className="h-3 w-3" />}
+            </div>
+          </DropdownMenuItem>
           <DropdownMenuItem onClick={() => setThemeColor("red")}>
             <div className="flex items-center justify-between w-full">
               <span className="flex items-center gap-2">
@@ -47,6 +56,15 @@ const ThemeToggle: React.FC = () => {
                 Blue
               </span>
               {themeColor === "blue" && <Check className="h-3 w-3" />}
+            </div>
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => setThemeColor("green")}>
+            <div className="flex items-center justify-between w-full">
+              <span className="flex items-center gap-2">
+                <div className="h-3 w-3 rounded-full bg-green-500 border border-stone-200"></div>
+                Green
+              </span>
+              {themeColor === "green" && <Check className="h-3 w-3" />}
             </div>
           </DropdownMenuItem>
         </DropdownMenuGroup>
