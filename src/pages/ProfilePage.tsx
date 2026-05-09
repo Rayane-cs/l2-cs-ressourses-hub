@@ -235,7 +235,7 @@ const ProfilePage = () => {
 
       // Update theme and language in context
       setLang(selectedLanguage as "en" | "fr");
-      setThemeColor(selectedTheme as "red" | "blue");
+      setThemeColor(selectedTheme as "pink" | "red" | "blue" | "green");
 
       toast.success("Profile updated successfully!");
     } catch (error: any) {
@@ -495,8 +495,10 @@ const ProfilePage = () => {
                   onChange={(e) => setSelectedTheme(e.target.value)}
                   className="w-full h-10 px-3 rounded-lg border border-input bg-background"
                 >
+                  <option value="pink">Pink</option>
                   <option value="red">Red</option>
                   <option value="blue">Blue</option>
+                  <option value="green">Green</option>
                 </select>
               </div>
             </div>

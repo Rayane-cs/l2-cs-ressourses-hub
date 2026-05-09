@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useAuth } from "./AuthContext";
 
-type ThemeColor = "red" | "blue";
+type ThemeColor = "pink" | "red" | "blue" | "green";
 
 interface ThemeColorContextType {
     themeColor: ThemeColor;
@@ -16,9 +16,9 @@ export function ThemeColorProvider({ children }: { children: React.ReactNode }) 
         // Check local storage for persisted theme preference
         if (typeof window !== "undefined") {
             const saved = localStorage.getItem("theme-color");
-            return (saved as ThemeColor) || "red";
+            return (saved as ThemeColor) || "pink";
         }
-        return "red";
+        return "pink";
     });
 
     const prevProfileIdRef = React.useRef<string | null>(null);
@@ -27,7 +27,7 @@ export function ThemeColorProvider({ children }: { children: React.ReactNode }) 
     useEffect(() => {
         if (profile?.id && profile.id !== prevProfileIdRef.current) {
             prevProfileIdRef.current = profile.id;
-            if (profile.theme_color && (profile.theme_color === "red" || profile.theme_color === "blue")) {
+            if (profile.theme_color && (profile.theme_color === "pink" || profile.theme_color === "red" || profile.theme_color === "blue" || profile.theme_color === "green")) {
                 setThemeColor(profile.theme_color as ThemeColor);
             }
         } else if (!profile) {
