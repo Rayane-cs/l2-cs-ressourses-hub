@@ -230,6 +230,24 @@ const reseaux: Resource[] = [
         "https://docs.google.com/document/d/1CPTetrLDK0aJT-mpuYbnJaE3MGbXUrJA/edit?usp=drive_link&ouid=114862124461485137731&rtpof=true&sd=true",
         "S4", "2021"
     ),
+    resume(
+        "resume-1",
+        "Polycopié Réseau (EN)",
+        "https://drive.google.com/file/d/1VlQ9wWuQDtgWT8w8aGEhKEmzrAOHYj_Q/view?usp=drive_link",
+        "S4", "2025-26"
+    ),
+    resume(
+        "resume-1",
+        "Polycopié Réseau (FR)",
+        "https://drive.google.com/file/d/1-AcWwHtOFsBOnjXrnwPtjKa-FyBpqkRt/view?usp=drive_link",
+        "S4", "2025-26"
+    ),
+    resume(
+        "resume-2",
+        "question_de cours réseau",
+        "https://docs.google.com/document/d/1eF-GT0IwpFOZuckGCXOCMKrbI97TT9Jp/edit?usp=sharing&ouid=114862124461485137731&rtpof=true&sd=true",
+        "S4", "2025-26"
+    )
 ];
 
 export default reseaux;

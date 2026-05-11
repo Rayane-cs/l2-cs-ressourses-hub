@@ -187,7 +187,19 @@ const bdd: Resource[] = [
         "Exam 2024 Solution",
         "https://drive.google.com/file/d/1-JEuEOiWFKSwkqHQYgVh_Of7M_VT7POF/view?usp=drive_link",
         "S4", "2024"
-    )
+    ),
+    examSolution(
+        "exam-7-solution",
+        "Exam 2025 Solution",
+        "https://drive.google.com/file/d/11XJoi5Z2Ka9fhNqrQRueQN3iiJBaGGnU/view?usp=sharing",
+        "S4", "2025"
+    ),
+    resume(
+        "resume-1",
+        "Résumé BDD",
+        "https://drive.google.com/file/d/13s4qxXC5mVLhaJNmDoLf1N1FyK9e2XHk/view?usp=sharing",
+        "S4", "2025-26"
+    ),
 ];
 
 export default bdd;

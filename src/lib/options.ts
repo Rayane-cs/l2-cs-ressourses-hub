@@ -38,12 +38,12 @@ const MODULE_TABS_OPTIONS: Record<string, ModuleTabsOptions> = {
   si: { yt: false, books: false, resumes: false , exo: false},
   
   // L2 S4 modules
-  reseaux: {yt: false, books: false, resumes: false , exo: false},
+  reseaux: {yt: false, books: false, exo: false},
   oop: {td: false ,yt: false, books: false, resumes: false , exo: false},
   daw: { td: false, yt: false, books: false, resumes: false , exo: false},
   thl: {yt: false, books: false, resumes: false , exo: false},
   se: {yt: false, books: false, resumes: false},
-  bdd: {yt: false, books: false, resumes: false , exo: false},
+  bdd: {yt: false, books: false, exo: false},
   englishS4: { tp: false, td: false, exam: false, yt: false, books: false, resumes: false , exo: false}, // English has no TP, no Course
 };
 
