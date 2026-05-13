@@ -1,54 +1,72 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useUserConfig } from "@/hooks/useUserConfig";
 import { motion } from "framer-motion";
-import { GraduationCap, BookOpen, Award, Lightbulb, Layers, ArrowRight, Sparkles } from "lucide-react";
+import { GraduationCap, BookOpen, Award, Lightbulb, Layers, ArrowRight, Sparkles, Bell } from "lucide-react";
 
 export default function YearSections() {
   const navigate = useNavigate();
   const { t } = useLanguage();
   const [hovered, setHovered] = useState<string | null>(null);
+  const userConfig = useUserConfig();
 
-  const licenseYears = [
-    { 
-      id: "l1", 
-      title: `${t.years.licence} 1`, 
-      subtitle: t.years.firstYear, 
+  const allLicenseYears = [
+    {
+      id: "l1",
+      title: `${t.years.licence} 1`,
+      subtitle: t.years.firstYear,
       icon: <GraduationCap className="w-8 h-8" />,
       color: "#3b82f6", // blue-500
     },
-    { 
-      id: "l2", 
-      title: `${t.years.licence} 2`, 
-      subtitle: t.years.secondYear, 
+    {
+      id: "l2",
+      title: `${t.years.licence} 2`,
+      subtitle: t.years.secondYear,
       icon: <BookOpen className="w-8 h-8" />,
       color: "#10b981", // emerald-500
     },
-    { 
-      id: "l3", 
-      title: `${t.years.licence} 3`, 
-      subtitle: t.years.thirdYear, 
+    {
+      id: "l3",
+      title: `${t.years.licence} 3`,
+      subtitle: t.years.thirdYear,
       icon: <Award className="w-8 h-8" />,
       color: "#8b5cf6", // violet-500
     },
   ];
 
-  const masterYears = [
-    { 
-      id: "m1", 
-      title: `${t.years.master} 1`, 
-      subtitle: t.years.masterYear1, 
+  const allMasterYears = [
+    {
+      id: "m1",
+      title: `${t.years.master} 1`,
+      subtitle: t.years.masterYear1,
       icon: <Lightbulb className="w-8 h-8" />,
       color: "#f59e0b", // amber-500
     },
-    { 
-      id: "m2", 
-      title: `${t.years.master} 2`, 
-      subtitle: t.years.masterYear2, 
+    {
+      id: "m2",
+      title: `${t.years.master} 2`,
+      subtitle: t.years.masterYear2,
       icon: <Layers className="w-8 h-8" />,
       color: "#ef4444", // red-500
     },
   ];
+
+  // ── Apply user config filters ─────────────────────────
+  const hiddenSet = new Set(userConfig?.hiddenYears ?? []);
+  const showOnlySet = userConfig?.showOnlyYears?.length
+    ? new Set(userConfig.showOnlyYears)
+    : null;
+
+  const licenseYears = allLicenseYears.filter((y) => {
+    if (showOnlySet && !showOnlySet.has(y.id)) return false;
+    return !hiddenSet.has(y.id);
+  });
+
+  const masterYears = allMasterYears.filter((y) => {
+    if (showOnlySet && !showOnlySet.has(y.id)) return false;
+    return !hiddenSet.has(y.id);
+  });
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -133,46 +151,62 @@ export default function YearSections() {
       </div>
 
       <section id="years" className="container mx-auto px-4 space-y-20 relative z-10">
-        
+
+        {/* Custom user banner */}
+        {userConfig?.customBanner && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex items-center gap-3 px-5 py-3 rounded-2xl bg-primary/10 border border-primary/20 text-primary text-sm font-medium"
+          >
+            <Bell className="w-4 h-4 shrink-0" />
+            <span>{userConfig.customBanner}</span>
+          </motion.div>
+        )}
+
         {/* Licence Section */}
-        <div className="space-y-12">
-          <div className="flex flex-col items-center text-center space-y-4">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-wider border border-primary/20">
-              <Sparkles size={14} />
-              Educational Path
+        {licenseYears.length > 0 && (
+          <div className="space-y-12">
+            <div className="flex flex-col items-center text-center space-y-4">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-wider border border-primary/20">
+                <Sparkles size={14} />
+                Educational Path
+              </div>
+              <h2 className="text-4xl md:text-5xl font-black italic uppercase tracking-tighter italic">
+                <span className="text-primary not-italic">{t.years.licence}</span>
+              </h2>
+              <p className="text-muted-foreground max-w-xl">
+                Foundational years focusing on core computer science tracks and software engineering principles.
+              </p>
             </div>
-            <h2 className="text-4xl md:text-5xl font-black italic uppercase tracking-tighter italic">
-              <span className="text-primary not-italic">{t.years.licence}</span>
-            </h2>
-            <p className="text-muted-foreground max-w-xl">
-              Foundational years focusing on core computer science tracks and software engineering principles.
-            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {licenseYears.map((year) => (
+                <YearCard key={year.id} year={year} />
+              ))}
+            </div>
           </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {licenseYears.map((year) => (
-              <YearCard key={year.id} year={year} />
-            ))}
-          </div>
-        </div>
+        )}
 
         {/* Master Section */}
-        <div className="space-y-12">
-          <div className="flex flex-col items-center text-center space-y-4">
-            <h2 className="text-4xl md:text-5xl font-black italic uppercase tracking-tighter italic">
-              <span className="text-primary not-italic">{t.years.master}</span>
-            </h2>
-            <p className="text-muted-foreground max-w-xl">
-              Specialized research and advanced application years in data science, AI, and systems engineering.
-            </p>
+        {masterYears.length > 0 && (
+          <div className="space-y-12">
+            <div className="flex flex-col items-center text-center space-y-4">
+              <h2 className="text-4xl md:text-5xl font-black italic uppercase tracking-tighter italic">
+                <span className="text-primary not-italic">{t.years.master}</span>
+              </h2>
+              <p className="text-muted-foreground max-w-xl">
+                Specialized research and advanced application years in data science, AI, and systems engineering.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+              {masterYears.map((year) => (
+                <YearCard key={year.id} year={year} />
+              ))}
+            </div>
           </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-            {masterYears.map((year) => (
-              <YearCard key={year.id} year={year} />
-            ))}
-          </div>
-        </div>
+        )}
       </section>
 
       {/* Decorative Gradient Line */}

@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 import ThemeToggle from "./ThemeToggle";
@@ -6,22 +7,41 @@ import LanguageToggle from "./LanguageToggle";
 import { Menu, X, GraduationCap, LogOut, User } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuth } from "@/contexts/AuthContext";
-import { 
-  DropdownMenu, 
-  DropdownMenuContent, 
-  DropdownMenuItem, 
-  DropdownMenuLabel, 
-  DropdownMenuSeparator, 
-  DropdownMenuTrigger 
+import { useUserConfig } from "@/hooks/useUserConfig";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger
 } from "./ui/dropdown-menu";
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [hasFeedbackSubmitted, setHasFeedbackSubmitted] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isMobileMoreOpen, setIsMobileMoreOpen] = useState(false);
+  const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const openDropdown = () => {
+    if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
+    setIsDropdownOpen(true);
+  };
+
+  const closeDropdown = () => {
+    closeTimerRef.current = setTimeout(() => setIsDropdownOpen(false), 150);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
+    };
+  }, []);
   const location = useLocation();
   const { t } = useLanguage();
   const { user, isGuest, signOut, profile } = useAuth();
+  const userConfig = useUserConfig();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -33,19 +53,20 @@ const Header = () => {
     setHasFeedbackSubmitted(submitted === "true");
   }, [location.pathname]);
 
-  const navLinks = [
+  const allNavLinks = [
     { name: t.nav.home, path: "/home" },
-    { name: t.nav.years, path: "/home#years" },
     { name: t.nav.about, path: "/about" },
-    // Search is handled separately in desktop view, but kept here for mobile/consistency structure if needed
-    // However, we will replace the link with an input in desktop, and maybe keep link in mobile or input in mobile.
-    // Let's keep it but maybe handle it differently.
-    // For now, let's just enable the page route in case they click it.
-    { name: t.nav.search, path: "/search" },
-    { name: t.nav.programming, path: "/programming-languages" },
     { name: t.nav.feedback, path: "/feedback", isSpecial: true },
-    { name: t.nav.more, path: "#more", isMore: true, disabled: true },
+    { name: t.nav.more, path: "#more", isMore: true },
   ];
+
+  // Apply user config filters
+  const navLinks = allNavLinks.filter((link) => {
+    if (link.path === "/feedback" && userConfig?.showFeedbackLink === false) return false;
+    if (link.path === "/programming-languages" && userConfig?.showProgrammingLanguages === false) return false;
+    if (userConfig?.hiddenSections?.includes("programming-languages") && link.path === "/programming-languages") return false;
+    return true;
+  });
 
   const navigate = useNavigate();
 
@@ -155,7 +176,9 @@ const Header = () => {
             <div className="bg-primary p-2 rounded-lg group-hover:scale-110 transition-smooth">
               <GraduationCap className="h-6 w-6 text-primary-foreground" />
             </div>
-            <span className="text-xl font-bold text-foreground">UHBC CS</span>
+            <span className="text-xl font-bold text-foreground">
+              {userConfig?.displayName || "UHBC CS"}
+            </span>
           </Link>
 
           <nav className="hidden md:flex items-center gap-6" role="navigation" aria-label={t.nav.comingSoon}>
@@ -167,123 +190,107 @@ const Header = () => {
                 return (
                   <div
                     key="more"
-                    className={`relative ${link.disabled ? "opacity-50 cursor-not-allowed" : ""}`}
-                    onMouseEnter={() => !link.disabled && setIsDropdownOpen(true)}
-                    onMouseLeave={() => !link.disabled && setIsDropdownOpen(false)}
-                    title={link.disabled ? t.nav.comingSoon : ""}
+                    className="relative"
+                    onMouseEnter={openDropdown}
+                    onMouseLeave={closeDropdown}
                   >
                     <button
                       className="text-sm font-medium transition-smooth hover:text-primary text-foreground"
-                      disabled={link.disabled}
-                      aria-label={`${t.nav.more} (${t.nav.comingSoon})`}
-                      {...(!link.disabled && {
-                        "aria-haspopup": true,
-                        "aria-expanded": isDropdownOpen
-                      })}
+                      aria-haspopup="true"
+                      aria-expanded={isDropdownOpen}
                     >
                       {t.nav.more} ▾
                     </button>
 
-                    {isDropdownOpen && (
-                      <div className="fixed left-1/2 -translate-x-1/2 top-20 w-[min(1100px,calc(100vw-4rem))] bg-background border border-border rounded-lg shadow-lg p-6 z-50 animate-fade-in">
-                        <div className="grid grid-cols-5 gap-6 divide-x divide-border">
-                          {/* L1 */}
-                          <div className="px-4">
-                            <h4 className="font-semibold mb-3 text-primary">L1</h4>
-                            <div className="text-sm space-y-3">
-                              <div className="font-medium text-xs text-muted-foreground">Semester 1</div>
-                              <ul className="space-y-1 pl-2">
-                                <li><Link to="/module/algo" className="hover:text-primary transition-smooth">Algo</Link></li>
-                                <li><Link to="/module/thg" className="hover:text-primary transition-smooth">THG</Link></li>
+                    <AnimatePresence>
+                      {isDropdownOpen && (
+                        <motion.div
+                          initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                          transition={{ duration: 0.2, ease: "easeOut" }}
+                          className="fixed left-1/2 -translate-x-1/2 top-20 w-[min(600px,calc(100vw-4rem))] bg-background border border-border rounded-lg shadow-lg p-6 z-50 origin-top"
+                          onMouseEnter={openDropdown}
+                          onMouseLeave={closeDropdown}
+                        >
+                          <div className="grid grid-cols-2 gap-8">
+                            {/* Years */}
+                            <div>
+                              <h4 className="font-semibold mb-4 text-primary text-sm uppercase tracking-wider">Years</h4>
+                              <ul className="space-y-2 text-sm">
+                                <li>
+                                  <Link to="/year/l1" onClick={() => setIsDropdownOpen(false)} className="hover:text-primary transition-smooth flex items-center gap-2">
+                                    <span className="w-2 h-2 rounded-full bg-blue-500" />
+                                    Licence 1
+                                  </Link>
+                                </li>
+                                <li>
+                                  <Link to="/year/l2" onClick={() => setIsDropdownOpen(false)} className="hover:text-primary transition-smooth flex items-center gap-2">
+                                    <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                                    Licence 2
+                                  </Link>
+                                </li>
+                                <li>
+                                  <Link to="/year/l3" onClick={() => setIsDropdownOpen(false)} className="hover:text-primary transition-smooth flex items-center gap-2">
+                                    <span className="w-2 h-2 rounded-full bg-violet-500" />
+                                    Licence 3
+                                  </Link>
+                                </li>
+                                <li>
+                                  <Link to="/year/m1" onClick={() => setIsDropdownOpen(false)} className="hover:text-primary transition-smooth flex items-center gap-2">
+                                    <span className="w-2 h-2 rounded-full bg-amber-500" />
+                                    Master 1
+                                  </Link>
+                                </li>
+                                <li>
+                                  <Link to="/year/m2" onClick={() => setIsDropdownOpen(false)} className="hover:text-primary transition-smooth flex items-center gap-2">
+                                    <span className="w-2 h-2 rounded-full bg-red-500" />
+                                    Master 2
+                                  </Link>
+                                </li>
                               </ul>
-                              <div className="pt-3 mt-3">
-                                <div className="font-medium text-xs text-muted-foreground">Semester 2</div>
-                                <ul className="space-y-1 pl-2 mt-2">
-                                  <li><Link to="/module/archi-ord" className="hover:text-primary transition-smooth">Archi-Ord</Link></li>
-                                  <li><Link to="/module/logique" className="hover:text-primary transition-smooth">Logique</Link></li>
-                                </ul>
-                              </div>
                             </div>
-                          </div>
 
-                          {/* L2 */}
-                          <div className="px-4">
-                            <h4 className="font-semibold mb-3 text-primary">L2</h4>
-                            <div className="text-sm space-y-3">
-                              <div className="font-medium text-xs text-muted-foreground">Semester 3</div>
-                              <ul className="space-y-1 pl-2">
-                                <li><Link to="/module/algo" className="hover:text-primary transition-smooth">Algo</Link></li>
-                                <li><Link to="/module/si" className="hover:text-primary transition-smooth">SI</Link></li>
+                            {/* Programming Languages */}
+                            <div>
+                              <h4 className="font-semibold mb-4 text-primary text-sm uppercase tracking-wider">Programming Languages</h4>
+                              <ul className="space-y-2 text-sm">
+                                <li>
+                                  <Link to="/programming-languages" onClick={() => setIsDropdownOpen(false)} className="hover:text-primary transition-smooth">
+                                    All Languages
+                                  </Link>
+                                </li>
+                                <li>
+                                  <Link to="/programming-languages/html-css" onClick={() => setIsDropdownOpen(false)} className="hover:text-primary transition-smooth">
+                                    HTML / CSS
+                                  </Link>
+                                </li>
+                                <li>
+                                  <Link to="/programming-languages/javascript" onClick={() => setIsDropdownOpen(false)} className="hover:text-primary transition-smooth">
+                                    JavaScript
+                                  </Link>
+                                </li>
+                                <li>
+                                  <Link to="/programming-languages/python" onClick={() => setIsDropdownOpen(false)} className="hover:text-primary transition-smooth">
+                                    Python
+                                  </Link>
+                                </li>
+                                <li>
+                                  <Link to="/programming-languages/c" onClick={() => setIsDropdownOpen(false)} className="hover:text-primary transition-smooth">
+                                    C
+                                  </Link>
+                                </li>
+                                <li>
+                                  <Link to="/programming-languages/assembly" onClick={() => setIsDropdownOpen(false)} className="hover:text-primary transition-smooth">
+                                    Assembly
+                                  </Link>
+                                </li>
                               </ul>
-                              <div className="pt-3 mt-3">
-                                <div className="font-medium text-xs text-muted-foreground">Semester 4</div>
-                                <ul className="space-y-1 pl-2 mt-2">
-                                  <li><Link to="/module/method-num" className="hover:text-primary transition-smooth">Method-Num</Link></li>
-                                  <li><Link to="/module/english" className="hover:text-primary transition-smooth">English</Link></li>
-                                </ul>
-                              </div>
                             </div>
                           </div>
-
-                          {/* L3 */}
-                          <div className="px-4">
-                            <h4 className="font-semibold mb-3 text-primary">L3</h4>
-                            <div className="text-sm space-y-3">
-                              <div className="font-medium text-xs text-muted-foreground">Semester 5</div>
-                              <ul className="space-y-1 pl-2">
-                                <li><Link to="/module/archi-ord" className="hover:text-primary transition-smooth">Archi-Ord</Link></li>
-                                <li><Link to="/module/logique" className="hover:text-primary transition-smooth">Logique</Link></li>
-                              </ul>
-                              <div className="pt-3 mt-3">
-                                <div className="font-medium text-xs text-muted-foreground">Semester 6</div>
-                                <ul className="space-y-1 pl-2 mt-2">
-                                  <li><Link to="/module/algo" className="hover:text-primary transition-smooth">Algo</Link></li>
-                                  <li><Link to="/module/si" className="hover:text-primary transition-smooth">SI</Link></li>
-                                </ul>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* M1 */}
-                          <div className="px-4">
-                            <h4 className="font-semibold mb-3 text-primary">M1</h4>
-                            <div className="text-sm space-y-3">
-                              <div className="font-medium text-xs text-muted-foreground">Semester 1</div>
-                              <ul className="space-y-1 pl-2">
-                                <li><Link to="/module/algo" className="hover:text-primary transition-smooth">Algo</Link></li>
-                                <li><Link to="/module/method-num" className="hover:text-primary transition-smooth">Method-Num</Link></li>
-                              </ul>
-                              <div className="pt-3 mt-3">
-                                <div className="font-medium text-xs text-muted-foreground">Semester 2</div>
-                                <ul className="space-y-1 pl-2 mt-2">
-                                  <li><Link to="/module/si" className="hover:text-primary transition-smooth">SI</Link></li>
-                                  <li><Link to="/module/thg" className="hover:text-primary transition-smooth">THG</Link></li>
-                                </ul>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* M2 */}
-                          <div className="px-4">
-                            <h4 className="font-semibold mb-3 text-primary">M2</h4>
-                            <div className="text-sm space-y-3">
-                              <div className="font-medium text-xs text-muted-foreground">Semester 1</div>
-                              <ul className="space-y-1 pl-2">
-                                <li><Link to="/module/logique" className="hover:text-primary transition-smooth">Logique</Link></li>
-                                <li><Link to="/module/archi-ord" className="hover:text-primary transition-smooth">Archi-Ord</Link></li>
-                              </ul>
-                              <div className="pt-3 mt-3">
-                                <div className="font-medium text-xs text-muted-foreground">Semester 2</div>
-                                <ul className="space-y-1 pl-2 mt-2">
-                                  <li><Link to="/module/algo" className="hover:text-primary transition-smooth">Algo</Link></li>
-                                  <li><Link to="/module/english" className="hover:text-primary transition-smooth">English</Link></li>
-                                </ul>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    )}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
                 );
               }
@@ -522,20 +529,56 @@ const Header = () => {
               {navLinks.map((link) => {
                 const routeOnly = link.path.includes("#") ? (link.path.split("#")[0] || "/") : link.path;
                 const isSpecial = link.isSpecial && !hasFeedbackSubmitted;
+
+                // Expandable More section
+                if (link.isMore) {
+                  return (
+                    <div key="more" className="flex flex-col gap-2">
+                      <button
+                        onClick={() => setIsMobileMoreOpen(!isMobileMoreOpen)}
+                        className="text-sm font-medium transition-smooth hover:text-primary text-foreground text-left flex items-center justify-between"
+                      >
+                        <span>{t.nav.more}</span>
+                        <span className={`transition-transform ${isMobileMoreOpen ? "rotate-180" : ""}`}>▾</span>
+                      </button>
+                      {isMobileMoreOpen && (
+                        <div className="pl-4 flex flex-col gap-3 border-l border-border/50 ml-1">
+                          {/* Years */}
+                          <div>
+                            <h5 className="text-xs font-semibold text-primary uppercase tracking-wider mb-1">Years</h5>
+                            <div className="flex flex-col gap-1.5">
+                              <Link to="/year/l1" onClick={() => setIsMobileMenuOpen(false)} className="text-sm text-muted-foreground hover:text-primary transition-smooth">Licence 1</Link>
+                              <Link to="/year/l2" onClick={() => setIsMobileMenuOpen(false)} className="text-sm text-muted-foreground hover:text-primary transition-smooth">Licence 2</Link>
+                              <Link to="/year/l3" onClick={() => setIsMobileMenuOpen(false)} className="text-sm text-muted-foreground hover:text-primary transition-smooth">Licence 3</Link>
+                              <Link to="/year/m1" onClick={() => setIsMobileMenuOpen(false)} className="text-sm text-muted-foreground hover:text-primary transition-smooth">Master 1</Link>
+                              <Link to="/year/m2" onClick={() => setIsMobileMenuOpen(false)} className="text-sm text-muted-foreground hover:text-primary transition-smooth">Master 2</Link>
+                            </div>
+                          </div>
+                          {/* Programming Languages */}
+                          <div>
+                            <h5 className="text-xs font-semibold text-primary uppercase tracking-wider mb-1">Programming Languages</h5>
+                            <div className="flex flex-col gap-1.5">
+                              <Link to="/programming-languages" onClick={() => setIsMobileMenuOpen(false)} className="text-sm text-muted-foreground hover:text-primary transition-smooth">All Languages</Link>
+                              <Link to="/programming-languages/html-css" onClick={() => setIsMobileMenuOpen(false)} className="text-sm text-muted-foreground hover:text-primary transition-smooth">HTML / CSS</Link>
+                              <Link to="/programming-languages/javascript" onClick={() => setIsMobileMenuOpen(false)} className="text-sm text-muted-foreground hover:text-primary transition-smooth">JavaScript</Link>
+                              <Link to="/programming-languages/python" onClick={() => setIsMobileMenuOpen(false)} className="text-sm text-muted-foreground hover:text-primary transition-smooth">Python</Link>
+                              <Link to="/programming-languages/c" onClick={() => setIsMobileMenuOpen(false)} className="text-sm text-muted-foreground hover:text-primary transition-smooth">C</Link>
+                              <Link to="/programming-languages/assembly" onClick={() => setIsMobileMenuOpen(false)} className="text-sm text-muted-foreground hover:text-primary transition-smooth">Assembly</Link>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  );
+                }
+
                 return (
                   <Link
                     key={link.name}
                     to={routeOnly}
-                    onClick={(e) => {
-                      if (link.disabled) {
-                        e.preventDefault();
-                        return;
-                      }
-                      handleNavClick(e, link.path);
-                    }}
+                    onClick={(e) => handleNavClick(e, link.path)}
                     className={`text-sm font-medium transition-smooth hover:text-primary relative ${location.pathname === routeOnly ? "text-primary" : "text-foreground"
-                      } ${isSpecial ? "px-3 py-1 rounded-md" : ""} ${link.disabled ? "opacity-50 cursor-not-allowed" : ""}`}
-                    title={link.disabled ? t.nav.comingSoon : ""}
+                      } ${isSpecial ? "px-3 py-1 rounded-md" : ""}`}
                   >
                     {link.name}
                     {isSpecial && (

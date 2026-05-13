@@ -7,6 +7,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { Suspense, lazy, useState } from "react";
 import Index from "./pages/Index";
 import SplashScreen from "./components/SplashScreen";
+import WelcomePopup from "./components/WelcomePopup";
 import { AnimatePresence } from "framer-motion";
 import { useAntiDevTools } from "./hooks/useAntiDevTools";
 
@@ -61,6 +62,7 @@ const App = () => {
             <SplashScreen onComplete={() => setShowSplash(false)} />
           )}
         </AnimatePresence>
+        <WelcomePopup />
         <BrowserRouter>
           <Routes>
             <Route path="/auth" element={<Suspense fallback={<LoadingFallback />}><AuthPage /></Suspense>} />
