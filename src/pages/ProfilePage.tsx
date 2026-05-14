@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { useThemeColor } from "@/contexts/ThemeColorContext";
+import { useThemeColor, type ThemeColor } from "@/contexts/ThemeColorContext";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -235,7 +235,7 @@ const ProfilePage = () => {
 
       // Update theme and language in context
       setLang(selectedLanguage as "en" | "fr");
-      setThemeColor(selectedTheme as "pink" | "red" | "blue" | "green");
+      setThemeColor(selectedTheme as ThemeColor);
 
       toast.success("Profile updated successfully!");
     } catch (error: any) {
@@ -499,6 +499,7 @@ const ProfilePage = () => {
                   <option value="red">Red</option>
                   <option value="blue">Blue</option>
                   <option value="green">Green</option>
+                  <option value="purple">Purple</option>
                 </select>
               </div>
             </div>

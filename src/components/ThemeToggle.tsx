@@ -67,6 +67,15 @@ const ThemeToggle: React.FC = () => {
               {themeColor === "green" && <Check className="h-3 w-3" />}
             </div>
           </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => setThemeColor("purple")}>
+            <div className="flex items-center justify-between w-full">
+              <span className="flex items-center gap-2">
+                <div className="h-3 w-3 rounded-full bg-violet-600 border border-stone-200"></div>
+                Purple
+              </span>
+              {themeColor === "purple" && <Check className="h-3 w-3" />}
+            </div>
+          </DropdownMenuItem>
         </DropdownMenuGroup>
 
         <DropdownMenuSeparator />

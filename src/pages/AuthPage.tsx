@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuth } from "@/contexts/AuthContext";
@@ -16,13 +16,52 @@ import {
   Moon,
   Sun,
   Globe,
-  Loader2
+  Loader2,
+  Eye,
+  EyeOff,
 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 import { supabase } from "@/lib/supabaseClient";
 import { useNavigate } from "react-router-dom";
+
+/** Current storage: JSON { v, email, password }. Legacy: email-only key (migrated on save). */
+const REMEMBERED_AUTH_KEY = "uhbc-auth-remembered";
+const LEGACY_REMEMBERED_EMAIL_KEY = "uhbc-auth-remembered-email";
+
+type RememberedPayload = { v: 1; email: string; password: string };
+
+function readRemembered(): { email: string; password: string } {
+  try {
+    const raw = localStorage.getItem(REMEMBERED_AUTH_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw) as Partial<RememberedPayload>;
+      if (typeof parsed.email === "string") {
+        return {
+          email: parsed.email,
+          password: typeof parsed.password === "string" ? parsed.password : "",
+        };
+      }
+    }
+    const legacyEmail = localStorage.getItem(LEGACY_REMEMBERED_EMAIL_KEY);
+    if (legacyEmail) return { email: legacyEmail, password: "" };
+  } catch {
+    /* ignore */
+  }
+  return { email: "", password: "" };
+}
+
+function clearRememberedStorage() {
+  try {
+    localStorage.removeItem(REMEMBERED_AUTH_KEY);
+    localStorage.removeItem(LEGACY_REMEMBERED_EMAIL_KEY);
+  } catch {
+    /* ignore */
+  }
+}
 
 const AuthPage = () => {
   const { t, lang, setLang } = useLanguage();
@@ -36,9 +75,29 @@ const AuthPage = () => {
     return params.get("mode") !== "signup";
   });
   const [loading, setLoading] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState(() => readRemembered().email);
+  const [password, setPassword] = useState(() => readRemembered().password);
   const [fullName, setFullName] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(true);
+
+  const persistRememberedCredentials = useCallback(() => {
+    try {
+      if (rememberMe && email.trim()) {
+        const payload: RememberedPayload = {
+          v: 1,
+          email: email.trim(),
+          password,
+        };
+        localStorage.setItem(REMEMBERED_AUTH_KEY, JSON.stringify(payload));
+        localStorage.removeItem(LEGACY_REMEMBERED_EMAIL_KEY);
+      } else {
+        clearRememberedStorage();
+      }
+    } catch {
+      /* ignore quota / private mode */
+    }
+  }, [rememberMe, email, password]);
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -50,6 +109,7 @@ const AuthPage = () => {
           toast.error(t.auth.invalidAccount);
           return;
         }
+        persistRememberedCredentials();
         toast.success(t.auth.welcomeBack);
         navigate("/");
       } else {
@@ -66,6 +126,7 @@ const AuthPage = () => {
           }
         });
         if (error) throw error;
+        persistRememberedCredentials();
         toast.success(t.auth.signUpSuccess);
         setIsLogin(true);
       }
@@ -105,10 +166,34 @@ const AuthPage = () => {
         <Button
           variant="outline"
           size="icon"
-          onClick={() => setThemeColor(themeColor === "pink" ? "red" : themeColor === "red" ? "blue" : themeColor === "blue" ? "green" : "pink")}
+          onClick={() =>
+            setThemeColor(
+              themeColor === "pink"
+                ? "red"
+                : themeColor === "red"
+                  ? "blue"
+                  : themeColor === "blue"
+                    ? "green"
+                    : themeColor === "green"
+                      ? "purple"
+                      : "pink"
+            )
+          }
           className="rounded-full bg-background/50 backdrop-blur-sm border-primary/20"
         >
-          <div className={`w-3 h-3 rounded-full ${themeColor === 'pink' ? 'bg-[#d63384]' : themeColor === 'red' ? 'bg-red-500' : themeColor === 'blue' ? 'bg-blue-500' : 'bg-green-500'}`} />
+          <div
+            className={`w-3 h-3 rounded-full ${
+              themeColor === "pink"
+                ? "bg-[#d63384]"
+                : themeColor === "red"
+                  ? "bg-red-500"
+                  : themeColor === "blue"
+                    ? "bg-blue-500"
+                    : themeColor === "green"
+                      ? "bg-green-500"
+                      : "bg-violet-600"
+            }`}
+          />
         </Button>
         <Button
           variant="outline"
@@ -178,6 +263,7 @@ const AuthPage = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                autoComplete="email"
                 className="bg-background/20 border-white/10 hover:border-white/20 focus-visible:ring-primary focus-visible:ring-offset-0 focus:bg-background/40 transition-all rounded-xl h-12 placeholder:text-muted-foreground/50 px-4"
               />
             </div>
@@ -186,14 +272,46 @@ const AuthPage = () => {
                 <Lock className="w-4 h-4 text-primary" />
                 {t.auth.password}
               </label>
-              <Input
-                type="password"
-                placeholder="••••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                className="bg-background/20 border-white/10 hover:border-white/20 focus-visible:ring-primary focus-visible:ring-offset-0 focus:bg-background/40 transition-all rounded-xl h-12 placeholder:text-muted-foreground/50 px-4"
+              <div className="relative">
+                <Input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  autoComplete={isLogin ? "current-password" : "new-password"}
+                  className="bg-background/20 border-white/10 hover:border-white/20 focus-visible:ring-primary focus-visible:ring-offset-0 focus:bg-background/40 transition-all rounded-xl h-12 placeholder:text-muted-foreground/50 pl-4 pr-12"
+                />
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  className="absolute right-1 top-1/2 -translate-y-1/2 h-9 w-9 rounded-lg text-muted-foreground hover:text-foreground"
+                  onClick={() => setShowPassword((v) => !v)}
+                  aria-label={showPassword ? t.auth.hidePassword : t.auth.showPassword}
+                  aria-pressed={showPassword}
+                >
+                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </Button>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2 pt-1">
+              <Checkbox
+                id="auth-remember-me"
+                checked={rememberMe}
+                onCheckedChange={(v) => {
+                  const checked = v === true;
+                  setRememberMe(checked);
+                  if (!checked) clearRememberedStorage();
+                }}
               />
+              <Label
+                htmlFor="auth-remember-me"
+                className="text-sm font-normal text-muted-foreground cursor-pointer leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                {t.auth.rememberMe}
+              </Label>
             </div>
 
             <Button 

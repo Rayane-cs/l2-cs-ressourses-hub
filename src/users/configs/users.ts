@@ -304,10 +304,220 @@ const berkani_chahinez: UserConfig = {
   id: "d1d57763-4ef7-405f-8630-7456993cb7a3",
   displayName: "Chahinez",
 };
-/*
-const : UserConfig = {
-  id: "",
-  displayName: "",
-};*/
 
-export { rayane, ayoub, azzouz_abdesattar, lazreg_nihad, roro_1, mohamed_amine, reggoua_insaf, basmala, basmala_2, bouthaina_atsaoui, hadjer, fatima_beghdaoui, fatima_beghdaoui_2, amina_beliche, abdelkayoum_nouri, houda_ahmedi, aria_armine, mahdi_mohammed, gribi, ikhlas_1, ekim, terchi_khadidja, no_data_bro, maro, agrouche_abdelbaki, amin_mehdaoui, nasrallah_abbad, yass, ikhlas_2, smth, roro_2, bahaa, zahira_tlb, toufik, hamza_bellabaci, kobzili_raounek, meknaci_khadidja, alihaimoud_saddik, chaimaa, chikh_halima };
+const yasser_aiad: UserConfig = {
+  id: "33d09d10-924d-4491-8e52-ac7b460c43a6",
+  displayName: "Yasser",
+};
+
+const romaissa_zg: UserConfig = {
+  id: "c2d776a5-201c-40e5-9027-7f69df8691c4",
+  displayName: "Romaissa",
+};
+
+const neight_rahil: UserConfig = {
+  id: "2dabb6df-5d8c-4b8a-9bbb-5096425279b7",
+  displayName: "Rahil",
+};
+
+const chaimaa_b0ba: UserConfig = {
+  id: "b0ba59a1-9e07-45b3-9729-066273bf49eb",
+  displayName: "Chaima",
+};
+
+const chaimaa_2: UserConfig = {
+  id: "de7cb8cd-38f6-4e86-9c6e-ef173269991e",
+  displayName: "Chaima",
+};
+
+const ab_marwa: UserConfig = {
+  id: "5e304f22-2bae-43a3-a1eb-a1ac20c45b2d",
+  displayName: "Marwa",
+};
+
+const nihad: UserConfig = {
+  id: "9eedc16c-2e66-4768-80d6-cef813ea72c9",
+  displayName: "Nihad",
+};
+
+const benotsmane_youssuf: UserConfig = {
+  id: "8563e6e3-89aa-4408-9784-402bcc31bda3",
+  displayName: "Youssuf",
+};
+
+const yahiaoui_souhaibe: UserConfig = {
+  id: "b16a23eb-9ad6-457e-a139-e85a5800a345",
+  displayName: "Souhaibe",
+};
+
+const fedj_manel: UserConfig = {
+  id: "fe7449b0-2c16-4f6f-9290-5eae7ac8dd79",
+  displayName: "Manel",
+};
+
+const moumen_hb: UserConfig = {
+  id: "c736e50c-95bd-4a91-bbab-8682d09b3f49",
+  displayName: "Moumen",
+};
+
+const siali_basma: UserConfig = {
+  id: "c8a23f24-e71c-44f7-9988-ad46ccff96b2",
+  displayName: "Basma",
+};
+
+const gahlam_youcef: UserConfig = {
+  id: "5cce450b-20cf-4c99-81e2-8a3acb620118",
+  displayName: "Youcef",
+};
+
+const ines_elagrari: UserConfig = {
+  id: "c616f7e6-1a91-426a-8af5-cf2e0f00d91a",
+  displayName: "Inas",
+};
+
+const yahiya_amina: UserConfig = {
+  id: "6521ddeb-023d-4a19-826a-e9effea4fa33",
+  displayName: "Amina",
+};
+
+const ikram_th: UserConfig = {
+  id: "59a55d62-8aa0-4730-a114-035f25dfc3e8",
+  displayName: "Ikram",
+};
+
+const wafa_trg: UserConfig = {
+  id: "5fd5aaf2-a5d2-41f9-9b01-4eae0ec9fb70",
+  displayName: "Wafa",
+};
+
+const chatri_yasmine: UserConfig = {
+  id: "eb2e67e7-0009-4034-b938-94e5cd34b331",
+  displayName: "Yasmine",
+};
+
+const chatri_yasmine_2: UserConfig = {
+  id: "d405e914-aaf5-4099-b409-15bde0ac6897",
+  displayName: "Yasmine",
+};
+
+const fodil_tahar_el_amine: UserConfig = {
+  id: "fb3cc807-6613-41a0-aa68-a4f66d027bae",
+  displayName: "Amine",
+};
+
+const ikram_mil_2006: UserConfig = {
+  id: "73966e68-a26e-4f8f-94ae-4d8d8b288d29",
+  displayName: "Ikram",
+};
+
+const ikram_mil: UserConfig = {
+  id: "3c69803d-64d3-4846-85c3-91f02acd4472",
+  displayName: "",
+};
+
+const yazid_rk: UserConfig = {
+  id: "03326b83-04bd-4f92-a008-b188b50eeefe",
+  displayName: "Yazid",
+};
+
+const hayat: UserConfig = {
+  id: "a1456c61-9e75-48c7-9d8d-548cd96756fb",
+  displayName: "Hayat",
+};
+
+const ranya: UserConfig = {
+  id: "c83fa782-7710-4fb6-b372-7dd95e70729d",
+  displayName: "Ranya",
+};
+
+const azzouz_abdesattar_2: UserConfig = {
+  id: "b22ced88-b91b-44f5-a88b-996f6433cc85",
+  displayName: "Azzouz",
+};
+
+const blekecem_douaa: UserConfig = {
+  id: "0e80b69c-045e-41eb-a6a2-810f5ee6008a",
+  displayName: "Douaa",
+};
+
+/**
+ * All user configs from this file — used by `userConfigs.ts` for the registry.
+ */
+export const ALL_USERS_FROM_CONFIGS: UserConfig[] = [
+  rayane,
+  ayoub,
+  azzouz_abdesattar,
+  lazreg_nihad,
+  roro_1,
+  mohamed_amine,
+  reggoua_insaf,
+  basmala,
+  basmala_2,
+  bouthaina_atsaoui,
+  hadjer,
+  fatima_beghdaoui,
+  fatima_beghdaoui_2,
+  amina_beliche,
+  abdelkayoum_nouri,
+  houda_ahmedi,
+  aria_armine,
+  mahdi_mohammed,
+  gribi,
+  ikhlas_1,
+  ekim,
+  terchi_khadidja,
+  no_data_bro,
+  maro,
+  agrouche_abdelbaki,
+  amin_mehdaoui,
+  nasrallah_abbad,
+  yass,
+  ikhlas_2,
+  smth,
+  roro_2,
+  bahaa,
+  zahira_tlb,
+  toufik,
+  hamza_bellabaci,
+  bouba,
+  kobzili_raounek,
+  meknaci_khadidja,
+  mehali_wafa,
+  milisa_chife,
+  douaa,
+  karima_krelifaoui,
+  alihaimoud_saddik,
+  chaimaa,
+  a,
+  chikh_halima,
+  khhaldi_mounir,
+  ziani_abdo,
+  berkani_chahinez,
+  yasser_aiad,
+  romaissa_zg,
+  neight_rahil,
+  chaimaa_b0ba,
+  chaimaa_2,
+  ab_marwa,
+  nihad,
+  benotsmane_youssuf,
+  yahiaoui_souhaibe,
+  fedj_manel,
+  moumen_hb,
+  siali_basma,
+  gahlam_youcef,
+  ines_elagrari,
+  yahiya_amina,
+  ikram_th,
+  wafa_trg,
+  chatri_yasmine,
+  chatri_yasmine_2,
+  fodil_tahar_el_amine,
+  ikram_mil_2006,
+  ikram_mil,
+  yazid_rk,
+  hayat,
+  ranya,
+  azzouz_abdesattar_2,
+  blekecem_douaa,
+];

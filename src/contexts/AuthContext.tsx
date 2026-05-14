@@ -56,7 +56,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                   email: userData.user.email,
                   full_name: userData.user.user_metadata?.full_name,
                   language: userData.user.user_metadata?.language || 'en',
-                  theme_color: userData.user.user_metadata?.theme_color || 'red'
+                  theme_color: userData.user.user_metadata?.theme_color || 'purple'
                 }
               ])
               .select()

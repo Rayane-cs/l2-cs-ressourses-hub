@@ -204,6 +204,9 @@ type Translations = {
     language: string;
     invalidAccount: string;
     signUpSuccess: string;
+    rememberMe: string;
+    showPassword: string;
+    hidePassword: string;
   };
   downloadRestricted: {
     title: string;
@@ -415,6 +418,9 @@ const TRANSLATIONS: Record<Lang, Translations> = {
       language: "Language",
       invalidAccount: "No account found. Please create an account or continue as a guest.",
       signUpSuccess: "Account created! You can login right now.",
+      rememberMe: "Remember me",
+      showPassword: "Show password",
+      hidePassword: "Hide password",
     },
     downloadRestricted: {
       title: "Authentication Required",
@@ -624,6 +630,9 @@ const TRANSLATIONS: Record<Lang, Translations> = {
       language: "Langue",
       invalidAccount: "Aucun compte trouvé. Veuillez créer un compte ou continuer en tant qu'invité.",
       signUpSuccess: "Compte créé ! Vous pouvez vous connecter dès maintenant.",
+      rememberMe: "Se souvenir de moi",
+      showPassword: "Afficher le mot de passe",
+      hidePassword: "Masquer le mot de passe",
     },
     downloadRestricted: {
       title: "Authentification requise",

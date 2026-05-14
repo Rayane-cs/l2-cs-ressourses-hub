@@ -270,6 +270,52 @@ html::-webkit-scrollbar-thumb:hover {
   }
 
   /* =========================================
+     🟣 PURPLE THEME (Data Attribute)
+     ========================================= */
+  :root[data-theme="purple"] {
+    --background: 270 35% 97%;
+    --foreground: 270 25% 12%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 270 25% 12%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 270 25% 12%;
+
+    --primary: 270 65% 50%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 270 30% 92%;
+    --secondary-foreground: 270 30% 18%;
+
+    --muted: 270 25% 92%;
+    --muted-foreground: 270 12% 40%;
+
+    --accent: 280 70% 58%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 270 20% 86%;
+    --input: 270 20% 86%;
+    --ring: 270 65% 50%;
+
+    --gradient-hero: linear-gradient(135deg, hsl(270 65% 48%) 0%, hsl(280 60% 62%) 50%, hsl(270 45% 88%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(270 65% 50% / 0.06) 0%, hsl(280 50% 90% / 0.25) 100%);
+
+    --shadow-glow: 0 0 40px hsl(270 65% 50% / 0.22);
+    --shadow-card: 0 4px 20px hsl(270 40% 20% / 0.08);
+    --shadow-hover: 0 8px 30px hsl(270 65% 50% / 0.2);
+
+    --hero-bg: #f3f0fa;
+    --hero-c1: #6d28d9;
+    --hero-c2: #4c1d95;
+    --hero-c3: #c4b5fd;
+    --hero-c4: #ddd6fe;
+  }
+
+  /* =========================================
      🌙 DARK MODE
      ========================================= */
 
@@ -430,6 +476,44 @@ html::-webkit-scrollbar-thumb:hover {
     --hero-c2: #1a5c38;
     --hero-c3: #8fd9a8;
     --hero-c4: #1a5c38;
+  }
+
+  /* 🟣 PURPLE DARK */
+  :root[data-theme="purple"] .dark,
+  html.dark[data-theme="purple"] {
+    --background: 270 22% 8%;
+    --foreground: 270 35% 96%;
+
+    --card: 270 20% 12%;
+    --card-foreground: 270 35% 96%;
+
+    --popover: 270 20% 12%;
+    --popover-foreground: 270 35% 96%;
+
+    --primary: 270 70% 62%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 270 18% 18%;
+    --secondary-foreground: 270 35% 96%;
+
+    --muted: 270 18% 18%;
+    --muted-foreground: 270 15% 72%;
+
+    --accent: 280 65% 58%;
+    --accent-foreground: 0 0% 10%;
+
+    --destructive: 0 70% 60%;
+    --destructive-foreground: 0 0% 96%;
+
+    --border: 270 18% 22%;
+    --input: 270 18% 22%;
+    --ring: 270 70% 60%;
+
+    --hero-bg: #1e1533;
+    --hero-c1: #7c3aed;
+    --hero-c2: #4c1d95;
+    --hero-c3: #c4b5fd;
+    --hero-c4: #4c1d95;
   }
 
   * {
