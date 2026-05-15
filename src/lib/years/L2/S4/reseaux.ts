@@ -247,7 +247,19 @@ const reseaux: Resource[] = [
         "question_de cours réseau",
         "https://docs.google.com/document/d/1eF-GT0IwpFOZuckGCXOCMKrbI97TT9Jp/edit?usp=sharing&ouid=114862124461485137731&rtpof=true&sd=true",
         "S4", "2025-26"
-    )
+    ),
+    examSolution(
+        "exam-8",
+        "Test Td 25-26 Solution",
+        "https://drive.google.com/file/d/1zbcbEaCr37jX66xYswGPl_gkuUxRsGbl/view?usp=drive_link",
+        "S4", "2025-26"
+    ),
+    exam(
+        "exam-9",
+        "Test Td 25-26",
+        "https://drive.google.com/file/d/1A7I4QdWVj2QXPXV4BD5-XBLHVDTyVcIr/view?usp=drive_link",
+        "S4", "2025-26"
+    ),
 ];
 
 export default reseaux;

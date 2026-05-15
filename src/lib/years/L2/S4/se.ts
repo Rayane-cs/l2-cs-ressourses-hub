@@ -86,6 +86,30 @@ const se: Resource[] = [
         "https://drive.google.com/file/d/1e6MJwxqN34nL0zGX-Z5isyAkV03jOzN5/view?usp=drive_link",
         "S4"
     ),
+    exam(
+        "exam",
+        "Exam 2024-25",
+        "https://drive.google.com/file/d/1L25vZRyy2NZ9ncNbsOGiMQDaRusueVTw/view?usp=drive_open",
+        "S4", "2024-2025"
+    ),
+    course(
+        "c-1",
+        "Chapitre 01",
+        "https://drive.google.com/file/d/1qiN61DeyRMUtzsEZv-OtET4cl68Zch72/view?usp=drive_link",
+        "S4", "2025-26"
+    ),
+    course(
+        "c-2",
+        "Chapitre 02",
+        "https://drive.google.com/file/d/1nNF1cP1yLO536iLx8bAO9uvTIQnRl9Lx/view?usp=drive_link",
+        "S4", "2025-26"
+    ),
+    course(
+        "c-3",
+        "Chapitre 03",
+        "https://drive.google.com/file/d/1omURotUq1CGaMoovl0QpiyvIJc4CHBiz/view?usp=drive_link",
+        "S4", "2025-26"
+    ),
 ];
 
 export default se;
