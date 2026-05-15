@@ -226,7 +226,7 @@ const terchi_khadidja: UserConfig = {
   displayName: "Khadidja",
   welcomeMessage: "Welcome back, Khadidja! Ready to study?",
   showOnlyYears: ["l2"],
-  customBanner: "Sba6 lbydh l3am ljay bdlih :)",
+  customBanner: "9atlk zahira raki ta9ray aa :)",
   showProgrammingLanguages: false,
 };
 
