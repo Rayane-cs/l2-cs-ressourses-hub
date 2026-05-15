@@ -440,6 +440,32 @@ const blekecem_douaa: UserConfig = {
   displayName: "Douaa",
 };
 
+const yass_mh: UserConfig = {
+  id: "6ae7f906-a1ef-4504-88e4-76a0e8363d02",
+  displayName: "Yass",
+};
+
+const labbaci_hiba: UserConfig = {
+  id: "756799b6-1805-47ae-991c-0b8a0d4762b4",
+  displayName: "Hiba",
+};
+
+const mahi_yazid: UserConfig = {
+  id: "c1c60684-1162-4312-a677-180a147fb518",
+  displayName: "Yazid",
+};
+
+const gribi_karim: UserConfig = {
+  id: "c81ca755-617d-4c25-9abf-e038c4501f0d",
+  displayName: "Karim",
+};
+
+const medadd_imed: UserConfig = {
+  id: "13536e56-0062-4b3c-9377-d1793f03aecf",
+  displayName: "Imed",
+};
+
+
 /**
  * All user configs from this file — used by `userConfigs.ts` for the registry.
  */
@@ -520,4 +546,9 @@ export const ALL_USERS_FROM_CONFIGS: UserConfig[] = [
   ranya,
   azzouz_abdesattar_2,
   blekecem_douaa,
+  yass_mh,
+  labbaci_hiba,
+  mahi_yazid,
+  gribi_karim,
+  medadd_imed,
 ];
