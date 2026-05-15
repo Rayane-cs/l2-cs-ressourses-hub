@@ -82,6 +82,7 @@ const lazreg_nihad: UserConfig = {
   displayName: "Nihad",
   welcomeMessage: "Welcome back, Nihad! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const roro_1: UserConfig = {
@@ -89,6 +90,7 @@ const roro_1: UserConfig = {
   displayName: "Roro",
   welcomeMessage: "Welcome back, Roro! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const mohamed_amine: UserConfig = {
@@ -96,6 +98,7 @@ const mohamed_amine: UserConfig = {
   displayName: "Amine",
   welcomeMessage: "Welcome back, Amine! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const reggoua_insaf: UserConfig = {
@@ -103,6 +106,7 @@ const reggoua_insaf: UserConfig = {
   displayName: "Insaf",
   welcomeMessage: "Welcome back, Insaf! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const basmala: UserConfig = {
@@ -110,6 +114,7 @@ const basmala: UserConfig = {
   displayName: "Basmala",
   welcomeMessage: "Welcome back, Basmala! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const basmala_2: UserConfig = {
@@ -117,6 +122,7 @@ const basmala_2: UserConfig = {
   displayName: "Basmala",
   welcomeMessage: "Welcome back, Basmala! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const bouthaina_atsaoui: UserConfig = {
@@ -124,6 +130,7 @@ const bouthaina_atsaoui: UserConfig = {
   displayName: "Bouthaina",
   welcomeMessage: "Welcome back, Bouthaina! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const hadjer: UserConfig = {
@@ -131,6 +138,7 @@ const hadjer: UserConfig = {
   displayName: "Hadjer",
   welcomeMessage: "Welcome back, Hadjer! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const fatima_beghdaoui: UserConfig = {
@@ -138,6 +146,7 @@ const fatima_beghdaoui: UserConfig = {
   displayName: "Fatima",
   welcomeMessage: "Welcome back, Fatima! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const fatima_beghdaoui_2: UserConfig = {
@@ -145,6 +154,7 @@ const fatima_beghdaoui_2: UserConfig = {
   displayName: "Fatima",
   welcomeMessage: "Welcome back, Fatima! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const amina_beliche: UserConfig = {
@@ -152,6 +162,7 @@ const amina_beliche: UserConfig = {
   displayName: "Amina",
   welcomeMessage: "Welcome back, Amina! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const abdelkayoum_nouri: UserConfig = {
@@ -159,6 +170,7 @@ const abdelkayoum_nouri: UserConfig = {
   displayName: "Nouri",
   welcomeMessage: "Welcome back, Nouri! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const houda_ahmedi: UserConfig = {
@@ -166,6 +178,7 @@ const houda_ahmedi: UserConfig = {
   displayName: "Houda",
   welcomeMessage: "Welcome back, Houda! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const aria_armine: UserConfig = {
@@ -173,6 +186,7 @@ const aria_armine: UserConfig = {
   displayName: "Armine",
   welcomeMessage: "Welcome back, Armine! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const mahdi_mohammed: UserConfig = {
@@ -180,6 +194,7 @@ const mahdi_mohammed: UserConfig = {
   displayName: "Mahdi",
   welcomeMessage: "Welcome back, Mahdi! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const gribi: UserConfig = {
@@ -187,6 +202,7 @@ const gribi: UserConfig = {
   displayName: "Gribi",
   welcomeMessage: "Welcome back, Gribi! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const ikhlas_1: UserConfig = {
@@ -194,6 +210,7 @@ const ikhlas_1: UserConfig = {
   displayName: "Ikhlas",
   welcomeMessage: "Welcome back, Ikhlas! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const ekim: UserConfig = {
@@ -201,6 +218,7 @@ const ekim: UserConfig = {
   displayName: "Ekim",
   welcomeMessage: "Welcome back, Ekim! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const terchi_khadidja: UserConfig = {
@@ -208,6 +226,8 @@ const terchi_khadidja: UserConfig = {
   displayName: "Khadidja",
   welcomeMessage: "Welcome back, Khadidja! Ready to study?",
   showOnlyYears: ["l2"],
+  customBanner: "Sba6 lbydh l3am ljay bdlih :)",
+  showProgrammingLanguages: false,
 };
 
 const no_data_bro: UserConfig = {
@@ -217,6 +237,7 @@ const no_data_bro: UserConfig = {
   showOnlyYears: ["l2"],
 
   customBanner: "Zyer rohek, w 9ra mlih No data w manich bro hhh",
+  showProgrammingLanguages: false,
 };
 
 const maro: UserConfig = {
@@ -224,6 +245,7 @@ const maro: UserConfig = {
   displayName: "Maro",
   welcomeMessage: "Welcome back, Maro! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const agrouche_abdelbaki: UserConfig = {
@@ -231,6 +253,7 @@ const agrouche_abdelbaki: UserConfig = {
   displayName: "Abdelbaki",
   welcomeMessage: "Welcome back, Abdelbaki! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const amin_mehdaoui: UserConfig = {
@@ -238,6 +261,7 @@ const amin_mehdaoui: UserConfig = {
   displayName: "Amin",
   welcomeMessage: "Welcome back, Amin! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const nasrallah_abbad: UserConfig = {
@@ -245,6 +269,7 @@ const nasrallah_abbad: UserConfig = {
   displayName: "Nasrallah",
   welcomeMessage: "Welcome back, Nasrallah! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const yass: UserConfig = {
@@ -252,6 +277,7 @@ const yass: UserConfig = {
   displayName: "Yass",
   welcomeMessage: "Welcome back, Yass! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const ikhlas_2: UserConfig = {
@@ -259,6 +285,7 @@ const ikhlas_2: UserConfig = {
   displayName: "Ikhlas",
   welcomeMessage: "Welcome back, Ikhlas! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const smth: UserConfig = {
@@ -268,6 +295,7 @@ const smth: UserConfig = {
   showOnlyYears: ["l2"],
 
   customBanner: "Study hard, to avoid ratrapage",
+  showProgrammingLanguages: false,
 };
 
 const roro_2: UserConfig = {
@@ -275,6 +303,7 @@ const roro_2: UserConfig = {
   displayName: "Roro",
   welcomeMessage: "Welcome back, Roro! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const bahaa: UserConfig = {
@@ -282,6 +311,7 @@ const bahaa: UserConfig = {
   displayName: "Bahaa",
   welcomeMessage: "Welcome back, Bahaa! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const zahira_tlb: UserConfig = {
@@ -291,6 +321,7 @@ const zahira_tlb: UserConfig = {
 
   showOnlyYears: ["l2"],
   customBanner: "Zyeri rohek, w 9ray mlih bah matdo5lich ratrapage",
+  showProgrammingLanguages: false,
 };
 
 const toufik: UserConfig = {
@@ -300,6 +331,7 @@ const toufik: UserConfig = {
 
   showOnlyYears: ["l2"],
   customBanner: "Zyer rohek, w 9ra mlih",
+  showProgrammingLanguages: false,
 };
 
 const hamza_bellabaci: UserConfig = {
@@ -308,6 +340,7 @@ const hamza_bellabaci: UserConfig = {
   welcomeMessage: "Welcome back, Hamza! Ready to study?",
 
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const bouba: UserConfig = {
@@ -316,6 +349,7 @@ const bouba: UserConfig = {
   welcomeMessage: "Welcome back, Bouba! Ready to study?",
 
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const kobzili_raounek: UserConfig = {
@@ -324,6 +358,7 @@ const kobzili_raounek: UserConfig = {
   welcomeMessage: "Welcome back, Raounek! Ready to study?",
 
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const meknaci_khadidja: UserConfig = {
@@ -332,6 +367,7 @@ const meknaci_khadidja: UserConfig = {
   welcomeMessage: "Welcome back, Khadidja! Ready to study?",
 
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const mehali_wafa: UserConfig = {
@@ -340,6 +376,7 @@ const mehali_wafa: UserConfig = {
   welcomeMessage: "Welcome back, Wafa! Ready to study?",
 
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const milisa_chife: UserConfig = {
@@ -348,6 +385,7 @@ const milisa_chife: UserConfig = {
   welcomeMessage: "Welcome back, Milisa! Ready to study?",
 
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const douaa: UserConfig = {
@@ -355,6 +393,7 @@ const douaa: UserConfig = {
   displayName: "Douaa",
   welcomeMessage: "Welcome back, Douaa! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const karima_krelifaoui: UserConfig = {
@@ -362,6 +401,7 @@ const karima_krelifaoui: UserConfig = {
   displayName: "Karima",
   welcomeMessage: "Welcome back, Karima! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const alihaimoud_saddik: UserConfig = {
@@ -369,6 +409,7 @@ const alihaimoud_saddik: UserConfig = {
   displayName: "Saddik",
   welcomeMessage: "Welcome back, Saddik! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const chaimaa: UserConfig = {
@@ -376,6 +417,7 @@ const chaimaa: UserConfig = {
   displayName: "Chaimaa",
   welcomeMessage: "Welcome back, Chaimaa! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const a: UserConfig = {
@@ -383,6 +425,7 @@ const a: UserConfig = {
   displayName: "A",
   welcomeMessage: "Welcome back, A! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const chikh_halima: UserConfig = {
@@ -391,6 +434,7 @@ const chikh_halima: UserConfig = {
   welcomeMessage: "Welcome back, Halima! Ready to study?",
   customBanner: "Awdi aw mdli esmk :)",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const khhaldi_mounir: UserConfig = {
@@ -398,6 +442,7 @@ const khhaldi_mounir: UserConfig = {
   displayName: "Mounir",
   welcomeMessage: "Welcome back, Mounir! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const ziani_abdo: UserConfig = {
@@ -405,6 +450,7 @@ const ziani_abdo: UserConfig = {
   displayName: "Abdo",
   welcomeMessage: "Welcome back, Abdo! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const berkani_chahinez: UserConfig = {
@@ -412,6 +458,7 @@ const berkani_chahinez: UserConfig = {
   displayName: "Chahinez",
   welcomeMessage: "Welcome back, Chahinez! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const yasser_aiad: UserConfig = {
@@ -419,6 +466,7 @@ const yasser_aiad: UserConfig = {
   displayName: "Yasser",
   welcomeMessage: "Welcome back, Yasser! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const romaissa_zg: UserConfig = {
@@ -426,6 +474,7 @@ const romaissa_zg: UserConfig = {
   displayName: "Romaissa",
   welcomeMessage: "Welcome back, Romaissa! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const neight_rahil: UserConfig = {
@@ -433,6 +482,7 @@ const neight_rahil: UserConfig = {
   displayName: "Rahil",
   welcomeMessage: "Welcome back, Rahil! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const chaimaa_b0ba: UserConfig = {
@@ -440,6 +490,7 @@ const chaimaa_b0ba: UserConfig = {
   displayName: "Chaima",
   welcomeMessage: "Welcome back, Chaima! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const chaimaa_2: UserConfig = {
@@ -447,6 +498,7 @@ const chaimaa_2: UserConfig = {
   displayName: "Chaima",
   welcomeMessage: "Welcome back, Chaima! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const ab_marwa: UserConfig = {
@@ -454,6 +506,7 @@ const ab_marwa: UserConfig = {
   displayName: "Marwa",
   welcomeMessage: "Welcome back, Marwa! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const nihad: UserConfig = {
@@ -461,6 +514,7 @@ const nihad: UserConfig = {
   displayName: "Nihad",
   welcomeMessage: "Welcome back, Nihad! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const benotsmane_youssuf: UserConfig = {
@@ -468,6 +522,7 @@ const benotsmane_youssuf: UserConfig = {
   displayName: "Youssuf",
   welcomeMessage: "Welcome back, Youssuf! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const yahiaoui_souhaibe: UserConfig = {
@@ -475,6 +530,7 @@ const yahiaoui_souhaibe: UserConfig = {
   displayName: "Souhaibe",
   welcomeMessage: "Welcome back, Souhaibe! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const fedj_manel: UserConfig = {
@@ -482,6 +538,7 @@ const fedj_manel: UserConfig = {
   displayName: "Manel",
   welcomeMessage: "Welcome back, Manel! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const moumen_hb: UserConfig = {
@@ -489,6 +546,7 @@ const moumen_hb: UserConfig = {
   displayName: "Moumen",
   welcomeMessage: "Welcome back, Moumen! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const siali_basma: UserConfig = {
@@ -496,6 +554,7 @@ const siali_basma: UserConfig = {
   displayName: "Basma",
   welcomeMessage: "Welcome back, Basma! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const gahlam_youcef: UserConfig = {
@@ -503,6 +562,7 @@ const gahlam_youcef: UserConfig = {
   displayName: "Youcef",
   welcomeMessage: "Welcome back, Youcef! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const ines_elagrari: UserConfig = {
@@ -510,6 +570,7 @@ const ines_elagrari: UserConfig = {
   displayName: "Inas",
   welcomeMessage: "Welcome back, Inas! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const yahiya_amina: UserConfig = {
@@ -517,6 +578,7 @@ const yahiya_amina: UserConfig = {
   displayName: "Amina",
   welcomeMessage: "Welcome back, Amina! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const ikram_th: UserConfig = {
@@ -524,6 +586,7 @@ const ikram_th: UserConfig = {
   displayName: "Ikram",
   welcomeMessage: "Welcome back, Ikram! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const wafa_trg: UserConfig = {
@@ -531,6 +594,7 @@ const wafa_trg: UserConfig = {
   displayName: "Wafa",
   welcomeMessage: "Welcome back, Wafa! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const chatri_yasmine: UserConfig = {
@@ -538,6 +602,7 @@ const chatri_yasmine: UserConfig = {
   displayName: "Yasmine",
   welcomeMessage: "Welcome back, Yasmine! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const chatri_yasmine_2: UserConfig = {
@@ -545,6 +610,7 @@ const chatri_yasmine_2: UserConfig = {
   displayName: "Yasmine",
   welcomeMessage: "Welcome back, Yasmine! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const fodil_tahar_el_amine: UserConfig = {
@@ -552,6 +618,7 @@ const fodil_tahar_el_amine: UserConfig = {
   displayName: "Amine",
   welcomeMessage: "Welcome back, Amine! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const ikram_mil_2006: UserConfig = {
@@ -559,6 +626,7 @@ const ikram_mil_2006: UserConfig = {
   displayName: "Ikram",
   welcomeMessage: "Welcome back, Ikram! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const ikram_mil: UserConfig = {
@@ -566,6 +634,7 @@ const ikram_mil: UserConfig = {
   displayName: "Ikram",
   welcomeMessage: "Welcome back, Ikram! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const yazid_rk: UserConfig = {
@@ -573,6 +642,7 @@ const yazid_rk: UserConfig = {
   displayName: "Yazid",
   welcomeMessage: "Welcome back, Yazid! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const hayat: UserConfig = {
@@ -580,6 +650,7 @@ const hayat: UserConfig = {
   displayName: "Hayat",
   welcomeMessage: "Welcome back, Hayat! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const ranya: UserConfig = {
@@ -587,6 +658,7 @@ const ranya: UserConfig = {
   displayName: "Ranya",
   welcomeMessage: "Welcome back, Ranya! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const azzouz_abdesattar_2: UserConfig = {
@@ -594,6 +666,7 @@ const azzouz_abdesattar_2: UserConfig = {
   displayName: "Azzouz",
   welcomeMessage: "Welcome back, Azzouz! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const blekecem_douaa: UserConfig = {
@@ -608,6 +681,7 @@ const yass_mh: UserConfig = {
   displayName: "Yass",
   welcomeMessage: "Welcome back, Yass! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const labbaci_hiba: UserConfig = {
@@ -615,6 +689,7 @@ const labbaci_hiba: UserConfig = {
   displayName: "Hiba",
   welcomeMessage: "Welcome back, Hiba! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const mahi_yazid: UserConfig = {
@@ -622,6 +697,7 @@ const mahi_yazid: UserConfig = {
   displayName: "Yazid",
   welcomeMessage: "Welcome back, Yazid! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const gribi_karim: UserConfig = {
@@ -629,6 +705,7 @@ const gribi_karim: UserConfig = {
   displayName: "Karim",
   welcomeMessage: "Welcome back, Karim! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const medadd_imed: UserConfig = {
@@ -636,6 +713,7 @@ const medadd_imed: UserConfig = {
   displayName: "Imed",
   welcomeMessage: "Welcome back, Imed! Ready to study?",
   showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
 };
 
 const zakaria_hamimeche: UserConfig = {
@@ -644,6 +722,7 @@ const zakaria_hamimeche: UserConfig = {
   welcomeMessage: "Welcome back, Zakaria! Ready to study?",
   showOnlyYears: ["l2"],
   customBanner: "E9ra ela roehek ya zaki",
+  showProgrammingLanguages: false,
 };
 
 
