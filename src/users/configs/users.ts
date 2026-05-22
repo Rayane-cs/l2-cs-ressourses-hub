@@ -725,6 +725,29 @@ const zakaria_hamimeche: UserConfig = {
   showProgrammingLanguages: false,
 };
 
+const laboub_anaghim: UserConfig = {
+  id: "69e1cce2-5580-4b25-b2a5-a52e5145bcaa",
+  displayName: "Naghma",
+  welcomeMessage: "Welcome back, Anaghim! Ready to study?",
+  showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
+}
+
+const hanane: UserConfig = {
+  id: "d58badc7-8a8e-4b4b-8725-9b47f69a2f3f",
+  displayName: "Hanane",
+  welcomeMessage: "Welcome back, Hanane! Ready to study?",
+  showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
+}
+
+const hadil: UserConfig = {
+  id: "1685cc1e-631a-4738-aa94-2f366eae449d",
+  displayName: "Hadil",
+  welcomeMessage: "Welcome back, Hadil! Ready to study?",
+  showOnlyYears: ["l2"],
+  showProgrammingLanguages: false,
+}
 
 /**
  * All user configs from this file — used by `userConfigs.ts` for the registry.
@@ -812,4 +835,7 @@ export const ALL_USERS_FROM_CONFIGS: UserConfig[] = [
   gribi_karim,
   medadd_imed,
   zakaria_hamimeche,
+  laboub_anaghim,
+  hanane,
+  hadil,
 ];
