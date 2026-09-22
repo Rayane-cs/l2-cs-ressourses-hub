@@ -1,14 +1,15 @@
 import { Alert, AlertTitle, AlertDescription } from "./ui/alert";
-import { ArrowDown, X } from "lucide-react";
+import { ArrowDown, X, Layers, Code2, Box, FileText } from "lucide-react";
 import { Button } from "./ui/button";
 import { useState, useEffect } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useThemeColor } from "@/contexts/ThemeColorContext";
+import { motion } from "framer-motion";
 
 const Hero = () => {
   const { t } = useLanguage();
+  const { themeColor } = useThemeColor();
   const [showAnnouncement, setShowAnnouncement] = useState(false);
-
-  // CSS-driven scrolling categories (no JS interval)
 
   useEffect(() => {
     const hasSeenAnnouncement = localStorage.getItem("search-announcement-seen");
@@ -27,26 +28,31 @@ const Hero = () => {
     yearsSection?.scrollIntoView({ behavior: "smooth" });
   };
 
+  // Dynamic filter to shift public/image.png (blue base) to match the active color theme
+  const themeFilters: Record<string, string> = {
+    blue: "hue-rotate(0deg) saturate(100%) brightness(1)",
+    green: "hue-rotate(-75deg) saturate(125%) brightness(0.95)",
+    pink: "hue-rotate(115deg) saturate(135%) brightness(1.05)",
+    red: "hue-rotate(142deg) saturate(145%) brightness(0.92)",
+  };
+
+  const activeFilter = themeFilters[themeColor] || themeFilters.pink;
+
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-between pt-20 pb-10 overflow-hidden">
-      <div className="absolute inset-0">
-        <div className="background" aria-hidden>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-
+      {/* Hero Background Image with Theme-Adaptive Filters */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+        <img
+          src="/image.png"
+          alt=""
+          className="w-full h-full object-cover object-center transition-[filter] duration-700 ease-out"
+          style={{ filter: activeFilter }}
+        />
+        {/* Dynamic theme tint overlay */}
+        <div className="absolute inset-0 bg-primary/10 mix-blend-color pointer-events-none transition-colors duration-700" />
+        {/* Contrast and blend overlays */}
+        <div className="absolute inset-0 bg-background/50 dark:bg-[#07090e]/60 backdrop-blur-[1px] transition-colors duration-700" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/70 transition-colors duration-700" />
       </div>
 
       <div className="container mx-auto px-4 relative z-10 flex-1 flex flex-col items-center justify-center">
@@ -70,6 +76,7 @@ const Hero = () => {
             </Alert>
           )}
         </div>
+
         <div className="max-w-4xl mx-auto text-center animate-fade-in">
           <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
             <span className="text-foreground">{t.hero.title}</span>
@@ -78,8 +85,7 @@ const Hero = () => {
               All Your Resources
             </span>
 
-            {/* Inline CSS-driven vertical scroller (CSS-only, infinite loop)
-                Wrapper uses same font size as title so the scroller height equals title baseline */}
+            {/* Inline CSS-driven vertical scroller (CSS-only, infinite loop) */}
             <span className="inline-block scroller align-middle relative overflow-hidden text-5xl md:text-7xl leading-none" aria-hidden={false}>
               <div className="words" aria-live="polite">
                 <div className="word text-white font-extrabold">- {t.hero.courses} -</div>
@@ -100,209 +106,114 @@ const Hero = () => {
             <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">in One Place</span>
           </h1>
 
-          <p className="text-xl md:text-2xl text-muted-foreground mb-12 animate-fade-in" style={{ animationDelay: "0.2s" }}>
+          <p className="text-xl md:text-2xl text-muted-foreground mb-8 animate-fade-in" style={{ animationDelay: "0.2s" }}>
             {t.hero.subtitle}
           </p>
+
+          {/* Interactive Explore Area with Theme-Adaptive Floating Tiny Squares */}
+          <div className="relative w-full max-w-xl mx-auto py-8 min-h-[140px] flex items-center justify-center animate-fade-in" style={{ animationDelay: "0.3s" }}>
+            {/* 1. Floating square: Database / Layers Stack (Left) */}
+            <motion.div
+              animate={{ y: [0, -10, 0] }}
+              transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute left-2 sm:left-6 md:left-8 top-1 sm:-top-2 w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-card/40 dark:bg-[#0c101d]/60 border border-primary/30 backdrop-blur-xl flex items-center justify-center shadow-lg shadow-primary/15 hover:scale-110 hover:border-primary/60 transition-all cursor-default"
+              style={{
+                boxShadow: "0 0 20px -2px hsl(var(--primary) / 0.2)",
+              }}
+            >
+              <Layers className="w-5 h-5 text-primary" />
+            </motion.div>
+
+            {/* 2. Floating square: Code2 (Lower Left) */}
+            <motion.div
+              animate={{ y: [0, 8, 0] }}
+              transition={{ duration: 5.2, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
+              className="absolute left-10 sm:left-20 md:left-22 bottom-0 sm:bottom-1 w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-card/40 dark:bg-[#0c101d]/60 border border-primary/30 backdrop-blur-xl flex items-center justify-center shadow-lg shadow-primary/15 hover:scale-110 hover:border-primary/60 transition-all cursor-default"
+              style={{
+                boxShadow: "0 0 20px -2px hsl(var(--primary) / 0.2)",
+              }}
+            >
+              <Code2 className="w-5 h-5 text-primary" />
+            </motion.div>
+
+            {/* 3. Floating square: 3D Box (Upper Left near button) */}
+            <motion.div
+              animate={{ y: [0, -7, 0] }}
+              transition={{ duration: 3.8, repeat: Infinity, ease: "easeInOut", delay: 1.4 }}
+              className="hidden sm:flex absolute left-32 md:left-38 -top-3 w-9 h-9 rounded-xl bg-card/40 dark:bg-[#0c101d]/60 border border-primary/25 backdrop-blur-xl items-center justify-center shadow-md shadow-primary/10 hover:scale-110 hover:border-primary/60 transition-all cursor-default"
+              style={{
+                boxShadow: "0 0 15px -2px hsl(var(--primary) / 0.15)",
+              }}
+            >
+              <Box className="w-4 h-4 text-primary" />
+            </motion.div>
+
+            {/* Center Pill Button: EXPLORE RESOURCES NOW */}
+            <button
+              onClick={scrollToYears}
+              className="relative z-10 px-7 sm:px-9 py-3 sm:py-3.5 rounded-full bg-background/50 dark:bg-[#0c101d]/75 border border-primary/50 hover:border-primary text-foreground text-xs sm:text-sm font-black uppercase tracking-widest backdrop-blur-xl shadow-[0_0_25px_hsl(var(--primary)/0.35)] hover:shadow-[0_0_40px_hsl(var(--primary)/0.6)] hover:bg-primary/15 transition-all duration-300 flex items-center gap-2.5 group cursor-pointer"
+            >
+              <span>{t.hero.exploreNow ? t.hero.exploreNow.toUpperCase() : "EXPLORE RESOURCES NOW"}</span>
+              <ArrowDown className="w-4 h-4 text-primary group-hover:translate-y-0.5 transition-transform" />
+            </button>
+
+            {/* 4. Floating square: Document FileText (Upper Right near button) */}
+            <motion.div
+              animate={{ y: [0, -8, 0] }}
+              transition={{ duration: 4.2, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+              className="hidden sm:flex absolute right-32 md:right-38 -top-3 w-9 h-9 rounded-xl bg-card/40 dark:bg-[#0c101d]/60 border border-primary/25 backdrop-blur-xl items-center justify-center shadow-md shadow-primary/10 hover:scale-110 hover:border-primary/60 transition-all cursor-default"
+              style={{
+                boxShadow: "0 0 15px -2px hsl(var(--primary) / 0.15)",
+              }}
+            >
+              <FileText className="w-4 h-4 text-primary" />
+            </motion.div>
+
+            {/* 5. Floating square: fx Math Function (Mid Right) */}
+            <motion.div
+              animate={{ y: [0, -11, 0] }}
+              transition={{ duration: 4.8, repeat: Infinity, ease: "easeInOut", delay: 1.1 }}
+              className="absolute right-2 sm:right-6 md:right-8 top-1 sm:-top-2 w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-card/40 dark:bg-[#0c101d]/60 border border-primary/30 backdrop-blur-xl flex items-center justify-center shadow-lg shadow-primary/15 hover:scale-110 hover:border-primary/60 transition-all cursor-default"
+              style={{
+                boxShadow: "0 0 20px -2px hsl(var(--primary) / 0.2)",
+              }}
+            >
+              <span className="font-serif italic font-bold text-base text-primary select-none">fx</span>
+            </motion.div>
+
+            {/* 6. Floating square: TDs Tutorials (Lower Right) */}
+            <motion.div
+              animate={{ y: [0, 9, 0] }}
+              transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut", delay: 1.7 }}
+              className="absolute right-10 sm:right-20 md:right-22 bottom-0 sm:bottom-1 w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-card/40 dark:bg-[#0c101d]/60 border border-primary/30 backdrop-blur-xl flex items-center justify-center shadow-lg shadow-primary/15 hover:scale-110 hover:border-primary/60 transition-all cursor-default"
+              style={{
+                boxShadow: "0 0 20px -2px hsl(var(--primary) / 0.2)",
+              }}
+            >
+              <span className="font-mono font-bold text-xs tracking-wider uppercase text-primary select-none">TDs</span>
+            </motion.div>
+          </div>
         </div>
       </div>
 
-      <div className="container mx-auto px-4 relative z-10 flex justify-center pb-10 animate-fade-in" style={{ animationDelay: "0.4s" }}>
-        <button onClick={scrollToYears} className="flex flex-col items-center gap-2 group hover:opacity-70 transition-opacity">
-          <span className="text-sm text-muted-foreground">{t.hero.exploreNow}</span>
-          <ArrowDown className="h-6 w-6 text-primary motion-safe:animate-bounce" />
-        </button>
-      </div>
-
       <style>{`
-        /* floating helpers (kept for small motion elsewhere) */
-        @keyframes float {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-20px); }
-        }
-        .animate-float { animation: float 6s ease-in-out infinite; }
-
-        /* Integrated animated background */
-        @keyframes move {
-          100% { transform: translate3d(0, 0, 1px) rotate(360deg); }
-        }
-
-        /* Scoped to the hero section - Dynamic Theme using CSS Variables */
-        .background {
-          position: absolute;
-          inset: 0;
-          width: 100%;
-          height: 100%;
-          top: 0;
-          left: 0;
-          background: var(--hero-bg);
-          overflow: hidden;
-          pointer-events: none;
-          z-index: 0;
-          filter: blur(8px);
-          opacity: 0.7;
-          transition: background-color 0.3s ease;
-        }
-
-        .background span {
-          width: 50vmin;
-          height: 50vmin;
-          border-radius: 50vmin;
-          backface-visibility: hidden;
-          position: absolute;
-          animation: move linear infinite;
-          animation-duration: 6s;
-          animation-timing-function: linear;
-          filter: blur(36px);
-          opacity: 0.80;
-          transition: color 0.3s ease;
-        }
-
-        .background span:nth-child(1) {
-          color: var(--hero-c1);
-          top: 87%;
-          left: 69%;
-          animation-duration: 368s;
-          animation-delay: -85s;
-          transform-origin: 21vw -12vh;
-          box-shadow: -100vmin 0 12.78344090205648vmin currentColor;
-        }
-        .background span:nth-child(2) {
-          color: var(--hero-c1);
-          top: 73%;
-          left: 99%;
-          animation-duration: 16s;
-          animation-delay: -377s;
-          transform-origin: 24vw -24vh;
-          box-shadow: -100vmin 0 13.202715908699183vmin currentColor;
-        }
-        .background span:nth-child(3) {
-          color: var(--hero-c2);
-          top: 100%;
-          left: 98%;
-          animation-duration: 204s;
-          animation-delay: -134s;
-          transform-origin: 19vw 18vh;
-          box-shadow: 100vmin 0 12.727050066504724vmin currentColor;
-        }
-        .background span:nth-child(4) {
-          color: var(--hero-c3);
-          top: 61%;
-          left: 11%;
-          animation-duration: 392s;
-          animation-delay: -319s;
-          transform-origin: -8vw -1vh;
-          box-shadow: 100vmin 0 13.419806335576137vmin currentColor;
-        }
-        .background span:nth-child(5) {
-          color: var(--hero-c3);
-          top: 59%;
-          left: 99%;
-          animation-duration: 192s;
-          animation-delay: -239s;
-          transform-origin: 1vw 12vh;
-          box-shadow: 100vmin 0 13.359873877292083vmin currentColor;
-        }
-        .background span:nth-child(6) {
-          color: var(--hero-c4);
-          top: 57%;
-          left: 73%;
-          animation-duration: 389s;
-          animation-delay: -303s;
-          transform-origin: -23vw 5vh;
-          box-shadow: 100vmin 0 12.693657116164388vmin currentColor;
-        }
-        .background span:nth-child(7) {
-          color: var(--hero-c1);
-          top: 41%;
-          left: 24%;
-          animation-duration: 173s;
-          animation-delay: -185s;
-          transform-origin: -8vw 20vh;
-          box-shadow: 100vmin 0 13.087698239462837vmin currentColor;
-        }
-        .background span:nth-child(8) {
-          color: var(--hero-c4);
-          top: 27%;
-          left: 30%;
-          animation-duration: 65s;
-          animation-delay: -388s;
-          transform-origin: -21vw 17vh;
-          box-shadow: 100vmin 0 12.742515550751909vmin currentColor;
-        }
-        .background span:nth-child(9) {
-          color: var(--hero-c3);
-          top: 29%;
-          left: 25%;
-          animation-duration: 218s;
-          animation-delay: -141s;
-          transform-origin: 0vw -18vh;
-          box-shadow: 100vmin 0 13.327753864392694vmin currentColor;
-        }
-        .background span:nth-child(10) {
-          color: var(--hero-c4);
-          top: 12%;
-          left: 93%;
-          animation-duration: 218s;
-          animation-delay: -191s;
-          transform-origin: 6vw 8vh;
-          box-shadow: 100vmin 0 12.575029273903803vmin currentColor;
-        }
-        .background span:nth-child(11) {
-          color: var(--hero-c3);
-          top: 39%;
-          left: 21%;
-          animation-duration: 111s;
-          animation-delay: -368s;
-          transform-origin: -4vw -16vh;
-          box-shadow: 100vmin 0 12.745994981507462vmin currentColor;
-        }
-        .background span:nth-child(12) {
-          color: var(--hero-c1);
-          top: 62%;
-          left: 97%;
-          animation-duration: 130s;
-          animation-delay: -253s;
-          transform-origin: -14vw 13vh;
-          box-shadow: -100vmin 0 13.098187455528766vmin currentColor;
-        }
-        .background span:nth-child(13) {
-          color: var(--hero-c2);
-          top: 47%;
-          left: 44%;
-          animation-duration: 94s;
-          animation-delay: -111s;
-          transform-origin: 4vw -1vh;
-          box-shadow: -100vmin 0 13.20069519503441vmin currentColor;
-        }
-        .background span:nth-child(14) {
-          color: var(--hero-c3);
-          top: 97%;
-          left: 84%;
-          animation-duration: 214s;
-          animation-delay: -14s;
-          transform-origin: 8vw 24vh;
-          box-shadow: -100vmin 0 12.66497200523066vmin currentColor;
-        }
-
         /* CSS vertical scroller styles (template-based) */
         .scroller { height: 1em; overflow: hidden; display: inline-block; vertical-align: middle; }
         .words {
           display: flex;
           flex-direction: column;
           will-change: transform;
-          /* duration: 5 items * 3.5s per item = 17.5s; use keyframes with pauses for smooth vertical step + scroll */
           animation: scroll-words 17.5s ease-in-out infinite;
         }
 
         .word {
-          height: 1em; /* match the current font-size / line-height of the wrapper */
+          height: 1em;
           display: flex;
           align-items: center;
           justify-content: center;
           line-height: 1;
         }
 
-        /* Keyframes create a pause on each item then a short smooth transition to the next */
         @keyframes scroll-words {
           0% { transform: translateY(0%); }
           16% { transform: translateY(0%); }
