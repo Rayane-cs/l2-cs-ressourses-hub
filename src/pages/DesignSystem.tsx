@@ -152,7 +152,11 @@ const DesignSystem = () => {
                 <Button variant="success">Success</Button>
                 <Button size="sm">Small</Button>
                 <Button size="lg">Large</Button>
+                <Button variant="link">Link</Button>
                 <Button size="icon" variant="secondary" aria-label="Download">
+                  <Download />
+                </Button>
+                <Button size="icon-sm" variant="secondary" aria-label="Download small">
                   <Download />
                 </Button>
                 <Button disabled>Disabled</Button>
@@ -166,6 +170,7 @@ const DesignSystem = () => {
                 <Badge>Default</Badge>
                 <Badge variant="secondary">Secondary</Badge>
                 <Badge variant="muted">Muted</Badge>
+                <Badge variant="outline">Outline</Badge>
                 <Badge variant="success">Available</Badge>
                 <Badge variant="warning">Pending</Badge>
                 <Badge variant="destructive">Missing</Badge>

@@ -24,11 +24,11 @@
     --ds-slate-900: 221 39% 11%;        /* #111827 */
     --ds-slate-950: 222 47% 7%;         /* #0B1120 */
 
-    --ds-blue-500: 217 91% 60%;         /* #2563EB accent */
-    --ds-blue-600: 221 83% 53%;
-    --ds-blue-700: 224 76% 45%;
+    --ds-blue-500: 217 91% 60%;         /* #3B82F6 */
+    --ds-blue-600: 221 83% 53%;         /* #2563EB accent */
+    --ds-blue-700: 224 76% 48%;         /* #1D4ED8 */
     --ds-sky-500: 199 89% 48%;          /* #0EA5E9 */
-    --ds-green-600: 142 71% 45%;        /* #16A34A */
+    --ds-green-600: 142 76% 36%;        /* #16A34A */
     --ds-amber-500: 38 92% 50%;         /* #F59E0B */
     --ds-red-500: 0 84% 60%;            /* #EF4444 */
     --ds-violet-600: 262 83% 58%;       /* #7C3AED */
@@ -49,8 +49,8 @@
     --popover: var(--ds-white);
     --popover-foreground: var(--ds-slate-900);
 
-    --primary: var(--ds-blue-500);
-    --primary-hover: var(--ds-blue-600);
+    --primary: var(--ds-blue-600);
+    --primary-hover: var(--ds-blue-700);
     --primary-foreground: var(--ds-white);
     --primary-subtle: 214 95% 96%;
 
@@ -82,10 +82,10 @@
     --border: var(--ds-slate-200);
     --border-strong: var(--ds-slate-300);
     --input: var(--ds-slate-200);
-    --ring: var(--ds-blue-500);
+    --ring: var(--ds-blue-600);
 
     /* Resource categories — used only to tag content types */
-    --category-course: var(--ds-blue-500);
+    --category-course: var(--ds-blue-600);
     --category-course-subtle: 214 95% 96%;
     --category-td: var(--ds-violet-600);
     --category-td-subtle: 251 91% 96%;
