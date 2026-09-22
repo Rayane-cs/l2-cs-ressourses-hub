@@ -24,6 +24,7 @@ const AuthPage = lazy(() => import("./pages/AuthPage"));
 const ProfilePage = lazy(() => import("./pages/ProfilePage"));
 const ConfirmSuccessPage = lazy(() => import("./pages/ConfirmSuccessPage"));
 const NotFound = lazy(() => import("./pages/NotFound"));
+const DesignSystem = lazy(() => import("./pages/DesignSystem"));
 
 const queryClient = new QueryClient();
 
@@ -76,6 +77,7 @@ const App = () => {
             <Route path="/search" element={<AuthGuard><Suspense fallback={<LoadingFallback />}><Search /></Suspense></AuthGuard>} />
             <Route path="/about" element={<AuthGuard><Suspense fallback={<LoadingFallback />}><About /></Suspense></AuthGuard>} />
             <Route path="/feedback" element={<AuthGuard><Suspense fallback={<LoadingFallback />}><Feedback /></Suspense></AuthGuard>} />
+            <Route path="/design-system" element={<Suspense fallback={<LoadingFallback />}><DesignSystem /></Suspense>} />
             <Route path="*" element={<Suspense fallback={<LoadingFallback />}><NotFound /></Suspense>} />
           </Routes>
         </BrowserRouter>

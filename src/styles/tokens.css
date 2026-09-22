@@ -1,0 +1,266 @@
+/* =====================================================================
+   UOSPC Design System — Foundation tokens
+   Single source of truth for colour, spacing, radius, typography,
+   shadows, and component surface tokens (buttons, cards, inputs,
+   navigation, badges).
+
+   Colour values are stored as raw HSL channels so they can be consumed
+   both by Tailwind (`hsl(var(--token))`) and with an alpha channel
+   (`hsl(var(--token) / 0.1)`).
+   ===================================================================== */
+
+:root {
+    /* ---------------------------------------------------------------
+       Palette — neutral base, blue accent
+       --------------------------------------------------------------- */
+    --ds-white: 0 0% 100%;              /* #FFFFFF */
+    --ds-slate-50: 210 40% 98%;         /* #F8FAFC */
+    --ds-slate-100: 210 40% 96%;        /* #F1F5F9 */
+    --ds-slate-200: 214 32% 91%;        /* #E2E8F0 */
+    --ds-slate-300: 213 27% 84%;        /* #CBD5E1 */
+    --ds-slate-400: 215 20% 65%;        /* #94A3B8 */
+    --ds-slate-500: 215 16% 47%;        /* #64748B */
+    --ds-slate-700: 215 25% 27%;        /* #334155 */
+    --ds-slate-900: 221 39% 11%;        /* #111827 */
+    --ds-slate-950: 222 47% 7%;         /* #0B1120 */
+
+    --ds-blue-500: 217 91% 60%;         /* #2563EB accent */
+    --ds-blue-600: 221 83% 53%;
+    --ds-blue-700: 224 76% 45%;
+    --ds-sky-500: 199 89% 48%;          /* #0EA5E9 */
+    --ds-green-600: 142 71% 45%;        /* #16A34A */
+    --ds-amber-500: 38 92% 50%;         /* #F59E0B */
+    --ds-red-500: 0 84% 60%;            /* #EF4444 */
+    --ds-violet-600: 262 83% 58%;       /* #7C3AED */
+    --ds-orange-500: 25 95% 53%;        /* #F97316 */
+
+    /* ---------------------------------------------------------------
+       Semantic colour roles
+       --------------------------------------------------------------- */
+    --background: var(--ds-slate-50);
+    --foreground: var(--ds-slate-900);
+
+    --surface: var(--ds-white);
+    --surface-muted: var(--ds-slate-100);
+
+    --card: var(--ds-white);
+    --card-foreground: var(--ds-slate-900);
+
+    --popover: var(--ds-white);
+    --popover-foreground: var(--ds-slate-900);
+
+    --primary: var(--ds-blue-500);
+    --primary-hover: var(--ds-blue-600);
+    --primary-foreground: var(--ds-white);
+    --primary-subtle: 214 95% 96%;
+
+    --secondary: var(--ds-white);
+    --secondary-foreground: var(--ds-slate-700);
+
+    --accent: var(--ds-sky-500);
+    --accent-foreground: var(--ds-white);
+
+    --muted: var(--ds-slate-100);
+    --muted-foreground: var(--ds-slate-500);
+
+    --success: var(--ds-green-600);
+    --success-foreground: var(--ds-white);
+    --success-subtle: 141 79% 95%;
+
+    --warning: var(--ds-amber-500);
+    --warning-foreground: var(--ds-slate-900);
+    --warning-subtle: 48 96% 92%;
+
+    --danger: var(--ds-red-500);
+    --danger-foreground: var(--ds-white);
+    --danger-subtle: 0 86% 96%;
+
+    /* shadcn alias — keeps existing `destructive` consumers working */
+    --destructive: var(--danger);
+    --destructive-foreground: var(--danger-foreground);
+
+    --border: var(--ds-slate-200);
+    --border-strong: var(--ds-slate-300);
+    --input: var(--ds-slate-200);
+    --ring: var(--ds-blue-500);
+
+    /* Resource categories — used only to tag content types */
+    --category-course: var(--ds-blue-500);
+    --category-course-subtle: 214 95% 96%;
+    --category-td: var(--ds-violet-600);
+    --category-td-subtle: 251 91% 96%;
+    --category-tp: var(--ds-green-600);
+    --category-tp-subtle: 141 79% 95%;
+    --category-exam: var(--ds-red-500);
+    --category-exam-subtle: 0 86% 96%;
+    --category-video: var(--ds-orange-500);
+    --category-video-subtle: 34 100% 95%;
+
+    /* ---------------------------------------------------------------
+       Spacing — 8px base scale (0.5 steps for 4px rhythm)
+       --------------------------------------------------------------- */
+    --space-0: 0px;
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 24px;
+    --space-6: 32px;
+    --space-7: 40px;
+    --space-8: 48px;
+    --space-9: 64px;
+    --space-10: 80px;
+
+    /* ---------------------------------------------------------------
+       Radius
+       --------------------------------------------------------------- */
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 12px;   /* default card radius */
+    --radius-xl: 14px;
+    --radius-full: 9999px;
+    /* shadcn alias */
+    --radius: var(--radius-lg);
+
+    /* ---------------------------------------------------------------
+       Typography
+       --------------------------------------------------------------- */
+    --font-sans: "Inter", "Plus Jakarta Sans", ui-sans-serif, system-ui,
+      -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo,
+      Consolas, monospace;
+
+    --text-xs: 0.75rem;     /* 12px */
+    --text-sm: 0.875rem;    /* 14px */
+    --text-base: 1rem;      /* 16px */
+    --text-lg: 1.125rem;    /* 18px */
+    --text-xl: 1.25rem;     /* 20px */
+    --text-2xl: 1.5rem;     /* 24px */
+    --text-3xl: 1.875rem;   /* 30px */
+
+    --leading-tight: 1.25;
+    --leading-snug: 1.4;
+    --leading-normal: 1.6;
+
+    --weight-normal: 400;
+    --weight-medium: 500;
+    --weight-semibold: 600;
+    --weight-bold: 700;
+
+    /* ---------------------------------------------------------------
+       Elevation — deliberately subtle
+       --------------------------------------------------------------- */
+    --shadow-xs: 0 1px 2px 0 hsl(var(--ds-slate-900) / 0.04);
+    --shadow-sm: 0 1px 2px 0 hsl(var(--ds-slate-900) / 0.05),
+      0 1px 3px 0 hsl(var(--ds-slate-900) / 0.04);
+    --shadow-md: 0 2px 4px -1px hsl(var(--ds-slate-900) / 0.06),
+      0 4px 10px -2px hsl(var(--ds-slate-900) / 0.06);
+    --shadow-lg: 0 8px 24px -6px hsl(var(--ds-slate-900) / 0.12);
+    --shadow-focus: 0 0 0 3px hsl(var(--ring) / 0.35);
+
+    /* ---------------------------------------------------------------
+       Component surface tokens
+       --------------------------------------------------------------- */
+    --layout-max-width: 1400px;
+    --layout-gutter: var(--space-4);
+    --layout-gutter-lg: var(--space-6);
+
+    --header-height: 64px;
+
+    --control-height-sm: 32px;
+    --control-height-md: 40px;
+    --control-height-lg: 48px;
+    --control-radius: var(--radius-md);
+    --control-padding-x: var(--space-4);
+
+    --card-padding: var(--space-5);
+    --card-padding-compact: var(--space-4);
+    --card-radius: var(--radius-lg);
+    --card-border: 1px solid hsl(var(--border));
+    --card-shadow: var(--shadow-sm);
+    --card-shadow-hover: var(--shadow-md);
+
+    --input-height: var(--control-height-md);
+    --input-radius: var(--radius-md);
+    --input-border: 1px solid hsl(var(--input));
+
+    --nav-item-height: 36px;
+    --nav-item-radius: var(--radius-md);
+    --nav-item-padding-x: var(--space-3);
+    --nav-item-gap: var(--space-1);
+    --nav-item-fg: hsl(var(--muted-foreground));
+    --nav-item-fg-active: hsl(var(--primary));
+    --nav-item-bg-hover: hsl(var(--muted));
+    --nav-item-bg-active: hsl(var(--primary-subtle));
+
+    --badge-radius: var(--radius-full);
+    --badge-padding-x: var(--space-2);
+    --badge-padding-y: 2px;
+    --badge-font-size: var(--text-xs);
+    --badge-font-weight: var(--weight-medium);
+
+    --transition-base: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+/* -------------------------------------------------------------------
+   Dark mode — same structure, inverted neutrals. Accent stays blue.
+   ------------------------------------------------------------------- */
+.dark {
+    --background: var(--ds-slate-950);
+    --foreground: 210 40% 98%;
+
+    --surface: 222 40% 11%;
+    --surface-muted: 217 33% 17%;
+
+    --card: 222 40% 11%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222 40% 11%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 217 91% 64%;
+    --primary-hover: 217 91% 70%;
+    --primary-foreground: 222 47% 7%;
+    --primary-subtle: 221 45% 20%;
+
+    --secondary: 222 40% 11%;
+    --secondary-foreground: 214 32% 91%;
+
+    --accent: 199 89% 55%;
+    --accent-foreground: 222 47% 7%;
+
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
+
+    --success: 142 66% 52%;
+    --success-subtle: 143 40% 18%;
+    --warning: 38 92% 58%;
+    --warning-subtle: 33 45% 20%;
+    --danger: 0 84% 65%;
+    --danger-subtle: 0 45% 22%;
+
+    --border: 217 28% 22%;
+    --border-strong: 215 22% 32%;
+    --input: 217 28% 22%;
+    --ring: 217 91% 64%;
+
+    --category-course: 217 91% 64%;
+    --category-course-subtle: 221 45% 20%;
+    --category-td: 262 83% 68%;
+    --category-td-subtle: 258 40% 22%;
+    --category-tp: 142 66% 52%;
+    --category-tp-subtle: 143 40% 18%;
+    --category-exam: 0 84% 65%;
+    --category-exam-subtle: 0 45% 22%;
+    --category-video: 25 95% 60%;
+    --category-video-subtle: 24 45% 20%;
+
+    --shadow-xs: 0 1px 2px 0 hsl(0 0% 0% / 0.3);
+    --shadow-sm: 0 1px 3px 0 hsl(0 0% 0% / 0.35);
+    --shadow-md: 0 4px 12px -2px hsl(0 0% 0% / 0.4);
+    --shadow-lg: 0 8px 24px -6px hsl(0 0% 0% / 0.5);
+
+    --nav-item-bg-hover: hsl(var(--muted));
+    --nav-item-bg-active: hsl(var(--primary-subtle));
+    --nav-item-fg-active: hsl(var(--primary));
+}

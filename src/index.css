@@ -1,9 +1,158 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import "./styles/tokens.css";
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-semibold tracking-tight text-foreground;
+    line-height: var(--leading-tight);
+  }
+
+  h1 {
+    font-size: var(--text-3xl);
+  }
+
+  h2 {
+    font-size: var(--text-2xl);
+  }
+
+  h3 {
+    font-size: var(--text-xl);
+  }
+
+  h4 {
+    font-size: var(--text-lg);
+  }
+
+  :focus-visible {
+    outline: none;
+    box-shadow: var(--shadow-focus);
+    border-radius: var(--radius-sm);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+}
+
+/* =====================================================================
+   Component classes — the shared visual language every page composes
+   ===================================================================== */
+@layer components {
+  .ds-container {
+    width: 100%;
+    max-width: var(--layout-max-width);
+    margin-inline: auto;
+    padding-inline: var(--layout-gutter);
+  }
+
+  @media (min-width: 768px) {
+    .ds-container {
+      padding-inline: var(--layout-gutter-lg);
+    }
+  }
+
+  .ds-stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+
+  .ds-card {
+    background-color: hsl(var(--card));
+    color: hsl(var(--card-foreground));
+    border: var(--card-border);
+    border-radius: var(--card-radius);
+    box-shadow: var(--card-shadow);
+  }
+
+  .ds-card-interactive {
+    transition: border-color var(--transition-base), box-shadow var(--transition-base);
+  }
+
+  .ds-card-interactive:hover {
+    border-color: hsl(var(--border-strong));
+    box-shadow: var(--card-shadow-hover);
+  }
+
+  .ds-card-padding {
+    padding: var(--card-padding);
+  }
+
+  .ds-surface {
+    background-color: hsl(var(--surface));
+  }
+
+  .ds-nav-item {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    height: var(--nav-item-height);
+    padding-inline: var(--nav-item-padding-x);
+    border-radius: var(--nav-item-radius);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-medium);
+    color: var(--nav-item-fg);
+    transition: background-color var(--transition-base), color var(--transition-base);
+  }
+
+  .ds-nav-item:hover {
+    background-color: var(--nav-item-bg-hover);
+    color: hsl(var(--foreground));
+  }
+
+  .ds-nav-item[data-active="true"],
+  .ds-nav-item.is-active {
+    background-color: var(--nav-item-bg-active);
+    color: var(--nav-item-fg-active);
+  }
+
+  .ds-divider {
+    height: 1px;
+    background-color: hsl(var(--border));
+  }
+
+  .ds-label {
+    font-size: var(--text-sm);
+    font-weight: var(--weight-medium);
+    color: hsl(var(--foreground));
+  }
+
+  .ds-hint {
+    font-size: var(--text-sm);
+    color: hsl(var(--muted-foreground));
+  }
+}
+
+/* =====================================================================
+   Utilities
+   ===================================================================== */
 @layer utilities {
   .scrollbar-hide {
     -ms-overflow-style: none;
@@ -13,11 +162,38 @@
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
+
+  /* Legacy aliases kept so existing pages keep rendering while they are
+     migrated to the new language. They now resolve to flat, subtle values. */
+  .gradient-hero {
+    background-color: hsl(var(--surface));
+  }
+
+  .gradient-card {
+    background-color: hsl(var(--card));
+  }
+
+  .shadow-glow {
+    box-shadow: var(--shadow-sm);
+  }
+
+  .shadow-card {
+    box-shadow: var(--shadow-sm);
+  }
+
+  .shadow-hover {
+    box-shadow: var(--shadow-md);
+  }
+
+  .transition-smooth {
+    transition: color var(--transition-base), background-color var(--transition-base),
+      border-color var(--transition-base), box-shadow var(--transition-base);
+  }
 }
 
-/* Themed scrollbar — outside @layer so pseudo-elements work reliably */
 .scrollbar-themed {
   scrollbar-width: thin;
+  scrollbar-color: hsl(var(--border-strong)) transparent;
 }
 
 .scrollbar-themed::-webkit-scrollbar {
@@ -26,539 +202,32 @@
 }
 
 .scrollbar-themed::-webkit-scrollbar-track {
-  border-radius: 4px;
-}
-
-.scrollbar-themed::-webkit-scrollbar-thumb {
-  border-radius: 4px;
-}
-
-.scrollbar-themed::-webkit-scrollbar-corner {
   background: transparent;
 }
 
-/* Firefox scrollbar-color per theme */
-:root .scrollbar-themed {
-  scrollbar-color: hsl(var(--primary) / 0.7) hsl(var(--muted) / 0.5);
+.scrollbar-themed::-webkit-scrollbar-thumb {
+  background: hsl(var(--border-strong));
+  border-radius: var(--radius-full);
 }
 
-/* WebKit per-theme explicit colors */
-:root .scrollbar-themed::-webkit-scrollbar-track,
-html .scrollbar-themed::-webkit-scrollbar-track {
-  background: hsl(var(--muted) / 0.5);
+.scrollbar-themed::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground));
 }
 
-:root .scrollbar-themed::-webkit-scrollbar-thumb,
-html .scrollbar-themed::-webkit-scrollbar-thumb {
-  background: hsl(var(--primary) / 0.7);
-}
-
-:root .scrollbar-themed::-webkit-scrollbar-thumb:hover,
-html .scrollbar-themed::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--primary) / 0.9);
-}
-
-/* --- PINK --- */
-:root[data-theme="pink"] .scrollbar-themed::-webkit-scrollbar-track,
-html[data-theme="pink"] .scrollbar-themed::-webkit-scrollbar-track {
-  background: hsl(340 20% 92% / 0.5);
-}
-:root[data-theme="pink"] .scrollbar-themed::-webkit-scrollbar-thumb,
-html[data-theme="pink"] .scrollbar-themed::-webkit-scrollbar-thumb {
-  background: hsl(330 80% 55% / 0.7);
-}
-:root[data-theme="pink"] .scrollbar-themed::-webkit-scrollbar-thumb:hover,
-html[data-theme="pink"] .scrollbar-themed::-webkit-scrollbar-thumb:hover {
-  background: hsl(330 80% 55% / 0.9);
-}
-
-/* --- RED --- */
-:root[data-theme="red"] .scrollbar-themed::-webkit-scrollbar-track,
-html[data-theme="red"] .scrollbar-themed::-webkit-scrollbar-track {
-  background: hsl(42 30% 85% / 0.5);
-}
-:root[data-theme="red"] .scrollbar-themed::-webkit-scrollbar-thumb,
-html[data-theme="red"] .scrollbar-themed::-webkit-scrollbar-thumb {
-  background: hsl(345 100% 25% / 0.7);
-}
-:root[data-theme="red"] .scrollbar-themed::-webkit-scrollbar-thumb:hover,
-html[data-theme="red"] .scrollbar-themed::-webkit-scrollbar-thumb:hover {
-  background: hsl(345 100% 25% / 0.9);
-}
-
-/* --- BLUE --- */
-:root[data-theme="blue"] .scrollbar-themed::-webkit-scrollbar-track,
-html[data-theme="blue"] .scrollbar-themed::-webkit-scrollbar-track {
-  background: hsl(217 100% 95% / 0.5);
-}
-:root[data-theme="blue"] .scrollbar-themed::-webkit-scrollbar-thumb,
-html[data-theme="blue"] .scrollbar-themed::-webkit-scrollbar-thumb {
-  background: hsl(217 91% 50% / 0.7);
-}
-:root[data-theme="blue"] .scrollbar-themed::-webkit-scrollbar-thumb:hover,
-html[data-theme="blue"] .scrollbar-themed::-webkit-scrollbar-thumb:hover {
-  background: hsl(217 91% 50% / 0.9);
-}
-
-/* --- GREEN --- */
-:root[data-theme="green"] .scrollbar-themed::-webkit-scrollbar-track,
-html[data-theme="green"] .scrollbar-themed::-webkit-scrollbar-track {
-  background: hsl(140 20% 92% / 0.5);
-}
-:root[data-theme="green"] .scrollbar-themed::-webkit-scrollbar-thumb,
-html[data-theme="green"] .scrollbar-themed::-webkit-scrollbar-thumb {
-  background: hsl(142 70% 45% / 0.7);
-}
-:root[data-theme="green"] .scrollbar-themed::-webkit-scrollbar-thumb:hover,
-html[data-theme="green"] .scrollbar-themed::-webkit-scrollbar-thumb:hover {
-  background: hsl(142 70% 45% / 0.9);
-}
-
-/* Global themed scrollbar for html/body */
 html {
   scrollbar-width: thin;
-  scrollbar-color: hsl(var(--primary) / 0.5) hsl(var(--muted) / 0.2);
+  scrollbar-color: hsl(var(--border-strong)) transparent;
 }
 
 html::-webkit-scrollbar {
-  width: 6px;
+  width: 8px;
 }
 
 html::-webkit-scrollbar-track {
-  background: hsl(var(--muted) / 0.2);
-  border-radius: 10px;
-  margin: 4px 0;
+  background: transparent;
 }
 
 html::-webkit-scrollbar-thumb {
-  background: hsl(var(--primary) / 0.5);
-  border-radius: 10px;
-}
-
-html::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--primary) / 0.85);
-}
-
-/* 🎨 Design system for "Resources Hub for Students" */
-
-@layer base {
-  :root {
-    /* =========================================
-       🔴 RED THEME (Default)
-       ========================================= */
-    /* Background: Beige #F5EFE1 */
-    --background: 42 50% 92%;
-    /* Foreground: Dark Grey #1C1C1C */
-    --foreground: 0 0% 11%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 11%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 11%;
-
-    /* 🍷 Primary: Burgundy #800020 (HSL 345, 100%, 25%) */
-    --primary: 345 100% 25%;
-    --primary-foreground: 0 0% 100%;
-
-    --secondary: 42 30% 85%;
-    --secondary-foreground: 345 100% 25%;
-
-    --muted: 42 30% 85%;
-    --muted-foreground: 0 0% 40%;
-
-    --accent: 345 80% 90%;
-    --accent-foreground: 345 100% 25%;
-
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
-
-    --border: 0 0% 85%;
-    --input: 0 0% 85%;
-    --ring: 345 100% 25%;
-
-    --radius: 0.75rem;
-
-    /* 🌈 Gradients & shadows - RED */
-    --gradient-hero: linear-gradient(135deg, hsl(345 100% 25%) 0%, hsl(345 80% 40%) 50%, hsl(42 50% 80%) 100%);
-    --gradient-card: linear-gradient(145deg, hsl(345 100% 25% / 0.05) 0%, hsl(42 50% 92% / 0.2) 100%);
-
-    --shadow-glow: 0 0 40px hsl(345 100% 25% / 0.2);
-    --shadow-card: 0 4px 20px hsl(0 0% 0% / 0.08);
-    --shadow-hover: 0 8px 30px hsl(345 100% 25% / 0.15);
-
-    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-
-    /* Hero Animation Colors - RED (Default) */
-    --hero-bg: #f5efe1;
-    --hero-c1: #800020;
-    /* Burgundy */
-    --hero-c2: #5c0017;
-    /* Dark Burgundy */
-    --hero-c3: #b34d66;
-    /* Light Burgundy */
-    --hero-c4: #e6ccb3;
-    /* Beige Accent */
-  }
-
-  /* =========================================
-     🔵 BLUE THEME (Data Attribute)
-     ========================================= */
-  :root[data-theme="blue"] {
-    --background: 220 20% 98%;
-    --foreground: 220 15% 10%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 220 15% 10%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 220 15% 10%;
-
-    /* 🌊 Blue primary */
-    --primary: 217 91% 50%;
-    --primary-foreground: 0 0% 100%;
-
-    --secondary: 217 100% 95%;
-    --secondary-foreground: 220 20% 15%;
-
-    --muted: 217 100% 95%;
-    --muted-foreground: 217 15% 40%;
-
-    --accent: 210 100% 50%;
-    --accent-foreground: 0 0% 100%;
-
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
-
-    --border: 217 40% 85%;
-    --input: 217 40% 85%;
-    --ring: 217 91% 50%;
-
-    /* 🌈 Gradients & shadows - BLUE */
-    --gradient-hero: linear-gradient(135deg, rgb(60, 131, 246) 0%, hsl(210 100% 70%) 50%, rgb(153, 221, 255) 100%);
-    --gradient-card: linear-gradient(145deg, #3c83f60d 0%, hsl(210 100% 70% / 0.05) 100%);
-
-    --shadow-glow: 0 0 40px hsl(217 91% 60% / 0.2);
-    --shadow-card: 0 4px 20px hsl(217 91% 20% / 0.08);
-    --shadow-hover: 0 8px 30px hsl(217 91% 60% / 0.25);
-
-    /* Hero Animation Colors - BLUE */
-    --hero-bg: #c1c9d8;
-    --hero-c1: #1e88e5;
-    /* Medium Blue */
-    --hero-c2: #12356d;
-    /* Dark Blue */
-    --hero-c3: #99d3ff;
-    /* Light Blue */
-    --hero-c4: #99d3ff;
-    /* Reusing Light Blue for accent */
-  }
-
-  /* =========================================
-     🩷 PINK THEME (Data Attribute)
-     ========================================= */
-  :root[data-theme="pink"] {
-    --background: 340 30% 96%;
-    --foreground: 330 20% 15%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 330 20% 15%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 330 20% 15%;
-
-    --primary: 330 80% 55%;
-    --primary-foreground: 0 0% 100%;
-
-    --secondary: 340 30% 90%;
-    --secondary-foreground: 330 20% 15%;
-
-    --muted: 340 20% 92%;
-    --muted-foreground: 330 10% 40%;
-
-    --accent: 330 70% 60%;
-    --accent-foreground: 0 0% 100%;
-
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
-
-    --border: 340 20% 85%;
-    --input: 340 20% 85%;
-    --ring: 330 80% 55%;
-
-    --gradient-hero: linear-gradient(135deg, hsl(330 80% 55%) 0%, hsl(330 70% 70%) 50%, hsl(340 60% 85%) 100%);
-    --gradient-card: linear-gradient(145deg, hsl(330 80% 55% / 0.05) 0%, hsl(340 60% 85% / 0.2) 100%);
-
-    --shadow-glow: 0 0 40px hsl(330 80% 55% / 0.2);
-    --shadow-card: 0 4px 20px hsl(0 0% 0% / 0.08);
-    --shadow-hover: 0 8px 30px hsl(330 80% 55% / 0.15);
-
-    --hero-bg: #f8f0f5;
-    --hero-c1: #d63384;
-    --hero-c2: #a0206b;
-    --hero-c3: #f2a6d6;
-    --hero-c4: #f5d0e6;
-  }
-
-  /* =========================================
-     🟢 GREEN THEME (Data Attribute)
-     ========================================= */
-  :root[data-theme="green"] {
-    --background: 140 30% 96%;
-    --foreground: 140 20% 15%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 140 20% 15%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 140 20% 15%;
-
-    --primary: 142 70% 45%;
-    --primary-foreground: 0 0% 100%;
-
-    --secondary: 140 30% 90%;
-    --secondary-foreground: 140 20% 15%;
-
-    --muted: 140 20% 92%;
-    --muted-foreground: 140 10% 40%;
-
-    --accent: 142 60% 50%;
-    --accent-foreground: 0 0% 100%;
-
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
-
-    --border: 140 20% 85%;
-    --input: 140 20% 85%;
-    --ring: 142 70% 45%;
-
-    --gradient-hero: linear-gradient(135deg, hsl(142 70% 45%) 0%, hsl(142 60% 60%) 50%, hsl(140 50% 85%) 100%);
-    --gradient-card: linear-gradient(145deg, hsl(142 70% 45% / 0.05) 0%, hsl(140 50% 85% / 0.2) 100%);
-
-    --shadow-glow: 0 0 40px hsl(142 70% 45% / 0.2);
-    --shadow-card: 0 4px 20px hsl(0 0% 0% / 0.08);
-    --shadow-hover: 0 8px 30px hsl(142 70% 45% / 0.15);
-
-    --hero-bg: #f0f7f2;
-    --hero-c1: #2e8b57;
-    --hero-c2: #1a5c38;
-    --hero-c3: #8fd9a8;
-    --hero-c4: #c8e6c9;
-  }
-
-  /* =========================================
-     🌙 DARK MODE
-     ========================================= */
-
-  /* 🔴 RED DARK (Default Dark) */
-  .dark {
-    /* Background: Dark Grey #1C1C1C */
-    --background: 0 0% 11%;
-    /* Foreground: Beige #F5EFE1 */
-    --foreground: 42 50% 92%;
-
-    --card: 0 0% 16%;
-    --card-foreground: 42 50% 92%;
-
-    --popover: 0 0% 16%;
-    --popover-foreground: 42 50% 92%;
-
-    /* Primary: Burgundy */
-    --primary: 345 100% 35%;
-    --primary-foreground: 42 50% 92%;
-
-    --secondary: 0 0% 20%;
-    --secondary-foreground: 42 50% 92%;
-
-    --muted: 0 0% 20%;
-    --muted-foreground: 0 0% 60%;
-
-    --accent: 345 50% 20%;
-    --accent-foreground: 42 50% 92%;
-
-    --destructive: 0 70% 60%;
-    --destructive-foreground: 0 0% 96%;
-
-    --border: 0 0% 25%;
-    --input: 0 0% 25%;
-    --ring: 345 80% 40%;
-
-    /* Hero Animation Colors - RED DARK */
-    --hero-bg: #1c1c1c;
-    --hero-c1: #800020;
-    --hero-c2: #5c0017;
-    --hero-c3: #b34d66;
-    --hero-c4: #4a0410;
-    /* Darker accent/bg blend */
-  }
-
-  /* 🔵 BLUE DARK */
-  :root[data-theme="blue"] .dark,
-  html.dark[data-theme="blue"] {
-    --background: 220 15% 8%;
-    --foreground: 220 20% 96%;
-
-    --card: 220 15% 12%;
-    --card-foreground: 220 20% 96%;
-
-    --popover: 220 15% 12%;
-    --popover-foreground: 220 20% 96%;
-
-    --primary: 210 100% 60%;
-    --primary-foreground: 0 0% 100%;
-
-    --secondary: 220 15% 20%;
-    --secondary-foreground: 220 20% 96%;
-
-    --muted: 220 15% 20%;
-    --muted-foreground: 220 10% 75%;
-
-    --accent: 217 91% 65%;
-    --accent-foreground: 0 0% 10%;
-
-    --destructive: 0 70% 60%;
-    --destructive-foreground: 0 0% 96%;
-
-    --border: 220 15% 22%;
-    --input: 220 15% 22%;
-    --ring: 217 91% 60%;
-
-    /* Hero Animation Colors - BLUE DARK */
-    --hero-bg: #21273f;
-    --hero-c1: #1e88e5;
-    --hero-c2: #12356d;
-    --hero-c3: #99d3ff;
-    --hero-c4: #12356d;
-  }
-
-  /* 🩷 PINK DARK */
-  :root[data-theme="pink"] .dark,
-  html.dark[data-theme="pink"] {
-    --background: 330 20% 8%;
-    --foreground: 340 30% 96%;
-
-    --card: 330 15% 12%;
-    --card-foreground: 340 30% 96%;
-
-    --popover: 330 15% 12%;
-    --popover-foreground: 340 30% 96%;
-
-    --primary: 330 80% 60%;
-    --primary-foreground: 0 0% 100%;
-
-    --secondary: 330 15% 18%;
-    --secondary-foreground: 340 30% 96%;
-
-    --muted: 330 15% 18%;
-    --muted-foreground: 330 10% 70%;
-
-    --accent: 330 70% 60%;
-    --accent-foreground: 0 0% 10%;
-
-    --destructive: 0 70% 60%;
-    --destructive-foreground: 0 0% 96%;
-
-    --border: 330 15% 20%;
-    --input: 330 15% 20%;
-    --ring: 330 80% 55%;
-
-    /* Hero Animation Colors - PINK DARK */
-    --hero-bg: #2a1822;
-    --hero-c1: #d63384;
-    --hero-c2: #a0206b;
-    --hero-c3: #f2a6d6;
-    --hero-c4: #a0206b;
-  }
-
-  /* 🟢 GREEN DARK */
-  :root[data-theme="green"] .dark,
-  html.dark[data-theme="green"] {
-    --background: 140 15% 8%;
-    --foreground: 140 30% 96%;
-
-    --card: 140 15% 12%;
-    --card-foreground: 140 30% 96%;
-
-    --popover: 140 15% 12%;
-    --popover-foreground: 140 30% 96%;
-
-    --primary: 142 70% 55%;
-    --primary-foreground: 0 0% 100%;
-
-    --secondary: 140 15% 18%;
-    --secondary-foreground: 140 30% 96%;
-
-    --muted: 140 15% 18%;
-    --muted-foreground: 140 10% 70%;
-
-    --accent: 142 60% 55%;
-    --accent-foreground: 0 0% 10%;
-
-    --destructive: 0 70% 60%;
-    --destructive-foreground: 0 0% 96%;
-
-    --border: 140 15% 20%;
-    --input: 140 15% 20%;
-    --ring: 142 70% 55%;
-
-    /* Hero Animation Colors - GREEN DARK */
-    --hero-bg: #18261e;
-    --hero-c1: #2e8b57;
-    --hero-c2: #1a5c38;
-    --hero-c3: #8fd9a8;
-    --hero-c4: #1a5c38;
-  }
-
-  * {
-    @apply border-border;
-  }
-
-  body {
-    @apply bg-background text-foreground font-sans antialiased;
-  }
-
-  html {
-    scroll-behavior: smooth;
-  }
-
-  /* Respect users who prefer reduced motion */
-  @media (prefers-reduced-motion: reduce) {
-    :root {
-      --transition-smooth: none;
-    }
-
-    * {
-      animation-duration: 0.001ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.001ms !important;
-    }
-  }
-}
-
-@layer utilities {
-  .gradient-hero {
-    background: var(--gradient-hero);
-  }
-
-  .gradient-card {
-    background: var(--gradient-card);
-  }
-
-  .shadow-glow {
-    box-shadow: var(--shadow-glow);
-  }
-
-  .shadow-card {
-    box-shadow: var(--shadow-card);
-  }
-
-  .shadow-hover {
-    box-shadow: var(--shadow-hover);
-  }
-
-  .transition-smooth {
-    transition: var(--transition-smooth);
-  }
-
-
+  background: hsl(var(--border-strong));
+  border-radius: var(--radius-full);
 }
