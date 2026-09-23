@@ -73,14 +73,15 @@ const Footer = () => {
               >
                 <Github className="h-6 w-6" />
               </div>
-              <div
-                className="opacity-50 cursor-not-allowed relative"
-                title={t.nav.comingSoon}
-                aria-label={`LinkedIn (${t.nav.comingSoon})`}
-                role="img"
+              <a
+                href="https://www.linkedin.com/in/kslra/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-primary transition-smooth"
+                aria-label="LinkedIn profile"
               >
                 <Linkedin className="h-6 w-6" />
-              </div>
+              </a>
               <a
                 href="https://t.me/youbi_0"
                 target="_blank"

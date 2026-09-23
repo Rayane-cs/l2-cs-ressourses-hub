@@ -37,11 +37,6 @@ const Header = () => {
     { name: t.nav.home, path: "/home" },
     { name: t.nav.years, path: "/home#years" },
     { name: t.nav.about, path: "/about" },
-    // Search is handled separately in desktop view, but kept here for mobile/consistency structure if needed
-    // However, we will replace the link with an input in desktop, and maybe keep link in mobile or input in mobile.
-    // Let's keep it but maybe handle it differently.
-    // For now, let's just enable the page route in case they click it.
-    { name: t.nav.search, path: "/search" },
     { name: t.nav.programming, path: "/programming-languages" },
     { name: t.nav.feedback, path: "/feedback", isSpecial: true },
     { name: t.nav.more, path: "#more", isMore: true, disabled: true },
